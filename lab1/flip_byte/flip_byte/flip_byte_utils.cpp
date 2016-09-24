@@ -3,7 +3,7 @@
 
 using namespace std;
 
-bool chelIsByteNumber(string str)
+bool checkIsByteNumber(string str)
 {
 	int stringLen = str.length();
 	int number = 0;
@@ -27,7 +27,7 @@ bool checkInput(int inputCount, char * inputValue[])
 		return false;
 	}
 	char inputNumber = 0;
-	if (!chelIsByteNumber(inputValue[1]))
+	if (!checkIsByteNumber(inputValue[1]))
 	{
 		cout << "This is not a byte number" << endl;
 		return false;
