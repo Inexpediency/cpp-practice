@@ -7,13 +7,13 @@ int main(int argc, char * argv[])
 {
 	matrix matrix1;
 	matrix matrix2;
-	if (!readMatrixFromInput(argc, argv, matrix1, matrix2))
+	if (!ReadMatrixFromInput(argc, argv, matrix1, matrix2))
 	{
 		return 1;
 	}
 	matrix result; 
-	multyplyMatrix(result, matrix1, matrix2);
-	printMatrix(result);
+	MultyplyMatrix(result, matrix1, matrix2);
+	PrintMatrix(result);
 	return 0;
 }
 

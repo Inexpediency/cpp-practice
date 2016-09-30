@@ -1,9 +1,9 @@
 #pragma once
 
-const int matrixSize = 3;
-typedef int matrix[matrixSize][matrixSize];
+const int MATRIX_SIZE = 3;
+typedef int matrix[MATRIX_SIZE][MATRIX_SIZE];
 
-bool readMatrixFromInput(int fileCount, char * fileNames[], matrix & matrix1, matrix & matrix2);
-void printMatrix(matrix const  & outMatrix);
-void multyplyMatrix(matrix & result, matrix & matrix1, matrix & matrix2);
-bool compareMatrix(matrix const & matrix1, matrix const & matrix2);
+bool ReadMatrixFromInput(int fileCount, char * fileNames[], matrix & matrix1, matrix & matrix2);
+void PrintMatrix(matrix const  & outMatrix);
+void MultyplyMatrix(matrix & result, matrix & matrix1, matrix & matrix2);
+bool CompareMatrix(matrix const & matrix1, matrix const & matrix2);

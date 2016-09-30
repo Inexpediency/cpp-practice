@@ -4,7 +4,9 @@
 
 #include <stdio.h>
 #include <tchar.h>
-#include <string>
-#include <iostream>
 #include <fstream>
-#include <functional>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <queue>
+#include <stack>

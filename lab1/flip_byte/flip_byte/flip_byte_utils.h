@@ -1,5 +1,5 @@
 #pragma once
 #include "stdafx.h"
 
-bool checkInput(int inputCount, char * inputValue[]);
-unsigned char flipByte(char number);
+bool CheckInput(int inputCount, char * inputValue[]);
+unsigned char FlipByte(char number);

@@ -6,12 +6,17 @@ using namespace std;
 
 int main(int argc, char * argv[])
 {
-	
 	ifstream inputFile;
-	if (!procesFileErrors(argc, inputFile, argv))
+	if (!ProcesFileErrors(argc, inputFile, argv))
 	{
 		return 0;
 	}	
-	return printStringPos(inputFile, argv[2]);
+	if (FindStringInFile(inputFile, string(argv[2]), [](int lineIndex, const string &) {
+		cout << lineIndex << endl;
+	}))
+	{
+		cout << "String not found" << endl;
+		return 1;
+	}
+	return 0;
 }
-

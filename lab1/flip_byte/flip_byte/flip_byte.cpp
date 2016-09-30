@@ -5,12 +5,12 @@ using namespace std;
 
 int main(int argc, char * argv[])
 {
-	if (!checkInput(argc, argv))
+	if (!CheckInput(argc, argv))
 	{
 		return 1;
 	}
 	unsigned char processedNumber = stoi(argv[1], nullptr);
-	unsigned char flipedNumber = flipByte(processedNumber);
+	unsigned char flipedNumber = FlipByte(processedNumber);
 	cout << static_cast<int> (flipedNumber) << endl;
 	cout << "(" << static_cast<int> (processedNumber) << "(10) = " << bitset<8>(processedNumber) << "(2)";
 	cout << ", после изменения порядка битов данное число превратится в ";

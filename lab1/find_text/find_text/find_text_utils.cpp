@@ -1,39 +1,50 @@
 ﻿#include "stdafx.h"
 #include "find_text_utils.h"
 
-using namespace std;
+//using namespace std;
 
-bool procesFileErrors(int namesCount, std::ifstream & input, char * fileNames[])
+
+bool ProcesFileErrors(int namesCount, std::ifstream & input, char * fileNames[])
 {
 	if (namesCount != 3)
 	{
-		cout << "Invalid argument count" << endl;
+		std::cout << "Invalid argument count" << std::endl;
 		return false;
 	}
 	input.open(fileNames[1]);
 	if (!input.is_open())
 	{
-		cout << "Can not open input file" << endl;
+		std::cout << "Can not open input file" << std::endl;
 		return false;
 	}
 	return true;
 }
 
-int printStringPos(ifstream & input, string comparedString)
+bool FindStringInFile(std::ifstream & input, const std::string & comparedString, const findStringCallback & callback)
 {
-	string tempString;
-	bool findStatus = 1;
-	for (int currentLine = 1; getline(input, tempString); ++currentLine)
+	std::string tempString;
+	bool isFound = false;
+	for (int currentLine = 1; std::getline(input, tempString); ++currentLine)
 	{
-		if (tempString.find(comparedString, 0) != string::npos)
+		if (tempString.find(comparedString, 0) != std::string::npos)
 		{
-			findStatus = 0;
-			cout << currentLine << endl;
+			isFound = true;
+			callback(currentLine, tempString);
 		}
 	}
-	if (findStatus == 1)
+	return isFound;
+}
+
+bool FindStringInFile(std::ifstream & input, const std::string & comparedString)
+{
+	std::string tempString;
+	bool isFound = false;
+	for (int currentLine = 1; std::getline(input, tempString); ++currentLine)
 	{
-		cout << comparedString << " not found" << endl;
+		if (tempString.find(comparedString, 0) != std::string::npos)
+		{
+			isFound = true;
+		}
 	}
-	return findStatus;
+	return isFound;
 }

@@ -7,21 +7,21 @@ BOOST_AUTO_TEST_CASE(IncorrectArgumentCount)
 {
 	char * fileNames[] = { "", "correctMatrix.txt", "correctMatrix.txt" };
 	matrix a, b;
-	BOOST_CHECK(!readMatrixFromInput(2, fileNames, a, b));
+	BOOST_CHECK(!ReadMatrixFromInput(2, fileNames, a, b));
 }
 
 BOOST_AUTO_TEST_CASE(IncorrectInputFile)
 {
 	char * fileNames[] = { "", "incorrectMatrix.txt", "correctMatrix.txt" };
 	matrix a, b;
-	BOOST_CHECK(!readMatrixFromInput(3, fileNames, a, b));
+	BOOST_CHECK(!ReadMatrixFromInput(3, fileNames, a, b));
 }
 
 BOOST_AUTO_TEST_CASE(CorrectArgument)
 {
 	char * fileNames[] = { "", "correctMatrix.txt", "correctMatrix.txt" };
 	matrix a, b;
-	BOOST_CHECK(!readMatrixFromInput(3, fileNames, a, b));
+	BOOST_CHECK(!ReadMatrixFromInput(3, fileNames, a, b));
 }
 
 BOOST_AUTO_TEST_SUITE_END()
@@ -41,8 +41,8 @@ BOOST_AUTO_TEST_CASE(Check)
 		{ 7, 8, 9 }
 	};
 	matrix result;
-	multyplyMatrix(result, a, b);
-	BOOST_CHECK(compareMatrix(result, {
+	MultyplyMatrix(result, a, b);
+	BOOST_CHECK(CompareMatrix(result, {
 		{30, 36, 42},
 		{66, 81, 96},
 		{102, 126, 150}

@@ -3,7 +3,7 @@
 
 using namespace std;
 
-bool checkIsByteNumber(string str)
+bool CheckIsByteNumber(string str)
 {
 	int stringLen = str.length();
 	int number = 0;
@@ -19,7 +19,7 @@ bool checkIsByteNumber(string str)
 	return true;
 }
 
-bool checkInput(int inputCount, char * inputValue[])
+bool CheckInput(int inputCount, char * inputValue[])
 {
 	if (inputCount != 2)
 	{
@@ -27,7 +27,7 @@ bool checkInput(int inputCount, char * inputValue[])
 		return false;
 	}
 	char inputNumber = 0;
-	if (!checkIsByteNumber(inputValue[1]))
+	if (!CheckIsByteNumber(inputValue[1]))
 	{
 		cout << "This is not a byte number" << endl;
 		return false;
@@ -35,7 +35,7 @@ bool checkInput(int inputCount, char * inputValue[])
 	return true;
 }
 
-unsigned char flipByte(char number)
+unsigned char FlipByte(char number)
 {
 	char mask1 = 0;
 	char mask2 = 0;
