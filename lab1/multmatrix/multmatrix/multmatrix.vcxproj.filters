@@ -24,7 +24,7 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="multyplex_matrix_utils.h">
+    <ClInclude Include="multmatrix_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -32,10 +32,10 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="multyplex_matrix.cpp">
+    <ClCompile Include="multmatrix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="multyplex_matrix_utils.cpp">
+    <ClCompile Include="multmatrix_utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -24,7 +24,7 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\multyplex_matrix\multyplex_matrix_utils.h">
+    <ClInclude Include="..\multmatrix\multmatrix_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -35,7 +35,7 @@
     <ClCompile Include="tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\multyplex_matrix\multyplex_matrix_utils.cpp">
+    <ClCompile Include="..\multmatrix\multmatrix_utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

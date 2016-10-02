@@ -2,4 +2,4 @@
 #include "stdafx.h"
 
 bool CheckInput(int inputCount, char * inputValue[]);
-unsigned char FlipByte(char number);
+uint8_t FlipByte(uint8_t number);

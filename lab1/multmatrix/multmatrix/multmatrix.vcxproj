@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{E26A9266-6421-44A7-8FAF-1415E3EFEA14}</ProjectGuid>
+    <ProjectGuid>{BF59FD55-9778-4EDC-AB82-368510BB3212}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>multyplex_matrix</RootNamespace>
+    <RootNamespace>multmatrix</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -145,13 +145,13 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="multyplex_matrix_utils.h" />
+    <ClInclude Include="multmatrix_utils.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="multyplex_matrix.cpp" />
-    <ClCompile Include="multyplex_matrix_utils.cpp" />
+    <ClCompile Include="multmatrix.cpp" />
+    <ClCompile Include="multmatrix_utils.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

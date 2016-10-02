@@ -26,7 +26,7 @@ int main(int argc, char * argv[])
 		cout << "Way is not found. Check labyrinth." << endl;
 		return 1;
 	}
-	FillWay(map, endPoint);
+	FillLabyrinthWay(map, endPoint);
 	PrintWay(output, map, startPoint, endPoint);
 	return 0;
 }

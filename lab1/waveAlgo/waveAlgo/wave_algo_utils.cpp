@@ -99,7 +99,7 @@ void PushPoint(labyrinth & map, const point & currentPoint, queue<point> & point
 	}
 }
 
-void FillWay(labyrinth & map, const point & endPoint)
+void FillLabyrinthWay(labyrinth & map, const point & endPoint)
 {
 	point currentPoint = endPoint;
 	while (map[currentPoint.y][currentPoint.x] != (-3))

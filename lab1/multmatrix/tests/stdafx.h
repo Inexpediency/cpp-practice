@@ -7,6 +7,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <array>
 
 ///=======================================
 #define BOOST_TEST_MODULE UrlUtilsTests
