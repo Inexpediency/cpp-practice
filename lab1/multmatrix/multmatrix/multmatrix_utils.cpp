@@ -3,6 +3,25 @@
 
 using namespace std;
 
+bool CheckArgumentCount(int argumentCount)
+{
+	if (argumentCount != 3)
+	{
+		cout << "Invalid argumentCount" << endl;
+	}
+	return argumentCount != 3;
+}
+
+bool OpenFile(ifstream & fileStream, char * fileName)
+{
+	fileStream.open(fileName);
+	if (fileStream.is_open())
+	{
+		cout << "Can not open " << fileName << endl;
+	}
+	return fileStream.is_open();
+}
+
 bool GetMatrixLine(string inputString, array<float, MATRIX_SIZE> & gettingMatrixLine)
 {
 	stringstream strStream(inputString);
@@ -25,6 +44,7 @@ bool GetMatrix(ifstream & inputFile, matrix & gettingMatrix)
 	{
 		if (i >= MATRIX_SIZE || !GetMatrixLine(line, gettingMatrix[i]))
 		{
+			cout << "Invalid matrix";
 			return false;
 		}
 	}

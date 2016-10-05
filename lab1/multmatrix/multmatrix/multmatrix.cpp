@@ -7,21 +7,12 @@ int main(int argc, char * argv[])
 {
 	matrix matrix1;
 	matrix matrix2;
-	if (argc != 3)
+	ifstream matrixFile1;
+	ifstream matrixFile2;
+	if (!CheckArgumentCount(argc) ||
+		!OpenFile(matrixFile1, argv[1]) || !GetMatrix(matrixFile1, matrix1) || 
+		!OpenFile(matrixFile2, argv[2]) || !GetMatrix(matrixFile2, matrix2))
 	{
-		cout << "Invalid argument count" << endl;
-		return 1;
-	}
-	ifstream matrixFile1(argv[1]);
-	if (!(matrixFile1.is_open() && GetMatrix(matrixFile1, matrix1)))
-	{
-		cout << "Invalid first file";
-		return 1;
-	}
-	ifstream matrixFile2(argv[2]);
-	if (!(matrixFile2.is_open() && GetMatrix(matrixFile2, matrix2)))
-	{
-		cout << "Invalid second file";
 		return 1;
 	}
 	matrix result = MultyplyMatrix(matrix1, matrix2);
