@@ -7,10 +7,10 @@ void CTranslator::FillDictionary(std::istream & input)
 	m_modified = true;
 	while (std::getline(input, line))
 	{
-		size_t delimetrPos = line.find(CTranslator::DELIMETR);
-		std::string word = line.substr(delimetrPos);
+		std::size_t delimetrPos = line.find(CTranslator::DELIMETR);
+		std::string word = line.substr(0, delimetrPos);
 		std::string tranlation = line.substr(delimetrPos + 1, line.size() - delimetrPos);
-		m_dictionary[word] = tranlation;
+		AddTranslation(word, tranlation);	
 		m_modified = false;
 	}
 }
@@ -22,24 +22,31 @@ std::string ToLowCase(std::string str)
 	{
 		ch = std::tolower(ch, loc);
 	}
+	return str;
 }
 
-void CTranslator::AddTranslation(std::string word, std::string translation)
+bool CTranslator::IsModigied() const
+{
+	return m_modified;
+}
+
+void CTranslator::AddTranslation(const std::string word, const std::string translation)
 {
 	m_dictionary[ToLowCase(word)] = ToLowCase(translation);
+	m_modified = true;
 }
 
 
-std::string CTranslator::GetTranslation(std::string word)
+std::string CTranslator::GetTranslation(const std::string word) const
 {
-	auto it = m_dictionary.find(word);
+	auto it = m_dictionary.find(ToLowCase(word));
 	return it == m_dictionary.end() ? "" : it->second;
 }
 
-void CTranslator::DumpDictionary(std::ostream & output)
+void CTranslator::DumpDictionary(std::ostream & output) const
 {
 	for (auto it = m_dictionary.begin(); it != m_dictionary.end(); ++it)
 	{
-		output << it->first << "=" << it->second << std::endl;
+		output << it->first << CTranslator::DELIMETR << it->second << std::endl;
 	}
 }

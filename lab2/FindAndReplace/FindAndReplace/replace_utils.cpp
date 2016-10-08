@@ -28,8 +28,16 @@ std::string FindAndReplace(const std::string & subject, const std::string & sear
 		window += ch;
 		if (window.size() == search.size())
 		{
-			result += window == search ? replace : window;
-			window = "";
+			if (window == search)
+			{
+				result += replace;
+				window = "";
+			}
+			else
+			{
+				result += window[0];
+				window.erase(0, 1);
+			}
 		}
 	}
 	result += window;

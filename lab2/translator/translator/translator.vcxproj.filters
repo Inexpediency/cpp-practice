@@ -27,6 +27,9 @@
     <ClInclude Include="Translator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="input_output_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -35,7 +38,10 @@
     <ClCompile Include="translator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Translate.cpp">
+    <ClCompile Include="input_output_utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TranslatorInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
