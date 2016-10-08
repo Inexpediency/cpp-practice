@@ -24,7 +24,7 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\waveAlgo\wave_algo_utils.h">
+    <ClInclude Include="..\labyrinth\labyrinth_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -32,10 +32,10 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tests.cpp">
+    <ClCompile Include="test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\waveAlgo\wave_algo_utils.cpp">
+    <ClCompile Include="..\labyrinth\labyrinth_utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

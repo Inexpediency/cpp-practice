@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "wave_algo_utils.h"
+#include "labyrinth_utils.h"
 
 using namespace std;
 
@@ -9,7 +9,7 @@ int main(int argc, char * argv[])
 	ofstream output;
 	point startPoint, endPoint;
 	labyrinth map;
-	if (!ProcesFileErrors(argc, input, output, argv))
+	if (!CheckArgumentCount(argc) || !OpenFile(input, argv[1]) || !OpenFile(input, argv[2]))
 	{
 		return 1;
 	}

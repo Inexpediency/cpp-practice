@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "cript_utils.h"
-#include <boost/utility/binary.hpp>
 
 using namespace std;
 

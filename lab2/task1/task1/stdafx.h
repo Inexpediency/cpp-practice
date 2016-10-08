@@ -4,8 +4,8 @@
 
 #include <stdio.h>
 #include <tchar.h>
-#include <fstream>
-#include <iostream>
-#include <string>
 #include <vector>
-#include <queue>
+#include <iostream>
+#include <fstream>
+#include <algorithm>
+#include <iterator>
