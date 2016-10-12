@@ -21,25 +21,15 @@ bool CheckReplacingString(const std::string & str)
 
 std::string FindAndReplace(const std::string & subject, const std::string & search, const std::string & replace)
 {
-	std::string result;
-	std::string window = "";
-	for (auto ch : subject)
+	std::string result = "";
+	auto pos = subject.find(search, 0);
+	auto startPos = 0;
+	while (pos != subject.size())
 	{
-		window += ch;
-		if (window.size() == search.size())
-		{
-			if (window == search)
-			{
-				result += replace;
-				window = "";
-			}
-			else
-			{
-				result += window[0];
-				window.erase(0, 1);
-			}
-		}
+		result += subject.substr(startPos, pos);
+		pos = subject.find(search, startPos);
+		startPos = pos;
 	}
-	result += window;
+	result += subject.substr(startPos, pos);
 	return result;
-}
+}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
