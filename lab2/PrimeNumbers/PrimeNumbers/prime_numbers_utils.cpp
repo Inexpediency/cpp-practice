@@ -31,7 +31,7 @@ bool CheckUpperBound(std::string upperBound)
 
 void InitPrimeNumbersVector(std::vector<bool> & primeNumbers, int upperBound)
 {
-	for (size_t i = 0; i < upperBound; ++i)
+	for (size_t i = 0; i <= upperBound; ++i)
 	{
 		primeNumbers.push_back((i % 2 != 0));
 	}
@@ -43,7 +43,7 @@ void InitPrimeNumbersVector(std::vector<bool> & primeNumbers, int upperBound)
 void DelNotPrimeNumbers(std::vector<bool> & primeNumbers)
 {
 	size_t primeNumbersVectorSize = primeNumbers.size();
-	size_t endIndex = static_cast<size_t>(sqrt(primeNumbersVectorSize));
+	size_t endIndex = floor(sqrt(primeNumbersVectorSize));
 	for (size_t i = 3; i <= endIndex; ++i)
 	{
 		if (primeNumbers[i])

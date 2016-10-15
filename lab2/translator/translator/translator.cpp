@@ -13,10 +13,9 @@ int main(int argc, char * argv[])
 	{
 		return 1;
 	}
-
 	translator.FillDictionary(input);
 	std::string line;
-	std::cin >> line;
+	std::getline(std::cin, line);
 	while (line != END_STR)
 	{
 		std::string translation = translator.GetTranslation(line);
@@ -28,7 +27,7 @@ int main(int argc, char * argv[])
 		{
 			AskForTranslation(translator, line);
 		}
-		std::cin >> line;
+		std::getline(std::cin, line);
 	}
 	DumpTranslator(translator, output);
     return 0;

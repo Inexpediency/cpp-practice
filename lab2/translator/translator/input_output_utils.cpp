@@ -5,14 +5,14 @@
 void AskForTranslation(CTranslator & translator, const std::string & word)
 {
 	std::cout << "  There are no translation in this dictionary" << std::endl;
-	std::cout << "  Do you want to give it? ";
+	std::cout << "  Do you want to give it (" << AGREE_STATMENT << "/" << DISAGREE_STATMENT << ")? ";
 	std::string agree;
 	std::string translation;
 	std::cin >> agree;
 	if (agree == AGREE_STATMENT)
 	{
 		std::cout << "Input translation: ";
-		std::cin >> translation;
+		std::getline(std::cin, translation);
 		translator.AddTranslation(word, translation);
 	}
 }
@@ -32,7 +32,16 @@ bool OpenFile(std::ifstream & input, std::string fileName)
 	input.open(fileName);
 	if (!input.is_open())
 	{
-		std::cout << "Invalid file name " << fileName << std::endl;
+		std::ofstream o(fileName);
+		if (o.is_open())
+		{
+			input.open(fileName);
+			o.close();
+		}
+		else
+		{
+			std::cout << "Invalid file name " << fileName << std::endl;
+		}
 	}
 	return input.is_open();
 }

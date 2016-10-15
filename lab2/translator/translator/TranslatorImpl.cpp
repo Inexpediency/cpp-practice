@@ -3,14 +3,12 @@
 
 void CTranslator::FillDictionary(std::istream & input)
 {
-	std::string line;
+	std::string word;
+	std::string translation;
 	m_modified = true;
-	while (std::getline(input, line))
+	while (std::getline(input, word) && std::getline(input, translation))
 	{
-		std::size_t delimetrPos = line.find(CTranslator::DELIMETR);
-		std::string word = line.substr(0, delimetrPos);
-		std::string tranlation = line.substr(delimetrPos + 1, line.size() - delimetrPos);
-		AddTranslation(word, tranlation);	
+		AddTranslation(word, translation);	
 		m_modified = false;
 	}
 }
@@ -47,7 +45,7 @@ void CTranslator::DumpDictionary(std::ostream & output) const
 {
 	for (auto it = m_dictionary.begin(); it != m_dictionary.end(); ++it)
 	{
-		output << it->first << CTranslator::DELIMETR << it->second << std::endl;
+		output << it->first << std::endl << it->second << std::endl;
 	}
 }
 

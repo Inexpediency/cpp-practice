@@ -8,7 +8,11 @@ int main(int argc, char * argv[])
 		return 1;
 	}
 	unsigned long upperBound = std::stoul(argv[1]);
-	std::set<int> primeNumbers = GeneratePrimeNumbersSet(upperBound);
+	std::set<int> primeNumbers = GeneratePrimeNumbersSet(100);
+	for (auto element : primeNumbers)
+	{
+		std::cout << element << std::endl;
+	}
 	std::cout << primeNumbers.size() << std::endl;
     return 0;
 }

@@ -1,4 +1,8 @@
-class=класс
-food=еда
-translator=переводчик
-variables=переменная
+class
+класс
+food
+еда
+translator
+переводчик
+variables
+переменная
