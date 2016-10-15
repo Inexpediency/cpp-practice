@@ -27,10 +27,10 @@ BOOST_AUTO_TEST_CASE(ReadCorrectVector)
 
 BOOST_AUTO_TEST_CASE(ProcessVectorTest)
 {
-	doubleVector correctVector = { 4, -12, 8, -10 };
+	doubleVector correctVector = { -12, -10, 4, 8 };
 	doubleVector processingVector = { 2, -6, 4, -5 };
 	ProcessVector(processingVector);
-	PrintSortedVector(std::cout, processingVector);
+	PrintSortedVector(std::cout, processingVector);	
 	BOOST_CHECK(IsVectorsEquel(processingVector, correctVector));
 }
 

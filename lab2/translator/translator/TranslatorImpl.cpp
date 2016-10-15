@@ -25,7 +25,7 @@ std::string ToLowCase(std::string str)
 	return str;
 }
 
-bool CTranslator::IsModigied() const
+bool CTranslator::IsModified() const
 {
 	return m_modified;
 }
@@ -49,4 +49,15 @@ void CTranslator::DumpDictionary(std::ostream & output) const
 	{
 		output << it->first << CTranslator::DELIMETR << it->second << std::endl;
 	}
+}
+
+
+std::map<std::string, std::string> CTranslator::GetDictionary()
+{
+	std::map<std::string, std::string> dictionary;
+	for (auto it = m_dictionary.begin(); it != m_dictionary.end(); ++it)
+	{
+		dictionary[it->first] = it->second;
+	}
+	return move(dictionary);
 }

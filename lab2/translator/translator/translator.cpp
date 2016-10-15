@@ -13,6 +13,7 @@ int main(int argc, char * argv[])
 	{
 		return 1;
 	}
+
 	translator.FillDictionary(input);
 	std::string line;
 	std::cin >> line;

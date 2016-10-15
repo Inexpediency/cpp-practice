@@ -49,7 +49,7 @@ bool OpenFile(std::ofstream & output, std::string fileName)
 
 void DumpTranslator(const CTranslator & translator, std::ofstream & output)
 {
-	if (translator.IsModigied())
+	if (translator.IsModified())
 	{
 		std::string line;
 		std::cout << "Save new dictionary?" << std::endl;

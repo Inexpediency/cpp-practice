@@ -24,7 +24,7 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\FindAndReplace\replace_utils.h">
+    <ClInclude Include="prime_nubers_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -32,10 +32,10 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="test.cpp">
+    <ClCompile Include="PrimeNumbers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\FindAndReplace\replace_utils.cpp">
+    <ClCompile Include="prime_numbers_utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
