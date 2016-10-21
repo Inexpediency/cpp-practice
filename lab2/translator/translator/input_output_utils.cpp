@@ -4,11 +4,11 @@
 
 void AskForTranslation(CTranslator & translator, const std::string & word)
 {
-	std::cout << "  There are no translation in this dictionary" << std::endl;
+	std::cout << "  There are no translation for '" << word << "' in this dictionary" << std::endl;
 	std::cout << "  Do you want to give it (" << AGREE_STATMENT << "/" << DISAGREE_STATMENT << ")? ";
 	std::string agree;
 	std::string translation;
-	std::cin >> agree;
+	std::getline(std::cin, agree);
 	if (agree == AGREE_STATMENT)
 	{
 		std::cout << "Input translation: ";

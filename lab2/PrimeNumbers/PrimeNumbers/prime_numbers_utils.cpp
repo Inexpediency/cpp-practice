@@ -31,24 +31,20 @@ bool CheckUpperBound(std::string upperBound)
 
 void InitPrimeNumbersVector(std::vector<bool> & primeNumbers, int upperBound)
 {
-	for (size_t i = 0; i <= upperBound; ++i)
+	for (size_t i = 0; i <= static_cast<size_t>(upperBound); ++i)
 	{
-		primeNumbers.push_back((i % 2 != 0));
+		primeNumbers.push_back((i >= 2) && ((i == 2) || (i % 2 != 0)));
 	}
-	primeNumbers[0] = false;
-	primeNumbers[1] = false;
-	primeNumbers[2] = true;
 }
 
 void DelNotPrimeNumbers(std::vector<bool> & primeNumbers)
 {
 	size_t primeNumbersVectorSize = primeNumbers.size();
-	size_t endIndex = floor(sqrt(primeNumbersVectorSize));
-	for (size_t i = 3; i <= endIndex; ++i)
+	for (size_t i = 3; i <= (primeNumbersVectorSize / i); ++i)
 	{
 		if (primeNumbers[i])
 		{
-			for (size_t j = i * i; j < primeNumbersVectorSize; j = j + i)
+			for (size_t j = i * i + (i % 2 == 0) * i; j < primeNumbersVectorSize; j = j + 2 * i)
 			{
 				primeNumbers[j] = false;
 			}
@@ -56,15 +52,17 @@ void DelNotPrimeNumbers(std::vector<bool> & primeNumbers)
 	}
 }
 
-void TransformPrimeNumbersVectorToSet(const std::vector<bool> & primeNumbersVector, std::set<int> & primeNumbersSet)
+std::set<int> TransformPrimeNumbersVectorToSet(const std::vector<bool> & primeNumbersVector)
 {
+	std::set<int> primeNumbersSet;
 	for (size_t i = 0; i < primeNumbersVector.size(); ++i)
 	{
 		if (primeNumbersVector[i])
 		{
-			primeNumbersSet.insert(i);
+			primeNumbersSet.insert(primeNumbersSet.cend(), i);
 		}
 	}
+	return move(primeNumbersSet);
 }
 
 std::set<int> GeneratePrimeNumbersSet(int upperBound)
@@ -73,7 +71,6 @@ std::set<int> GeneratePrimeNumbersSet(int upperBound)
 	primeNumbers.reserve(upperBound + 1);
 	InitPrimeNumbersVector(primeNumbers, upperBound);
 	DelNotPrimeNumbers(primeNumbers);
-	std::set<int> primeNumbersSet;
-	TransformPrimeNumbersVectorToSet(primeNumbers, primeNumbersSet);
+	std::set<int> primeNumbersSet = TransformPrimeNumbersVectorToSet(primeNumbers);
 	return primeNumbersSet;
 }
