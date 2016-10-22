@@ -21,12 +21,12 @@ bool CheckUpperBound(std::string upperBound)
 		}
 	}
 	unsigned long upperBoundNumber = std::stoul(upperBound);
-	bool isKeyCorrect = upperBoundNumber >= 2;
-	if (!isKeyCorrect)
+	bool isUpperBoundCorrect = upperBoundNumber >= 0;
+	if (!isUpperBoundCorrect)
 	{
 		std::cout << "Invalid upper bound" << std::endl;
 	}
-	return isKeyCorrect;
+	return isUpperBoundCorrect;
 }
 
 void InitPrimeNumbersVector(std::vector<bool> & primeNumbers, int upperBound)

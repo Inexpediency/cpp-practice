@@ -1,7 +1,7 @@
 #pragma once
 #include "stdafx.h"
 
-enum class GearBox
+enum class GearType
 {
 	noGear = -2,
 	reverse = -1,
@@ -13,23 +13,22 @@ enum class GearBox
 	fifth
 };
 
-std::string GearToString(GearBox gear);
-GearBox StringToGear(std::string gear);
+std::string GearToString(GearType gear);
+GearType StringToGear(std::string gear);
 
 class CCar
 {
 public:
-	GearBox GetGear();
-	int GetSpeed();
-	bool IsEngineOn();
+	GearType GetGear() const;
+	int GetSpeed() const;
+	bool IsEngineOn() const;
 	bool TurnEngineOn();
 	bool TurnEngineOff();
-	bool SetGear(GearBox gear);
+	bool SetGear(GearType gear);
 	bool SetSpeed(int speed);
-	void PrintInfo(std::ostream & output);
+	void PrintInfo(std::ostream & output) const;
 private:
-	GearBox m_gear = GearBox::neutral;
+	GearType m_currentGear = GearType::neutral;
 	int m_speed = 0;
-	bool m_enginOn = false;
-	int m_direction = false;
+	bool m_engineOn = false;
 };

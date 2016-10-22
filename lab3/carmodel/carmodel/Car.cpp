@@ -1,138 +1,135 @@
 #include "stdafx.h"
 #include "Car.h"
 
-bool IsSpeedInGearInterval(GearBox gear, int speed)
+bool IsInRange(int number, int start, int end)
 {
-	return (speed >= 0) && ((gear == GearBox::neutral) ||
-		(speed >=  0) && (speed <=  20) && (gear == GearBox::reverse) ||
-		(speed >=  0) && (speed <=  30) && (gear ==  GearBox::low) ||
-		(speed >= 20) && (speed <=  50) && (gear ==  GearBox::second) ||
-		(speed >= 30) && (speed <=  60) && (gear ==  GearBox::third) ||
-		(speed >= 40) && (speed <=  90) && (gear ==  GearBox::fourth) ||
-		(speed >= 50) && (speed <= 150) && (gear ==  GearBox::fifth));
+	return (start <= number) && (number <= end);
 }
 
-bool CCar::IsEngineOn()
+bool IsSpeedInGearInterval(GearType gear, int speed)
 {
-	return m_enginOn;
+	return ((gear == GearType::neutral) ||
+		(IsInRange(speed,   0,  20) && (gear == GearType::reverse)) ||
+		(IsInRange(speed,   0,  30) && (gear == GearType::low)) ||
+		(IsInRange(speed,  20,  50) && (gear == GearType::second)) ||
+		(IsInRange(speed,  30,  60) && (gear == GearType::third)) ||
+		(IsInRange(speed,  40,  90) && (gear == GearType::fourth)) ||
+		(IsInRange(speed,  50, 150) && (gear == GearType::fifth)));
 }
 
-GearBox CCar::GetGear()
+bool CCar::IsEngineOn() const
 {
-	return m_gear;
+	return m_engineOn;
 }
 
-int CCar::GetSpeed()
+GearType CCar::GetGear() const
+{
+	return m_currentGear;
+}
+
+int CCar::GetSpeed() const
 {
 	return m_speed;
 }
 
 bool CCar::TurnEngineOn()
 {
-	bool isSuccess = !m_enginOn;
+	bool isSuccess = !m_engineOn;
 	if (isSuccess)
 	{
-		m_enginOn = true;
+		m_engineOn = true;
 	}
 	return isSuccess;
 }
 
 bool CCar::TurnEngineOff()
 {
-	bool isSuccess = m_enginOn && (m_speed == 0) && (m_gear == GearBox::neutral);
+	bool isSuccess = m_engineOn && (m_speed == 0) && (m_currentGear == GearType::neutral);
 	if (isSuccess)
 	{
-		m_enginOn = false;
+		m_engineOn = false;
 	}
 	return isSuccess;
 }
 
-bool CCar::SetGear(GearBox gear)
+bool CCar::SetGear(GearType gear)
 {
 	bool isSuccess = IsSpeedInGearInterval(gear, m_speed);
 	isSuccess = isSuccess && 
-		((static_cast<int>(gear) > 0) && (m_direction >= 0) ||
-		(static_cast<int>(gear) < 0) && (m_direction <= 0) || (gear == GearBox::neutral));
-	isSuccess = isSuccess && m_enginOn;
+		((static_cast<int>(gear) > 0) && (m_speed >= 0) ||
+		 (static_cast<int>(gear) < 0) && (m_speed <= 0) || (gear == GearType::neutral));
+	isSuccess = isSuccess && m_engineOn;
 	if (isSuccess)
 	{
-		m_gear = gear;
+		m_currentGear = gear;
 	}
 	return isSuccess;
 }
 
 bool CCar::SetSpeed(int speed)
 {
-	bool isSuccess = IsSpeedInGearInterval(m_gear, speed);
-	isSuccess = isSuccess && ((m_gear == GearBox::neutral) && (speed < m_speed) || (m_gear != GearBox::neutral));
-	isSuccess = isSuccess  && m_enginOn;
+	bool isSuccess = IsSpeedInGearInterval(m_currentGear, speed);
+	isSuccess = isSuccess && ((m_currentGear == GearType::neutral) && (speed < m_speed) || (m_currentGear != GearType::neutral));
+	isSuccess = isSuccess  && m_engineOn;
 	if (isSuccess)
 	{
-		if (speed == 0)
-		{
-			m_direction = 0;
-		}
-		else
-		{
-			m_direction = static_cast<int>(m_gear);
-		}
-		m_speed = speed;
+		m_speed = static_cast<int>(m_currentGear) >= 0 ? speed : -speed;
 	}
 	return isSuccess;
 }
 
-std::string GetDirectionString(int direction)
+std::string GetDirectionString(int speed)
 {
-	if (direction == -1)
+	if (speed < 0)
 		return "Back";
-	else if (direction == 0)
+	else if (speed == 0)
 		return "None";
 	else return "Forward";
 }
 
-std::string GearToString(GearBox gear)
+std::string GearToString(GearType gear)
 {
-	if (gear == GearBox::reverse)
+	if (gear == GearType::reverse)
 		return "reverse";
-	else if (gear == GearBox::neutral)
+	else if (gear == GearType::neutral)
 		return "neutral";
-	else if (gear == GearBox::low)
+	else if (gear == GearType::low)
 		return "low";
-	else if (gear == GearBox::second)
+	else if (gear == GearType::second)
 		return "second";
-	else if (gear == GearBox::third)
+	else if (gear == GearType::third)
 		return "third";
-	else if (gear == GearBox::fourth)
+	else if (gear == GearType::fourth)
 		return "fourth";
-	else if (gear == GearBox::fifth)
+	else if (gear == GearType::fifth)
 		return "fifth";
 	else return "";
 }
 
-GearBox StringToGear(std::string gear)
+GearType StringToGear(std::string gear)
 {
 	if (gear == "reverse")
-		return GearBox::reverse;
+		return GearType::reverse;
 	else if (gear == "neutral")
-		return GearBox::neutral;
+		return GearType::neutral;
 	else if (gear == "low")
-		return GearBox::low;
+		return GearType::low;
 	else if (gear == "second")
-		return GearBox::second;
+		return GearType::second;
 	else if (gear == "third")
-		return GearBox::third;
+		return GearType::third;
 	else if (gear == "fourth")
-		return GearBox::fourth;
+		return GearType::fourth;
 	else if (gear == "fifth")
-		return GearBox::fifth;
-	else return GearBox::noGear;
+		return GearType::fifth;
+	else return GearType::noGear;
 }
 
-void CCar::PrintInfo(std::ostream & output)
+void CCar::PrintInfo(std::ostream & output) const
 {
-	output << "**** Engin info ****" << std::endl;
-	output << "Engin: " << (m_enginOn ? "On" : "Off") << std::endl;
-	output << "Direction: " << GetDirectionString(m_direction) << std::endl;
-	output << "Gear: " << GearToString(m_gear) << std::endl;
-	output << "Speed: " << m_speed << std::endl;
+	output << "**** Engine info ****" << std::endl;
+	output << "Enginó: " << (m_engineOn ? "On" : "Off") << std::endl;
+	output << "Direction: " << GetDirectionString(m_speed) << std::endl;
+	output << "Gear: " << GearToString(m_currentGear) << std::endl;
+	output << "Speed: " << (m_speed >= 0 ? m_speed : -m_speed) << std::endl;
 }

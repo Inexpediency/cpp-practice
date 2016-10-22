@@ -2,8 +2,8 @@
 #include "Car.h"
 
 const std::string INFO_COMMAND = "Info";
-const std::string ENGIN_ON_COMMAND = "EnginOn";
-const std::string ENGIN_OFF_COMMAND = "EnginOff";
+const std::string ENGIN_ON_COMMAND = "EngineOn";
+const std::string ENGIN_OFF_COMMAND = "EngineOff";
 const std::string SET_GEAR_COMMAND = "SetGear";
 const std::string SET_SPEED_COMMAND = "SetSpeed";
 const std::string STOP_COMMAND = "...";
@@ -36,15 +36,15 @@ void SetGear(CCar & car, std::string gear)
 {
 	if (!car.IsEngineOn())
 	{
-		std::cout << "Error: Enfine is off" << std::endl;
+		std::cout << "Error: Engine is off" << std::endl;
 		return;
 	}
 	try
 	{
-		GearBox newGear = StringToGear(gear);
-		if (newGear == GearBox::noGear)
+		GearType newGear = StringToGear(gear);
+		if (newGear == GearType::noGear)
 		{
-			newGear = static_cast<GearBox>(std::stoi(gear, nullptr, 10));
+			newGear = static_cast<GearType>(std::stoi(gear, nullptr, 10));
 		}
 		if (car.SetGear(newGear))
 		{
@@ -65,7 +65,7 @@ void SetSpeed(CCar & car, std::string speed)
 {
 	if (!car.IsEngineOn())
 	{
-		std::cout << "Error: Enfine is off" << std::endl;
+		std::cout << "Error: Engine is off" << std::endl;
 		return;
 	}
 	try
@@ -77,7 +77,14 @@ void SetSpeed(CCar & car, std::string speed)
 		}
 		else
 		{
-			std::cout << "Error:: May be new speed are not include in speed interval of current gear" << std::endl;
+			if (car.GetGear() == GearType::neutral)
+			{
+				std::cout << "Error:: Can not set bigger speed then current on neutral gear" << std::endl;
+			}
+			else
+			{
+				std::cout << "Error:: May be new speed are not include in speed interval of current gear" << std::endl;
+			}
 		}
 	}
 	catch (...)

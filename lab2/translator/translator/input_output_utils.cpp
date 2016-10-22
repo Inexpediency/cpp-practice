@@ -61,7 +61,7 @@ void DumpTranslator(const CTranslator & translator, std::ofstream & output)
 	if (translator.IsModified())
 	{
 		std::string line;
-		std::cout << "Save new dictionary?" << std::endl;
+		std::cout << "Save new dictionary (" << AGREE_STATMENT << "/" << DISAGREE_STATMENT << ")? ";
 		std::cin >> line;
 		if (line == AGREE_STATMENT)
 		{
