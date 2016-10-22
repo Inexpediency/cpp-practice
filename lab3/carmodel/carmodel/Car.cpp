@@ -51,12 +51,11 @@ bool CCar::SetGear(GearBox gear)
 {
 	bool isSuccess = IsSpeedInGearInterval(gear, m_speed);
 	isSuccess = isSuccess && 
-		((gear != GearBox::neutral) && (gear != GearBox::reverse) && (m_direction >= 0) || 
-		(gear == GearBox::reverse) && (m_speed == 0) || (gear == GearBox::neutral));
+		((static_cast<int>(gear) > 0) && (m_direction >= 0) ||
+		(static_cast<int>(gear) < 0) && (m_direction <= 0) || (gear == GearBox::neutral));
 	isSuccess = isSuccess && m_enginOn;
 	if (isSuccess)
 	{
-		m_direction = static_cast<int>(gear);
 		m_gear = gear;
 	}
 	return isSuccess;
@@ -69,6 +68,14 @@ bool CCar::SetSpeed(int speed)
 	isSuccess = isSuccess  && m_enginOn;
 	if (isSuccess)
 	{
+		if (speed == 0)
+		{
+			m_direction = 0;
+		}
+		else
+		{
+			m_direction = static_cast<int>(m_gear);
+		}
 		m_speed = speed;
 	}
 	return isSuccess;
@@ -80,9 +87,7 @@ std::string GetDirectionString(int direction)
 		return "Back";
 	else if (direction == 0)
 		return "None";
-	else if (direction >= 1)
-		return "Forward";
-
+	else return "Forward";
 }
 
 std::string GearToString(GearBox gear)

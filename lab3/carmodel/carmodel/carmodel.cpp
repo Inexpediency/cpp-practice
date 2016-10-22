@@ -34,6 +34,11 @@ void TurnEngineOff(CCar & car)
 
 void SetGear(CCar & car, std::string gear)
 {
+	if (!car.IsEngineOn())
+	{
+		std::cout << "Error: Enfine is off" << std::endl;
+		return;
+	}
 	try
 	{
 		GearBox newGear = StringToGear(gear);
@@ -58,6 +63,11 @@ void SetGear(CCar & car, std::string gear)
 
 void SetSpeed(CCar & car, std::string speed)
 {
+	if (!car.IsEngineOn())
+	{
+		std::cout << "Error: Enfine is off" << std::endl;
+		return;
+	}
 	try
 	{
 		int newSpeed = std::stoi(speed, nullptr, 10);

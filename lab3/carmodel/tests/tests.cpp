@@ -55,39 +55,19 @@ BOOST_AUTO_TEST_SUITE(CCar_testing)
 			testCar.SetSpeed(20);
 			BOOST_CHECK(!testCar.SetGear(GearBox::low));
 			BOOST_CHECK_EQUAL(static_cast<int>(testCar.GetGear()), static_cast<int>(GearBox::reverse));
-			
 			testCar.SetGear(GearBox::neutral);
-			BOOST_CHECK(testCar.SetGear(GearBox::low));
-			BOOST_CHECK_EQUAL(static_cast<int>(testCar.GetGear()), static_cast<int>(GearBox::low));
+			BOOST_CHECK(!testCar.SetGear(GearBox::low));
+			BOOST_CHECK_EQUAL(static_cast<int>(testCar.GetGear()), static_cast<int>(GearBox::neutral));
 			
 			testCar.SetSpeed(0);
 			BOOST_CHECK(testCar.SetGear(GearBox::low));
 			BOOST_CHECK_EQUAL(static_cast<int>(testCar.GetGear()), static_cast<int>(GearBox::low));
-
-			testCar.SetGear(GearBox::reverse);
+			//1
+			BOOST_CHECK(testCar.SetGear(GearBox::reverse));
 			BOOST_CHECK(!testCar.SetGear(GearBox::fourth));
 			BOOST_CHECK_EQUAL(static_cast<int>(testCar.GetGear()), static_cast<int>(GearBox::reverse));
 		}
-		BOOST_AUTO_TEST_CASE(Swith_other_gear)
-		{
-			CCar testCar;
-			testCar.TurnEngineOn();
-			BOOST_CHECK(testCar.SetGear(GearBox::low));
-			BOOST_CHECK_EQUAL(static_cast<int>(testCar.GetGear()), static_cast<int>(GearBox::low));
-			testCar.SetSpeed(20);
-			BOOST_CHECK(testCar.SetGear(GearBox::second));
-			BOOST_CHECK_EQUAL(static_cast<int>(testCar.GetGear()), static_cast<int>(GearBox::second));
-			testCar.SetSpeed(30);
-			BOOST_CHECK(testCar.SetGear(GearBox::third));
-			BOOST_CHECK_EQUAL(static_cast<int>(testCar.GetGear()), static_cast<int>(GearBox::third));
-			testCar.SetSpeed(40);
-			BOOST_CHECK(testCar.SetGear(GearBox::fourth));
-			BOOST_CHECK_EQUAL(static_cast<int>(testCar.GetGear()), static_cast<int>(GearBox::fourth));
-			testCar.SetSpeed(50);
-			BOOST_CHECK(testCar.SetGear(GearBox::fifth));
-			BOOST_CHECK_EQUAL(static_cast<int>(testCar.GetGear()), static_cast<int>(GearBox::fifth));
-		}
-		BOOST_AUTO_TEST_CASE(Switch_neutral_gear)
+		BOOST_AUTO_TEST_CASE(Switch_other_gear)
 		{
 			CCar testCar;
 			testCar.TurnEngineOn();
