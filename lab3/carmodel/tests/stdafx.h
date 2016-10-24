@@ -4,12 +4,16 @@
 
 #include <stdio.h>
 #include <tchar.h>
-#include <iostream>
-#include <string>
+
+#include <boost/algorithm/string/replace.hpp>
 
 ///=======================================
-#define BOOST_TEST_MODULE UrlUtilsTests
 #define BOOST_TEST_INCLUDED
 #pragma warning (disable:4702)
 #include <boost/test/unit_test.hpp>
 ///=======================================
+
+#include <iostream>
+#include <sstream>
+#include <functional>
+#include <map>
