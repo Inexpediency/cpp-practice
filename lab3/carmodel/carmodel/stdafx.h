@@ -6,3 +6,5 @@
 #include <tchar.h>
 #include <iostream>
 #include <string>
+#include <functional>
+#include <map>

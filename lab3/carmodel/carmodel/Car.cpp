@@ -8,7 +8,7 @@ bool IsInRange(int number, int start, int end)
 
 bool IsSpeedInGearInterval(GearType gear, int speed)
 {
-	return ((gear == GearType::neutral) ||
+	return (speed >= 0) && ((gear == GearType::neutral) ||
 		(IsInRange(speed,   0,  20) && (gear == GearType::reverse)) ||
 		(IsInRange(speed,   0,  30) && (gear == GearType::low)) ||
 		(IsInRange(speed,  20,  50) && (gear == GearType::second)) ||
@@ -54,7 +54,7 @@ bool CCar::TurnEngineOff()
 
 bool CCar::SetGear(GearType gear)
 {
-	bool isSuccess = IsSpeedInGearInterval(gear, m_speed);
+	bool isSuccess = IsSpeedInGearInterval(gear, abs(m_speed));
 	isSuccess = isSuccess && 
 		((static_cast<int>(gear) > 0) && (m_speed >= 0) ||
 		 (static_cast<int>(gear) < 0) && (m_speed <= 0) || (gear == GearType::neutral));
@@ -69,7 +69,7 @@ bool CCar::SetGear(GearType gear)
 bool CCar::SetSpeed(int speed)
 {
 	bool isSuccess = IsSpeedInGearInterval(m_currentGear, speed);
-	isSuccess = isSuccess && ((m_currentGear == GearType::neutral) && (speed < m_speed) || (m_currentGear != GearType::neutral));
+	isSuccess = isSuccess && ((m_currentGear == GearType::neutral) && (speed < abs(m_speed)) || (m_currentGear != GearType::neutral));
 	isSuccess = isSuccess  && m_engineOn;
 	if (isSuccess)
 	{
@@ -131,5 +131,5 @@ void CCar::PrintInfo(std::ostream & output) const
 	output << "Enginó: " << (m_engineOn ? "On" : "Off") << std::endl;
 	output << "Direction: " << GetDirectionString(m_speed) << std::endl;
 	output << "Gear: " << GearToString(m_currentGear) << std::endl;
-	output << "Speed: " << (m_speed >= 0 ? m_speed : -m_speed) << std::endl;
+	output << "Speed: " << abs(m_speed) << std::endl;
 }

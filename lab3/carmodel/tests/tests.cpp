@@ -59,7 +59,7 @@ BOOST_AUTO_TEST_SUITE(CCar_testing)
 			BOOST_CHECK(!testCar.SetGear(GearType::low));
 			BOOST_CHECK_EQUAL(static_cast<int>(testCar.GetGear()), static_cast<int>(GearType::neutral));
 			
-			testCar.SetSpeed(0);
+			BOOST_CHECK(testCar.SetSpeed(0));
 			BOOST_CHECK(testCar.SetGear(GearType::low));
 			BOOST_CHECK_EQUAL(static_cast<int>(testCar.GetGear()), static_cast<int>(GearType::low));
 
@@ -127,7 +127,7 @@ BOOST_AUTO_TEST_SUITE(CCar_testing)
 			BOOST_CHECK(!testCar.SetSpeed(30));
 			BOOST_CHECK_EQUAL(testCar.GetSpeed(), -20);
 			BOOST_CHECK(testCar.SetSpeed(10));
-			BOOST_CHECK_EQUAL(testCar.GetSpeed(), -10);
+			BOOST_CHECK_EQUAL(testCar.GetSpeed(), 10);
 			BOOST_CHECK(testCar.SetSpeed(0));
 			BOOST_CHECK_EQUAL(testCar.GetSpeed(), 0);
 			BOOST_CHECK(!testCar.SetSpeed(-1));

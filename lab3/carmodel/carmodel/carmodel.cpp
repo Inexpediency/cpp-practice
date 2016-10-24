@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Car.h"
+#include "Menu.h"
 
 const std::string INFO_COMMAND = "Info";
 const std::string ENGIN_ON_COMMAND = "EngineOn";
@@ -8,7 +9,7 @@ const std::string SET_GEAR_COMMAND = "SetGear";
 const std::string SET_SPEED_COMMAND = "SetSpeed";
 const std::string STOP_COMMAND = "...";
 
-void TurnEngineOn(CCar & car)
+void TurnEngineOn(CCar & car, const std::string & arguments)
 {
 	if (car.TurnEngineOn())
 	{
@@ -20,7 +21,7 @@ void TurnEngineOn(CCar & car)
 	}
 }
 
-void TurnEngineOff(CCar & car)
+void TurnEngineOff(CCar & car, const std::string & arguments)
 {
 	if (car.TurnEngineOn())
 	{
@@ -97,29 +98,20 @@ int main()
 {
 	CCar car;
 	std::string line;
-	while (std::getline(std::cin, line) && (line != STOP_COMMAND))
+	CCarMenu menu;
+	menu.AddItem("Help", "Give information about command", [&menu](CCar &, const std::string &)
 	{
-		if (line == INFO_COMMAND)
-		{
-			car.PrintInfo(std::cout);
-		}
-		if (line == ENGIN_ON_COMMAND)
-		{
-			TurnEngineOn(car);
-		}
-		if (line == ENGIN_OFF_COMMAND)
-		{
-			TurnEngineOff(car);
-		}
-		if (line.find(SET_GEAR_COMMAND) != std::string::npos)
-		{
-			SetGear(car, line.erase(0, SET_GEAR_COMMAND.length() + 1));
-		}
-		if (line.find(SET_SPEED_COMMAND) != std::string::npos)
-		{
-			SetSpeed(car, line.erase(0, SET_SPEED_COMMAND.length() + 1));
-		}
-	}
+		menu.ShowInstructions();
+	});
+	menu.AddItem("...", "Exit from programm", [&menu](CCar &, const std::string &) 
+	{
+		menu.Exit();
+	});
+	menu.AddItem("EngineOn", "Turn engin on", TurnEngineOn);
+	menu.AddItem("EngineOff", "Turn engin off", TurnEngineOff);
+	menu.AddItem("SetGear", "Set gear value\n	-1/reverse,\n	0/neutral,\n	1/low,\n	2/second,\n	3/third,\n	4/fourth,\n	5/fifth", SetGear);
+	menu.AddItem("SetSpeed", "Set speed value\n	reverse(0, 20),\n	neutral(only for lower value),\n	low(0, 30),\n	second(20, 50),\n	third(30, 60),\n	fourth(40, 90),\n	fifth(50, 150)", SetSpeed);
+	menu.Run(car);
 	return 0;
 }
 
