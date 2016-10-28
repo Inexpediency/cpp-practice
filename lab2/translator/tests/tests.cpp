@@ -11,24 +11,28 @@ BOOST_AUTO_TEST_SUITE(Translator)
 		{
 			std::ifstream input("dictionary.txt");
 			translator.FillDictionary(input);
-			std::map<std::string, std::string> filledDictionary = translator.GetDictionary();
-			std::map<std::string, std::string> correctDictionary;
+			Dictionary filledDictionary = translator.GetDictionary();
+			Dictionary correctDictionary;
 			correctDictionary["food"] = "еда";
+			correctDictionary["еда"] = "food";
 			correctDictionary["variables"] = "переменная";
+			correctDictionary["переменная"] = "variables";
 			correctDictionary["class"] = "класс";
+			correctDictionary["класс"] = "class";
 			correctDictionary["translator"] = "переводчик";
+			correctDictionary["переводчик"] = "translator";
 			BOOST_CHECK(correctDictionary == filledDictionary);
 		}
 
 		BOOST_AUTO_TEST_CASE(Dump_dictionary)
 		{
-			std::map<std::string, std::string> dumpedDictionary = translator.GetDictionary();
+			Dictionary dumpedDictionary = translator.GetDictionary();
 			std::ofstream output("dictinary1.txt");
 			translator.DumpDictionary(output);
 			output.close();
 			std::ifstream dumpedDictionaryFile("dictinary1.txt");
 			translator.FillDictionary(dumpedDictionaryFile);
-			std::map<std::string, std::string> filledDictionary = translator.GetDictionary();
+			Dictionary filledDictionary = translator.GetDictionary();
 			BOOST_CHECK(filledDictionary == dumpedDictionary);
 		}
 
@@ -41,9 +45,10 @@ BOOST_AUTO_TEST_SUITE(Translator)
 		BOOST_AUTO_TEST_CASE(Add_translarion)
 		{
 			translator.AddTranslation("file", "файл");
-			std::map<std::string, std::string> correctDictionary;
+			Dictionary correctDictionary;
 			correctDictionary["file"] = "файл";
-			std::map<std::string, std::string> filledDictionary = translator.GetDictionary();
+			correctDictionary["файл"] = "file";
+			Dictionary filledDictionary = translator.GetDictionary();
 			BOOST_CHECK(correctDictionary == filledDictionary);
 		}
 

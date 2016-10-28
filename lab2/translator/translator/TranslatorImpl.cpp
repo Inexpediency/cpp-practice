@@ -31,6 +31,7 @@ bool CTranslator::IsModified() const
 void CTranslator::AddTranslation(const std::string word, const std::string translation)
 {
 	m_dictionary[ToLowCase(word)] = ToLowCase(translation);
+	m_dictionary[ToLowCase(translation)] = ToLowCase(word);
 	m_modified = true;
 }
 
@@ -43,16 +44,16 @@ std::string CTranslator::GetTranslation(const std::string word) const
 
 void CTranslator::DumpDictionary(std::ostream & output) const
 {
-	for (auto it = m_dictionary.begin(); it != m_dictionary.end(); ++it)
+	for (auto it = m_dictionary.begin(); it != m_dictionary.end(); ++(++it))
 	{
 		output << it->first << std::endl << it->second << std::endl;
 	}
 }
 
 
-std::map<std::string, std::string> CTranslator::GetDictionary()
+Dictionary CTranslator::GetDictionary()
 {
-	std::map<std::string, std::string> dictionary;
+	Dictionary dictionary;
 	for (auto it = m_dictionary.begin(); it != m_dictionary.end(); ++it)
 	{
 		dictionary[it->first] = it->second;

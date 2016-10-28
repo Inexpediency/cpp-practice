@@ -1,6 +1,7 @@
 #pragma once
 #include "stdafx.h"
 
+typedef std::map<std::string, std::string> Dictionary;
 
 class CTranslator
 {
@@ -8,10 +9,10 @@ public:
 	bool IsModified() const;
 	void FillDictionary(std::istream & input);
 	void AddTranslation(const std::string word, const std::string translation);
-	std::map<std::string, std::string> GetDictionary();
+	Dictionary GetDictionary();
 	std::string GetTranslation(const std::string word) const;
 	void DumpDictionary(std::ostream & output) const;
 private:
 	bool m_modified = false;
-	std::map<std::string, std::string> m_dictionary;
+	Dictionary m_dictionary;
 };
