@@ -23,7 +23,7 @@ void TurnEngineOn(CCar & car, const std::string & arguments)
 
 void TurnEngineOff(CCar & car, const std::string & arguments)
 {
-	if (car.TurnEngineOn())
+	if (car.TurnEngineOff())
 	{
 		std::cout << "Engin off" << std::endl;
 	}
@@ -106,6 +106,10 @@ int main()
 	menu.AddItem("...", "Exit from programm", [&menu](CCar &, const std::string &) 
 	{
 		menu.Exit();
+	});
+	menu.AddItem("Info", "Show car state", [&car](CCar &, const std::string &)
+	{
+		car.PrintInfo(std::cout);
 	});
 	menu.AddItem("EngineOn", "Turn engin on", TurnEngineOn);
 	menu.AddItem("EngineOff", "Turn engin off", TurnEngineOff);

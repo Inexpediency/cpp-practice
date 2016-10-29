@@ -94,7 +94,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>$(TargetPath) --log-level=test_suite</Command>
+      <Command>$(TargetPath) --log_level=test_suite</Command>
       <Message>
       </Message>
     </PostBuildEvent>
@@ -112,7 +112,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>$(TargetPath) --log-level=test_suite</Command>
+      <Command>$(TargetPath) --log_level=test_suite</Command>
       <Message>
       </Message>
     </PostBuildEvent>
@@ -134,7 +134,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>$(TargetPath) --log-level=test_suite</Command>
+      <Command>$(TargetPath) --log_level=test_suite</Command>
       <Message>
       </Message>
     </PostBuildEvent>
@@ -156,7 +156,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>$(TargetPath) --log-level=test_suite</Command>
+      <Command>$(TargetPath) --log_level=test_suite</Command>
       <Message>
       </Message>
     </PostBuildEvent>

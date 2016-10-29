@@ -122,6 +122,13 @@ BOOST_FIXTURE_TEST_SUITE(Car, CarFixture)
 					return car.SetSpeed(20);
 				});
 			}
+			BOOST_AUTO_TEST_CASE(can_not_set_reverse_gear)
+			{
+				ExpectOperationFailure(car, [](auto & car)
+				{
+					return car.SetGear(GearType::reverse);
+				});
+			}
 			BOOST_AUTO_TEST_CASE(can_set_lower_speed)
 			{
 				BOOST_CHECK(car.SetSpeed(5));

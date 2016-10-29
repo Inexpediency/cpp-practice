@@ -57,7 +57,7 @@ bool CCar::SetGear(GearType gear)
 	bool isSuccess = IsSpeedInGearInterval(gear, abs(m_speed));
 	isSuccess = isSuccess && 
 		((static_cast<int>(gear) > 0) && (m_speed >= 0) ||
-		 (static_cast<int>(gear) < 0) && (m_speed <= 0) || (gear == GearType::neutral));
+		 (static_cast<int>(gear) < 0) && (m_speed == 0) || (gear == GearType::neutral));
 	isSuccess = isSuccess && m_engineOn;
 	if (isSuccess)
 	{
@@ -128,7 +128,7 @@ GearType StringToGear(std::string gear)
 void CCar::PrintInfo(std::ostream & output) const
 {
 	output << "**** Engine info ****" << std::endl;
-	output << "Enginó: " << (m_engineOn ? "On" : "Off") << std::endl;
+	output << "Engine: " << (m_engineOn ? "On" : "Off") << std::endl;
 	output << "Direction: " << GetDirectionString(m_speed) << std::endl;
 	output << "Gear: " << GearToString(m_currentGear) << std::endl;
 	output << "Speed: " << abs(m_speed) << std::endl;
