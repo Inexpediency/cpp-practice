@@ -1,18 +1,26 @@
 #include "stdafx.h"
 #include "../carmodel/Car.h"
 
-void ExpectOperationFailure(CCar car, const std::function<bool(CCar & car)> & operation)
-{
-	CCar clone(car);
-	BOOST_CHECK(!operation(clone));
-	BOOST_CHECK_EQUAL(clone.IsEngineOn(), car.IsEngineOn());
-	BOOST_CHECK(clone.GetGear() == car.GetGear());
-	BOOST_CHECK_EQUAL(clone.GetSpeed(), car.GetSpeed());
-}
 
 struct CarFixture
 {
 	CCar car;
+	void ExpectOperationFailure(const std::function<bool(CCar & car)> & operation)const
+	{
+		CCar clone(car);
+		BOOST_CHECK(!operation(clone));
+		BOOST_CHECK_EQUAL(clone.IsEngineOn(), car.IsEngineOn());
+		BOOST_CHECK(clone.GetGear() == car.GetGear());
+		BOOST_CHECK_EQUAL(clone.GetSpeed(), car.GetSpeed());
+	}
+
+	void ExpectCarCantSetSpeed(int speed)const
+	{
+		ExpectOperationFailure([speed](CCar & car) {
+			return car.SetSpeed(speed);
+		});
+	}
+
 };
 BOOST_FIXTURE_TEST_SUITE(Car, CarFixture)
 	BOOST_AUTO_TEST_CASE(on_create_engine_turn_off)
@@ -73,11 +81,9 @@ BOOST_FIXTURE_TEST_SUITE(Car, CarFixture)
 			{
 				car.SetSpeed(20);
 				BOOST_CHECK(car.GetSpeed() == -20);
-				ExpectOperationFailure(car, [](auto & car)
-				{
-					return car.SetSpeed(-1);
-				});
-				ExpectOperationFailure(car, [](auto & car)
+				ExpectCarCantSetSpeed(-1);
+
+				ExpectOperationFailure([](auto & car)
 				{
 					return car.SetSpeed(30);
 				});
@@ -93,7 +99,7 @@ BOOST_FIXTURE_TEST_SUITE(Car, CarFixture)
 			BOOST_FIXTURE_TEST_SUITE(when_speed_not_0, when_speed_not_0_)
 				BOOST_AUTO_TEST_CASE(can_not_set_low_gear)
 				{
-					ExpectOperationFailure(car, [](auto & car)
+					ExpectOperationFailure([](auto & car)
 					{
 						return car.SetGear(GearType::low);
 					});
@@ -117,14 +123,14 @@ BOOST_FIXTURE_TEST_SUITE(Car, CarFixture)
 		BOOST_FIXTURE_TEST_SUITE(when_neutral_gear_set_and_speed_not_0, when_neutral_gear_set_and_speed_not_0_)
 			BOOST_AUTO_TEST_CASE(can_not_set_bigger_speed)
 			{
-				ExpectOperationFailure(car, [](auto & car)
+				ExpectOperationFailure([](auto & car)
 				{
 					return car.SetSpeed(20);
 				});
 			}
 			BOOST_AUTO_TEST_CASE(can_not_set_reverse_gear)
 			{
-				ExpectOperationFailure(car, [](auto & car)
+				ExpectOperationFailure([](auto & car)
 				{
 					return car.SetGear(GearType::reverse);
 				});
@@ -147,11 +153,11 @@ BOOST_FIXTURE_TEST_SUITE(Car, CarFixture)
 			{
 				car.SetSpeed(30);
 				BOOST_CHECK(car.GetSpeed() == 30);
-				ExpectOperationFailure(car, [](auto & car)
+				ExpectOperationFailure([](auto & car)
 				{
 					return car.SetSpeed(-1);
 				});
-				ExpectOperationFailure(car, [](auto & car)
+				ExpectOperationFailure([](auto & car)
 				{
 					return car.SetSpeed(40);
 				});
@@ -171,7 +177,7 @@ BOOST_FIXTURE_TEST_SUITE(Car, CarFixture)
 				}
 				BOOST_AUTO_TEST_CASE(can_not_set_reverse_gear)
 				{
-					ExpectOperationFailure(car, [](auto & car)
+					ExpectOperationFailure([](auto & car)
 					{
 						return car.SetGear(GearType::reverse);
 					});

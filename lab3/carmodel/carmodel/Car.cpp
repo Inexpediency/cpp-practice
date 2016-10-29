@@ -8,8 +8,12 @@ bool IsInRange(int number, int start, int end)
 
 bool IsSpeedInGearInterval(GearType gear, int speed)
 {
+	auto IsSpeedInRange = [=](GearType expectedGear, int minSpeed, int maxSpeed) {
+		return IsInRange(speed, minSpeed, maxSpeed) && (gear == expectedGear);
+	};
+
 	return (speed >= 0) && ((gear == GearType::neutral) ||
-		(IsInRange(speed,   0,  20) && (gear == GearType::reverse)) ||
+		IsSpeedInRange(GearType::reverse, 0, 20) ||
 		(IsInRange(speed,   0,  30) && (gear == GearType::low)) ||
 		(IsInRange(speed,  20,  50) && (gear == GearType::second)) ||
 		(IsInRange(speed,  30,  60) && (gear == GearType::third)) ||
