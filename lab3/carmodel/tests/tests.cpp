@@ -4,7 +4,7 @@
 void ExpectOperationFailure(CCar car, const std::function<bool(CCar & car)> & operation)
 {
 	CCar clone(car);
-	BOOST_CHECK(!operation(clone)); // ожидаем, что операция завершится неудачей
+	BOOST_CHECK(!operation(clone));
 	BOOST_CHECK_EQUAL(clone.IsEngineOn(), car.IsEngineOn());
 	BOOST_CHECK(clone.GetGear() == car.GetGear());
 	BOOST_CHECK_EQUAL(clone.GetSpeed(), car.GetSpeed());
