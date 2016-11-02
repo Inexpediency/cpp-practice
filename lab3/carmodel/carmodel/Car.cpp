@@ -14,11 +14,11 @@ bool IsSpeedInGearInterval(GearType gear, int speed)
 
 	return (speed >= 0) && ((gear == GearType::neutral) ||
 		IsSpeedInRange(GearType::reverse, 0, 20) ||
-		(IsInRange(speed,   0,  30) && (gear == GearType::low)) ||
-		(IsInRange(speed,  20,  50) && (gear == GearType::second)) ||
-		(IsInRange(speed,  30,  60) && (gear == GearType::third)) ||
-		(IsInRange(speed,  40,  90) && (gear == GearType::fourth)) ||
-		(IsInRange(speed,  50, 150) && (gear == GearType::fifth)));
+		IsSpeedInRange(GearType::low, 0, 30) ||
+		IsSpeedInRange(GearType::second, 20, 50) ||
+		IsSpeedInRange(GearType::third, 30, 60) ||
+		IsSpeedInRange(GearType::fourth, 40, 90) ||
+		IsSpeedInRange(GearType::fifth, 50, 150));
 }
 
 bool CCar::IsEngineOn() const
@@ -26,14 +26,20 @@ bool CCar::IsEngineOn() const
 	return m_engineOn;
 }
 
+
+int CCar::GetDirection() const
+{
+	return m_speed > 0 ? 1 : (m_speed == 0) ? 0 : -1;
+}
+
 GearType CCar::GetGear() const
 {
 	return m_currentGear;
 }
 
-int CCar::GetSpeed() const
+unsigned CCar::GetSpeed() const
 {
-	return m_speed;
+	return abs(m_speed);
 }
 
 bool CCar::TurnEngineOn()
@@ -42,7 +48,7 @@ bool CCar::TurnEngineOn()
 	if (isSuccess)
 	{
 		m_engineOn = true;
-	}
+	}  
 	return isSuccess;
 }
 

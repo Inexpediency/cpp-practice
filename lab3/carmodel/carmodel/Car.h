@@ -20,7 +20,8 @@ class CCar
 {
 public:
 	GearType GetGear() const;
-	int GetSpeed() const;
+	unsigned GetSpeed() const;
+	int GetDirection() const;
 	bool IsEngineOn() const;
 	bool TurnEngineOn();
 	bool TurnEngineOff();

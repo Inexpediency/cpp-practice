@@ -44,8 +44,10 @@ std::string CTranslator::GetTranslation(const std::string word) const
 
 void CTranslator::DumpDictionary(std::ostream & output) const
 {
-	for (auto it = m_dictionary.begin(); it != m_dictionary.end(); ++(++it))
+	Dictionary temp(m_dictionary);
+	for (auto it = temp.begin(); it != temp.end(); ++it)
 	{
+		temp.erase(temp.find(it->second));
 		output << it->first << std::endl << it->second << std::endl;
 	}
 }

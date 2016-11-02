@@ -13,7 +13,7 @@ void TurnEngineOn(CCar & car, const std::string & arguments)
 {
 	if (car.TurnEngineOn())
 	{
-		std::cout << "Engin on" << std::endl;
+		std::cout << "Engine on" << std::endl;
 	}
 	else
 	{
@@ -25,7 +25,7 @@ void TurnEngineOff(CCar & car, const std::string & arguments)
 {
 	if (car.TurnEngineOff())
 	{
-		std::cout << "Engin off" << std::endl;
+		std::cout << "Engine off" << std::endl;
 	}
 	else
 	{
@@ -33,7 +33,7 @@ void TurnEngineOff(CCar & car, const std::string & arguments)
 	}
 }
 
-void SetGear(CCar & car, std::string gear)
+void SetGear(CCar & car, const std::string gear)
 {
 	if (!car.IsEngineOn())
 	{
