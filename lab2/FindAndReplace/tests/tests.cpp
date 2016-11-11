@@ -27,7 +27,6 @@ BOOST_AUTO_TEST_CASE(One_character_on_one_character_replace)
 	}
 }
 
-/*
 BOOST_AUTO_TEST_CASE(One_character_on_many_characters_replace)
 {
 	{
@@ -51,8 +50,6 @@ BOOST_AUTO_TEST_CASE(One_character_on_many_characters_replace)
 		BOOST_CHECK_EQUAL(FindAndReplace(subject, search, replace), "Replace ending char good");
 	}
 }
-*/
-/*
 BOOST_AUTO_TEST_CASE(Many_character_on_one_characters_replace)
 {
 	{
@@ -76,8 +73,7 @@ BOOST_AUTO_TEST_CASE(Many_character_on_one_characters_replace)
 		BOOST_CHECK_EQUAL(FindAndReplace(subject, search, replace), "replace end a");
 	}
 }
-*/
-/*
+
 BOOST_AUTO_TEST_CASE(Many_character_on_many_characters_replace)
 {
 	{
@@ -100,6 +96,6 @@ BOOST_AUTO_TEST_CASE(Many_character_on_many_characters_replace)
 		std::string search = "replace";
 		BOOST_CHECK_EQUAL(FindAndReplace(subject, search, replace), "end word good");
 	}
-}*/
+}
 
 BOOST_AUTO_TEST_SUITE_END()
