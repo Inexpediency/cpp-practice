@@ -2,7 +2,7 @@
 #include "Function.h"
 #include "Variable.h"
 
-CFunction::CFunction(const std::vector<std::shared_ptr<CVariable>> & dependentVariables, std::shared_ptr<Valuabal> argument1, std::shared_ptr<Valuabal> argument2, const std::string & operation)
+CFunction::CFunction(const std::vector<std::shared_ptr<CVariable>> & dependentVariables, std::shared_ptr<IValueHolder> & argument1, std::shared_ptr<IValueHolder> & argument2, const std::string & operation)
 	: m_dependentVariables(dependentVariables),
 	m_operation(operation)
 {

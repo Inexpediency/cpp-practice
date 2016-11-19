@@ -54,7 +54,6 @@ private:
 		auto it = boost::find_if(m_items, [&](const Item & item) {
 			return std::regex_match(command, std::regex("( )*" +  item.shortcut + "((\\s(.)*)|$)"));
 		});
-		std::cout << it->shortcut << std::endl;
 		if (it != m_items.end())
 		{
 			std::string arguments = command.substr(it->shortcut.length(), command.length() - it->shortcut.length());

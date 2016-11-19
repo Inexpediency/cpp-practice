@@ -33,7 +33,7 @@ void CCalculator::AddVariable(const std::string & name, const std::string & iden
 	if (m_variables.find(name) == m_variables.cend())
 	{
 		std::shared_ptr<CVariable> newVariable = std::make_shared<CVariable>();
-		std::shared_ptr<Valuabal> initElement = GetElement(ident);
+		std::shared_ptr<IValueHolder> initElement = GetElement(ident);
 		if (initElement == nullptr)
 		{
 			throw std::logic_error("There are no variable with name " + ident);
@@ -68,7 +68,7 @@ std::vector<std::shared_ptr<CVariable>> CCalculator::GetDependentVariablesList(c
 	return dependVariablesList;
 }
 
-std::shared_ptr<Valuabal> CCalculator::GetElement(const std::string & ident) const
+std::shared_ptr<IValueHolder> CCalculator::GetElement(const std::string & ident) const
 {
 	auto variableIter = m_variables.find(ident);
 	auto functionIter = m_functions.find(ident);
@@ -106,8 +106,8 @@ void CCalculator::AddFunction(const std::string & name, const std::string & firs
 	if (m_functions.find(name) == m_functions.cend())
 	{
 		std::vector<std::shared_ptr<CVariable>> dependentVariables = GetDependentVariablesList(firstArgumentIdent);
-		std::shared_ptr<Valuabal> argument1 = GetElement(firstArgumentIdent);
-		std::shared_ptr<Valuabal> argument2 = nullptr;
+		std::shared_ptr<IValueHolder> argument1 = GetElement(firstArgumentIdent);
+		std::shared_ptr<IValueHolder> argument2 = nullptr;
 		if (secondArgumentIdent != "")
 		{
 			CheckIdentifire(secondArgumentIdent);
@@ -146,7 +146,7 @@ void CCalculator::SetVariableValue(const std::string & name, const std::string &
 	auto variableIter = m_variables.find(name);
 	if (variableIter != m_variables.cend())
 	{
-		std::shared_ptr<Valuabal> initElement = GetElement(ident);
+		std::shared_ptr<IValueHolder> initElement = GetElement(ident);
 		if (initElement == nullptr)
 		{
 			throw std::logic_error("Can not find variable " + ident);
@@ -159,12 +159,34 @@ void CCalculator::SetVariableValue(const std::string & name, const std::string &
 	}
 }
 
+std::string ValueToString(double value)
+{
+	if (std::isnan(value))
+	{
+		return "nan";
+	}
+	else
+	{
+		return std::to_string(std::round(value * 100) / 100);
+	}
+}
+
 void CCalculator::PrintElement(std::ostream & output, const std::string & name) const
 {
 	auto element = GetElement(name);
 	if (element != nullptr)
 	{
-		output << name << ": " << std::fixed << element->GetValue() << std::endl;
+		output << std::fixed;
+		output << std::setprecision(2);
+		double value = element->GetValue();
+		if (std::isnan(value))
+		{
+			output << name << ":nan" << std::endl;
+		}
+		else
+		{
+			output << name << ":" << value << std::endl;
+		}
 	}
 	else
 	{
@@ -174,16 +196,36 @@ void CCalculator::PrintElement(std::ostream & output, const std::string & name) 
 
 void CCalculator::PrintFunctions(std::ostream & output) const
 {
+	output << std::fixed; 
+	output << std::setprecision(2);
 	for (auto element : m_functions)
 	{
-		output << element.first << ": " << std::fixed << element.second->GetValue() << std::endl;
+		double value = element.second->GetValue();
+		if (std::isnan(value))
+		{
+			output << element.first << ":nan" << std::endl;
+		}
+		else
+		{
+			output << element.first << ":" << value << std::endl;
+		}
 	}
 }
 
 void CCalculator::PrintVariables(std::ostream & output) const
 {
+	output << std::fixed;
+	output << std::setprecision(2);
 	for (auto element : m_variables)
 	{
-		output << element.first << ": " << std::fixed << element.second->GetValue() << std::endl;
+		double value = element.second->GetValue();
+		if (std::isnan(value))
+		{
+			output << element.first << ": nan" << std::endl;
+		}
+		else
+		{
+			output << element.first << ": " << value << std::endl;
+		}
 	}
 }

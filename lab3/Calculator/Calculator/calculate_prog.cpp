@@ -11,7 +11,7 @@ int main()
 	{
 		menu.ShowInstructions();
 	});
-	menu.AddItem("exite", "Exit from programm", [&menu](CCalculator &, const std::string &)
+	menu.AddItem("exit", "Exit from programm", [&menu](CCalculator &, const std::string &)
 	{
 		menu.Exit();
 	});
@@ -19,8 +19,8 @@ int main()
 	menu.AddItem("let", " <name> = <ident>|<double number> : Create new variable and set value, or just set value", ExecuteLet);
 	menu.AddItem("fn", " <name> = <ident>[+|-|*|/ <ident>]> : Create new function", ExecuteFn);
 	menu.AddItem("print", " <name> : Print element value", ExecutePrint);
-	menu.AddItem("printVars", " <name> : Print all variables value", ExecutePrintVars);
-	menu.AddItem("printFns", " <name> : Print all functions value", ExecutePrintFns);
+	menu.AddItem("printvars", " <name> : Print all variables value", ExecutePrintVars);
+	menu.AddItem("printfns", " <name> : Print all functions value", ExecutePrintFns);
 	menu.Run(calculator);
 	return 0;
 }

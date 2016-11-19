@@ -5,10 +5,11 @@
 #include <functional>
 #include "constants.h"
 
-class Valuabal
+class IValueHolder
 {
 public:
 	double GetValue() const;
+	~IValueHolder() = default;
 protected:
 	double m_value;
 };

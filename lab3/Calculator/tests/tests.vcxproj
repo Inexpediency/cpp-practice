@@ -159,7 +159,7 @@
   <ItemGroup>
     <ClInclude Include="..\Calculator\Calculator.h" />
     <ClInclude Include="..\Calculator\Function.h" />
-    <ClInclude Include="..\Calculator\Valuabal.h" />
+    <ClInclude Include="..\Calculator\IValueHolder.h" />
     <ClInclude Include="..\Calculator\Variable.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -167,7 +167,7 @@
   <ItemGroup>
     <ClCompile Include="..\Calculator\Calculator.cpp" />
     <ClCompile Include="..\Calculator\Function.cpp" />
-    <ClCompile Include="..\Calculator\Valuabal.cpp" />
+    <ClCompile Include="..\Calculator\IValueHolder.cpp" />
     <ClCompile Include="..\Calculator\Variable.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

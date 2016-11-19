@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{ED4153A7-3AD4-46F7-B179-AE3708F4199F}</ProjectGuid>
+    <ProjectGuid>{828B2DD2-E76A-44D0-8238-E7F57DB24478}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Calculator</RootNamespace>
+    <RootNamespace>Task1</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -145,29 +145,29 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Calculator.h" />
-    <ClInclude Include="calculator_utils.h" />
-    <ClInclude Include="Menu.h" />
-    <ClInclude Include="IValueHolder.h" />
-    <ClInclude Include="constants.h" />
-    <ClInclude Include="Function.h" />
+    <ClInclude Include="Body.h" />
+    <ClInclude Include="Compound.h" />
+    <ClInclude Include="Cone.h" />
+    <ClInclude Include="Cylinder.h" />
+    <ClInclude Include="Parallelepiped.h" />
+    <ClInclude Include="Sphere.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="Variable.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="calculate_prog.cpp" />
-    <ClCompile Include="Calculator.cpp" />
-    <ClCompile Include="calculator_utils.cpp" />
-    <ClCompile Include="IValueHolder.cpp" />
-    <ClCompile Include="Function.cpp" />
+    <ClCompile Include="Body.cpp" />
+    <ClCompile Include="Compound.cpp" />
+    <ClCompile Include="Cone.cpp" />
+    <ClCompile Include="Cylinder.cpp" />
+    <ClCompile Include="Parallelepiped.cpp" />
+    <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Variable.cpp" />
+    <ClCompile Include="Task1.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -2,7 +2,7 @@
 #include "calculator_utils.h"
 
 const std::string identPattern = "[A-Za-z](\\w)*";
-const std::string doubleNumberPattern = "\\d+(\\.\\d+)?";
+const std::string doubleNumberPattern = "(\\d+(\\.\\d+)?)";
 const std::string spacesPattern = "( )*";
 const std::string signPattern = "(\\+|\\*|/|-)";
 const std::string letPattern = spacesPattern + identPattern + spacesPattern + "=" + spacesPattern + "((" + identPattern + ")|(" + doubleNumberPattern + "))" + spacesPattern;
@@ -27,10 +27,14 @@ std::vector<double> GetNumbers(const std::string & string)
 	std::smatch matchResult;
 	std::vector<double> result;
 	std::string str(string);
-	while (std::regex_search(str, matchResult, std::regex(doubleNumberPattern)))
+	while (std::regex_search(str, matchResult, std::regex("(\\s|$)" + doubleNumberPattern)))
 	{
 		std::string number = matchResult[0];
 		str.erase(str.find(number), number.size());
+		if (('0' >= number[0]) || (number[0] >= '9'))
+		{
+			number.erase(0, 1);
+		}
 		result.insert(result.cend(), stod(number));
 	}
 	return result;
@@ -57,24 +61,13 @@ void ExecuteVar(CCalculator & calculator, const std::string & params)
 template <class T>
 void AddValue(CCalculator & calculator, const std::string & name, const T & value)
 {
-	try
+	if (calculator.GetElement(name) == nullptr)
 	{
 		calculator.AddVariable(name, value);
-	} 
-	catch (std::invalid_argument & exeption)
-	{
-		std::cout << "Error::" + std::string(exeption.what()) << std::endl;
 	}
-	catch (std::logic_error &)
+	else
 	{
-		try
-		{
-			calculator.SetVariableValue(name, value);
-		}
-		catch (std::invalid_argument & exeption)
-		{
-			std::cout << "Error::" + std::string(exeption.what()) << std::endl;
-		}
+		calculator.SetVariableValue(name, value);
 	}
 }
 

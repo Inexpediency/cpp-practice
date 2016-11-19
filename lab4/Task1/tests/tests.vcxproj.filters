@@ -24,25 +24,22 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Variable.h">
+    <ClInclude Include="..\Task1\Body.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Function.h">
+    <ClInclude Include="..\Task1\Sphere.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="constants.h">
+    <ClInclude Include="..\Task1\Parallelepiped.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Calculator.h">
+    <ClInclude Include="..\Task1\Cone.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Menu.h">
+    <ClInclude Include="..\Task1\Cylinder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="calculator_utils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IValueHolder.h">
+    <ClInclude Include="..\Task1\Compound.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -50,22 +47,28 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="calculate_prog.cpp">
+    <ClCompile Include="tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Calculator.cpp">
+    <ClCompile Include="tests_logger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Variable.cpp">
+    <ClCompile Include="..\Task1\Body.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Function.cpp">
+    <ClCompile Include="..\Task1\Sphere.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="calculator_utils.cpp">
+    <ClCompile Include="..\Task1\Parallelepiped.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IValueHolder.cpp">
+    <ClCompile Include="..\Task1\Cone.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Task1\Cylinder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Task1\Compound.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

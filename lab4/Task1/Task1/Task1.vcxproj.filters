@@ -24,25 +24,22 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Variable.h">
+    <ClInclude Include="Body.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Function.h">
+    <ClInclude Include="Sphere.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="constants.h">
+    <ClInclude Include="Parallelepiped.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Calculator.h">
+    <ClInclude Include="Cone.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Menu.h">
+    <ClInclude Include="Cylinder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="calculator_utils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IValueHolder.h">
+    <ClInclude Include="Compound.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -50,22 +47,25 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="calculate_prog.cpp">
+    <ClCompile Include="Task1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Calculator.cpp">
+    <ClCompile Include="Body.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Variable.cpp">
+    <ClCompile Include="Sphere.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Function.cpp">
+    <ClCompile Include="Parallelepiped.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="calculator_utils.cpp">
+    <ClCompile Include="Cone.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IValueHolder.cpp">
+    <ClCompile Include="Cylinder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Compound.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -11,7 +11,7 @@ void CVariable::SetValue(double value)
 	}
 }
 
-void CVariable::AppendDependentFunctions(std::shared_ptr<CFunction> function)
+void CVariable::AppendDependentFunctions(std::shared_ptr<CFunction> & function)
 {
 	if (function != nullptr)
 	{

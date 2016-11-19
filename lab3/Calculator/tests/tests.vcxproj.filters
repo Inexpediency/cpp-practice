@@ -30,10 +30,10 @@
     <ClInclude Include="..\Calculator\Function.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Calculator\Valuabal.h">
+    <ClInclude Include="..\Calculator\Variable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Calculator\Variable.h">
+    <ClInclude Include="..\Calculator\IValueHolder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -50,13 +50,13 @@
     <ClCompile Include="..\Calculator\Function.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Calculator\Valuabal.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\Calculator\Variable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="tests_logger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Calculator\IValueHolder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

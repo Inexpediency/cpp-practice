@@ -13,11 +13,8 @@
 #include <boost/test/unit_test.hpp>
 ///=======================================
 
-#include <map>
-#include <regex>
-#include <vector>
+#define _USE_MATH_DEFINES
+
 #include <iostream>
-#include <string>
+#include <math.h>
 #include <functional>
-#include <algorithm>
-#include <iomanip> 
