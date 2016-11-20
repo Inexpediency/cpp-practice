@@ -9,3 +9,4 @@
 #include <math.h>
 #include <memory>
 #include <functional>
+#include <regex>

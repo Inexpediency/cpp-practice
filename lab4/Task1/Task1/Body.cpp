@@ -19,3 +19,8 @@ std::string CBody::ToString() const
 	result = result + " volume = " + std::to_string(GetVolume());
 	return result;
 }
+
+bool CBody::HasChild(CBody*) const
+{
+	return false;
+}

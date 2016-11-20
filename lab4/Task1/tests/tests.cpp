@@ -2,12 +2,15 @@
 //
 
 #include "stdafx.h"
+#include <boost/test/output_test_stream.hpp> 
 #include "../Task1/Body.h"
 #include "../Task1/Sphere.h"
 #include "../Task1/Parallelepiped.h"
 #include "../Task1/Cone.h"
 #include "../Task1/Cylinder.h"
 #include "../Task1/Compound.h"
+
+typedef boost::test_tools::output_test_stream boost_test_stream;
 
 class CBodyChild : public CBody
 {
@@ -30,8 +33,11 @@ struct  BodyFixture
 {
 	CBodyChild body = CBodyChild(1, 10);
 };
-
 BOOST_FIXTURE_TEST_SUITE(Body_child_on_create, BodyFixture)
+	BOOST_AUTO_TEST_CASE(have_not_child)
+	{
+		BOOST_CHECK(!body.HasChild());
+	}
 	BOOST_AUTO_TEST_CASE(know_its_volume)
 	{
 		BOOST_CHECK_EQUAL(body.GetVolume(), 10);
@@ -204,22 +210,69 @@ BOOST_AUTO_TEST_SUITE_END()
 
 struct CompoundFixture
 {
-	CCompound compound;
+	std::shared_ptr<CCompound> compound = std::make_shared<CCompound>(CCompound());
 };
 BOOST_FIXTURE_TEST_SUITE(Compound_on_create, CompoundFixture)
 	BOOST_AUTO_TEST_CASE(have_not_children)
 	{
-		BOOST_CHECK(compound.GetChildren().empty());
+		BOOST_CHECK(compound->IsEmpty());
 	}
-	BOOST_AUTO_TEST_CASE(can_add_child)
+	BOOST_AUTO_TEST_CASE(can_add_simple_child)
 	{
-		CSphere sphere(1, 2);
-		BOOST_CHECK(compound.AddChild(std::make_shared<CSphere>(sphere)));
-		BOOST_CHECK_EQUAL(compound.GetChildren()[0]->ToString(), "Sphere: mass = 33.510322, density = 1.000000, volume = 33.510322, radius = 2.000000");
+		std::shared_ptr<CBody> sphere = std::make_shared<CSphere>(CSphere(2, 1));
+		BOOST_CHECK(compound->AddChild(sphere));
+		BOOST_CHECK(!compound->IsEmpty());
 	}
 	BOOST_AUTO_TEST_CASE(can_not_add_itself)
 	{
-		BOOST_CHECK(!compound.AddChild(std::shared_ptr<CCompound>(&compound)));
-		BOOST_CHECK(compound.GetChildren().empty());
+		BOOST_CHECK(!compound->AddChild(compound));
+		BOOST_CHECK(compound->IsEmpty());
 	}
+	BOOST_AUTO_TEST_CASE(can_not_add_parent_of_itself)
+	{
+		std::shared_ptr<CCompound> parent = std::make_shared<CCompound>(CCompound());
+		BOOST_CHECK(parent->AddChild(compound));
+		BOOST_CHECK(!compound->AddChild(parent));
+		BOOST_CHECK(compound->IsEmpty());
+	}
+	BOOST_AUTO_TEST_CASE(can_add_compound_child)
+	{
+		std::shared_ptr<CCompound> compoundChild = std::make_shared<CCompound>(CCompound());
+		std::shared_ptr<CBody> sphere = std::make_shared<CSphere>(CSphere(2, 1));
+		BOOST_CHECK(compoundChild->AddChild(sphere));
+		BOOST_CHECK(compound->AddChild(compoundChild));
+		BOOST_CHECK(!compound->IsEmpty());
+	}
+	BOOST_AUTO_TEST_CASE(can_convet_to_string)
+	{
+		BOOST_CHECK_EQUAL(compound->ToString(), "Compound:\n");
+	}
+	struct On_add_simple_childs_ : CompoundFixture
+	{
+		On_add_simple_childs_()
+		{
+			compound->AddChild(std::make_shared<CParallelepiped>(CParallelepiped(1, 1, 1, 1)));
+			compound->AddChild(std::make_shared<CSphere>(CSphere(1, 2)));
+		}
+	};
+	BOOST_FIXTURE_TEST_SUITE(On_add_simple_childs, On_add_simple_childs_)
+		BOOST_AUTO_TEST_CASE(have_not_empty_mass)
+		{
+			BOOST_CHECK_EQUAL(compound->GetMass(), 1 + 33.510321638291124);
+		}
+		BOOST_AUTO_TEST_CASE(have_not_empty_volume)
+		{
+			BOOST_CHECK_EQUAL(compound->GetVolume(), 1 + 33.510321638291124);
+		}
+		BOOST_AUTO_TEST_CASE(have_not_empty_density)
+		{
+			BOOST_CHECK_EQUAL(compound->GetDensity(), 1);
+		}
+		BOOST_AUTO_TEST_CASE(can_convet_to_string)
+		{
+			boost_test_stream output("compund_to_string.txt", true);
+			output << compound->ToString();
+			BOOST_CHECK(output.match_pattern());
+		}
+	BOOST_AUTO_TEST_SUITE_END()
 BOOST_AUTO_TEST_SUITE_END()

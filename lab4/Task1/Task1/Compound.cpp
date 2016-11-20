@@ -16,30 +16,30 @@ double CCompound::GetDensity() const
 	return GetMass() / GetVolume();
 }
 
-bool CCompound::IsSame(CBody & childBody) const
+bool CCompound::IsEmpty() const
 {
-	//std::cout << "!!!!!" << (&childBody == this) << std::endl;
-	if (this == &childBody)
+	return m_children.empty();
+}
+
+bool CCompound::HasChild(CBody * child) const
+{
+	if (child == this)
 	{
 		return true;
 	}
-	/*std::shared_ptr<CCompound> compoundChild(dynamic_cast<CCompound *>(&childBody));
-	if (compoundChild != nullptr)
+	for (auto & element : m_children)
 	{
-		for (auto & element : compoundChild->m_children)
+		if (element->HasChild(child))
 		{
-			if (IsSame(*element))
-			{
-				return true;
-			}
+			return true;
 		}
-	}*/
+	}
 	return false;
 }
 
 bool CCompound::AddChild(std::shared_ptr<CBody> childBody)
 {
-	if (!IsSame(*childBody))
+	if (!childBody->HasChild(this))
 	{
 		m_children.emplace_back(childBody);
 		m_mass += childBody->GetMass();
@@ -49,17 +49,14 @@ bool CCompound::AddChild(std::shared_ptr<CBody> childBody)
 	return false;
 }
 
-std::vector<std::shared_ptr<CBody>> CCompound::GetChildren() const
-{
-	return m_children;
-}
-
 std::string CCompound::ToString() const
 {
-	std::string result = "Compound:\n";
+	std::string result = "Compound:\n";	
 	for (auto & element : m_children)
 	{
-		result = result + "  " + element->ToString() + "\n";
+		std::string elementStr = element->ToString();
+		elementStr = std::regex_replace(elementStr, std::regex("^"), "  ");
+		result = result + elementStr + "\n";
 	}
 	return result;
 }

@@ -9,9 +9,8 @@ public:
 	double GetDensity() const;
 	bool AddChild(std::shared_ptr<CBody> childBody);
 	std::string ToString() const;
-	std::vector<std::shared_ptr<CBody>> CCompound::GetChildren() const;
-private:
-	bool IsSame(CBody & childBody) const;
+	bool CCompound::IsEmpty() const;
+	bool CCompound::HasChild(CBody * child) const;
 private:
 	std::vector<std::shared_ptr<CBody>> m_children;
 	double m_volume = 0;
