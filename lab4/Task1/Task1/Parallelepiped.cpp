@@ -54,3 +54,26 @@ std::string CParallelepiped::ToString() const
 	result = result + " height = " + std::to_string(GetHeight());
 	return result;
 }
+
+bool CParallelepiped::IsEqual(CBody * element) const
+{
+	try
+	{
+		CParallelepiped & parallelepipedElement = dynamic_cast<CParallelepiped &>(*element);
+		return parallelepipedElement == *this;
+	}
+	catch (std::bad_cast &)
+	{
+		return false;
+	}
+}
+
+bool CParallelepiped::operator==(const CParallelepiped & arg) const
+{
+	return (arg.GetDensity() == GetDensity()) &&
+		(arg.GetMass() == GetMass()) &&
+		(arg.GetVolume() == GetVolume()) &&
+		(arg.GetDepth() == GetDepth()) &&
+		(arg.GetWidth() == GetWidth()) &&
+		(arg.GetHeight() == GetHeight());
+}

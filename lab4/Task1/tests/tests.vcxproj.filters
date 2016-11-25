@@ -42,6 +42,9 @@
     <ClInclude Include="..\Task1\Compound.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\Task1\body_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -69,6 +72,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Task1\Compound.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Task1\body_utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

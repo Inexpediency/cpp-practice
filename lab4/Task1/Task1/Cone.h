@@ -9,7 +9,9 @@ public:
 	std::string ToString() const;
 	double GetVolume() const;
 	double GetHeight() const;
-	double GetBaseRadius() const;
+	double GetBaseRadius() const; 
+	bool IsEqual(CBody * element) const;
+	bool operator==(const CCone & arg) const;
 private:
 	double m_height = NAN;
 	double m_baseRadius = NAN;

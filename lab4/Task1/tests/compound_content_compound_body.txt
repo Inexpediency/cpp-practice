@@ -1,0 +1,5 @@
+Compound:
+Parallelepiped: density = 1, depth = 1, width = 1, height = 1
+Sphere: density = 1, radius = 2
+End compound
+End compound

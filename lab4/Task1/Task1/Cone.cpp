@@ -45,3 +45,25 @@ std::string CCone::ToString() const
 	result = result + " height = " + std::to_string(GetHeight());
 	return result;
 }
+
+bool CCone::IsEqual(CBody * element) const
+{
+	try
+	{
+		CCone & coneElement = dynamic_cast<CCone &>(*element);
+		return coneElement == *this;
+	}
+	catch (std::bad_cast &)
+	{
+		return false;
+	}
+}
+
+bool CCone::operator==(const CCone & arg) const
+{
+	return (arg.GetDensity() == GetDensity()) && 
+		(arg.GetMass() == GetMass()) &&
+		(arg.GetVolume() == GetVolume()) &&
+		(arg.GetBaseRadius() == GetBaseRadius()) && 
+		(arg.GetHeight() == GetHeight());
+}

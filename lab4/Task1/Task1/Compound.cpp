@@ -39,7 +39,7 @@ bool CCompound::HasChild(CBody * child) const
 
 bool CCompound::AddChild(std::shared_ptr<CBody> childBody)
 {
-	if (!childBody->HasChild(this))
+	if (childBody != nullptr && !childBody->HasChild(this))
 	{
 		m_children.emplace_back(childBody);
 		m_mass += childBody->GetMass();
@@ -59,4 +59,50 @@ std::string CCompound::ToString() const
 		result = result + elementStr + "\n";
 	}
 	return result;
+}
+
+unsigned int CCompound::GetChildCount() const
+{
+	return m_children.size();
+}
+
+bool CCompound::IsEqual(CBody * element) const
+{
+	try
+	{
+		CCompound & compoundElement = dynamic_cast<CCompound &>(*element);
+		return compoundElement == *this;
+	}
+	catch (std::bad_cast &)
+	{
+		return false;
+	}
+}
+
+bool CCompound::HasEquel(CBody * child) const
+{	
+	for (auto element : m_children)
+	{
+		if (element->IsEqual(child))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+bool CCompound::operator==(const CCompound & arg) const
+{
+	if (m_children.size() == arg.GetChildCount())
+	{
+		for (auto element : m_children)
+		{
+			if (!arg.HasEquel(element.get()))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+	return false;
 }

@@ -158,6 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Task1\Body.h" />
+    <ClInclude Include="..\Task1\body_utils.h" />
     <ClInclude Include="..\Task1\Compound.h" />
     <ClInclude Include="..\Task1\Cone.h" />
     <ClInclude Include="..\Task1\Cylinder.h" />
@@ -168,6 +169,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Task1\Body.cpp" />
+    <ClCompile Include="..\Task1\body_utils.cpp" />
     <ClCompile Include="..\Task1\Compound.cpp" />
     <ClCompile Include="..\Task1\Cone.cpp" />
     <ClCompile Include="..\Task1\Cylinder.cpp" />

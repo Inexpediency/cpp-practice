@@ -10,3 +10,5 @@
 #include <memory>
 #include <functional>
 #include <regex>
+#include <map>
+#include <algorithm>

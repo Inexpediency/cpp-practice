@@ -146,9 +146,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Body.h" />
+    <ClInclude Include="body_utils.h" />
     <ClInclude Include="Compound.h" />
     <ClInclude Include="Cone.h" />
     <ClInclude Include="Cylinder.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="Parallelepiped.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="stdafx.h" />
@@ -156,6 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Body.cpp" />
+    <ClCompile Include="body_utils.cpp" />
     <ClCompile Include="Compound.cpp" />
     <ClCompile Include="Cone.cpp" />
     <ClCompile Include="Cylinder.cpp" />

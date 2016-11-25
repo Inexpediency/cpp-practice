@@ -10,6 +10,8 @@ public:
 	double GetVolume() const;
 	double GetHeight() const;
 	double GetBaseRadius() const;
+	bool IsEqual(CBody * element) const;
+	bool operator==(const CCylinder & arg) const;
 private:
 	double m_height = NAN;
 	double m_baseRadius = NAN;

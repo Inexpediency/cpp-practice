@@ -11,6 +11,8 @@ public:
 	double GetHeight() const;
 	double GetWidth() const;
 	double GetDepth() const;
+	bool IsEqual(CBody * element) const;
+	bool operator==(const CParallelepiped & arg) const;
 private:
 	double m_width = NAN;
 	double m_height = NAN;

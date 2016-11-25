@@ -4,6 +4,7 @@
 class CBody
 {
 public:
+	virtual bool IsEqual(CBody * element) const = 0;
 	virtual double GetVolume() const = 0;
 	virtual double GetMass() const;
 	virtual double GetDensity() const;

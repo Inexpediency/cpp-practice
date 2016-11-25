@@ -45,3 +45,25 @@ std::string CCylinder::ToString() const
 	result = result + " height = " + std::to_string(GetHeight());
 	return result;
 }
+
+bool CCylinder::IsEqual(CBody * element) const
+{
+	try
+	{
+		CCylinder & cylinderElement = dynamic_cast<CCylinder &>(*element);
+		return cylinderElement == *this;
+	}
+	catch (std::bad_cast &)
+	{
+		return false;
+	}
+}
+
+bool CCylinder::operator==(const CCylinder & arg) const
+{
+	return (arg.GetDensity() == GetDensity()) &&
+		(arg.GetMass() == GetMass()) &&
+		(arg.GetVolume() == GetVolume()) &&
+		(arg.GetBaseRadius() == GetBaseRadius()) &&
+		(arg.GetHeight() == GetHeight());
+}

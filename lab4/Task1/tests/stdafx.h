@@ -19,3 +19,6 @@
 #include <math.h>
 #include <functional>
 #include <regex>
+#include <map>
+#include <fstream>
+#include <algorithm>
