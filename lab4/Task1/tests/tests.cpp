@@ -14,7 +14,7 @@
 
 typedef boost::test_tools::output_test_stream boost_test_stream;
 
-class CBodyChild : public CBody
+class CBodyChild : public CEqualityComparable<CBody, CBodyChild>
 {
 public:
 	CBodyChild() = delete;
@@ -30,6 +30,11 @@ public:
 	double GetVolume() const
 	{
 		return m_volume;
+	}
+
+	bool operator==(const CBodyChild & arg) const
+	{
+		return false;
 	}
 private:
 	double m_volume = NAN;
@@ -87,12 +92,12 @@ BOOST_AUTO_TEST_SUITE(Sphere)
 		{
 			BOOST_CHECK_EQUAL(sphere.GetVolume(), 33.510321638291124);
 		}
-		BOOST_AUTO_TEST_CASE(can_be_comeared)
+		BOOST_AUTO_TEST_CASE(can_be_compared)
 		{
 			BOOST_CHECK(sphere == CSphere(1, 2));
 			BOOST_CHECK(!(sphere == CSphere(2, 1)));
 		}
-		BOOST_AUTO_TEST_CASE(can_convert_to_string)
+		BOOST_AUTO_TEST_CASE(can_br_converted_to_string)
 		{
 			BOOST_CHECK_EQUAL(sphere.ToString(), "Sphere: mass = 33.510322, density = 1.000000, volume = 33.510322, radius = 2.000000");
 		}
@@ -141,12 +146,12 @@ BOOST_AUTO_TEST_SUITE(Parallelepiped)
 		{
 			BOOST_CHECK_EQUAL(parallelepiped.GetVolume(), 1);
 		}
-		BOOST_AUTO_TEST_CASE(can_be_comeared)
+		BOOST_AUTO_TEST_CASE(can_be_compared)
 		{
 			BOOST_CHECK(parallelepiped == CParallelepiped(1, 1, 1, 1));
 			BOOST_CHECK(!(parallelepiped == CParallelepiped(2, 1, 1, 2)));
 		}
-		BOOST_AUTO_TEST_CASE(can_convert_to_string)
+		BOOST_AUTO_TEST_CASE(can_be_converted_to_string)
 		{
 			std::string correct = "Parallelepiped: mass = 1.000000, density = 1.000000, volume = 1.000000, depth = 1.000000, width = 1.000000, height = 1.000000";
 			BOOST_CHECK_EQUAL(parallelepiped.ToString(), correct);
@@ -187,12 +192,12 @@ BOOST_AUTO_TEST_SUITE(Cone)
 		{
 			BOOST_CHECK_EQUAL(cone.GetVolume(), 8.3775804095727811);
 		}
-		BOOST_AUTO_TEST_CASE(can_be_comeared)
+		BOOST_AUTO_TEST_CASE(can_be_compared)
 		{
 			BOOST_CHECK(cone == CCone(1, 2, 2));
 			BOOST_CHECK(!(cone == CCone(2, 1, 1)));
 		}
-		BOOST_AUTO_TEST_CASE(can_convert_to_string)
+		BOOST_AUTO_TEST_CASE(can_be_converted_to_string)
 		{
 			BOOST_CHECK_EQUAL(cone.ToString(), "Cone: mass = 8.377580, density = 1.000000, volume = 8.377580, base radius = 2.000000, height = 2.000000");
 		}
@@ -233,12 +238,12 @@ BOOST_AUTO_TEST_SUITE(Cylinder)
 		{
 			BOOST_CHECK_EQUAL(cylinder.GetVolume(), 50.26548245743669);
 		}
-		BOOST_AUTO_TEST_CASE(can_be_comeared)
+		BOOST_AUTO_TEST_CASE(can_be_compared)
 		{
 			BOOST_CHECK(cylinder == CCylinder(1, 2, 2));
 			BOOST_CHECK(!(cylinder == CCylinder(2, 1, 1)));
 		}
-		BOOST_AUTO_TEST_CASE(can_convert_to_string)
+		BOOST_AUTO_TEST_CASE(can_be_converted_to_string)
 		{
 			BOOST_CHECK_EQUAL(cylinder.ToString(), "Cylinder: mass = 50.265482, density = 1.000000, volume = 50.265482, base radius = 2.000000, height = 2.000000");
 		}
@@ -280,12 +285,12 @@ BOOST_FIXTURE_TEST_SUITE(Compound_on_create, CompoundFixture)
 	BOOST_AUTO_TEST_CASE(can_add_compound_child)
 	{
 		std::shared_ptr<CCompound> compoundChild = std::make_shared<CCompound>(CCompound());
-		std::shared_ptr<CBody> sphere = std::make_shared<CSphere>(CSphere(2, 1));
+		std::shared_ptr<CBody> sphere = std::make_shared<CSphere>(2, 1);
 		BOOST_CHECK(compoundChild->AddChild(sphere));
 		BOOST_CHECK(compound->AddChild(compoundChild));
 		BOOST_CHECK(!compound->IsEmpty());
 	}
-	BOOST_AUTO_TEST_CASE(can_convet_to_string)
+	BOOST_AUTO_TEST_CASE(can_be_conveted_to_string)
 	{
 		BOOST_CHECK_EQUAL(compound->ToString(), "Compound:\n");
 	}
@@ -293,8 +298,8 @@ BOOST_FIXTURE_TEST_SUITE(Compound_on_create, CompoundFixture)
 	{
 		On_add_simple_childs_()
 		{
-			compound->AddChild(std::make_shared<CParallelepiped>(CParallelepiped(1, 1, 1, 1)));
-			compound->AddChild(std::make_shared<CSphere>(CSphere(1, 2)));
+			compound->AddChild(std::make_shared<CParallelepiped>(1, 1, 1, 1));
+			compound->AddChild(std::make_shared<CSphere>(1, 2));
 		}
 	};
 	BOOST_FIXTURE_TEST_SUITE(On_add_simple_childs, On_add_simple_childs_)
@@ -310,7 +315,7 @@ BOOST_FIXTURE_TEST_SUITE(Compound_on_create, CompoundFixture)
 		{
 			BOOST_CHECK_EQUAL(compound->GetDensity(), 1);
 		}
-		BOOST_AUTO_TEST_CASE(can_be_compeared)
+		BOOST_AUTO_TEST_CASE(can_be_compared)
 		{
 			std::shared_ptr<CCompound> compoundForCompear = std::make_shared<CCompound>(CCompound());
 			BOOST_CHECK(!(*compound == *compoundForCompear));
@@ -466,10 +471,10 @@ BOOST_AUTO_TEST_SUITE(GetEasiestBody_tests)
 	BOOST_AUTO_TEST_CASE(find_heaviest_body_in_simple_body_vector)
 	{
 		std::vector<std::shared_ptr<CBody>> testVector;
-		std::shared_ptr<CBody> cone = std::make_shared<CCone>(CCone(1, 2, 2));
-		testVector.emplace_back(std::make_shared<CSphere>(CSphere(1, 2)));
-		testVector.emplace_back(cone);
-		BOOST_CHECK(cone == GetEasiestBody(testVector));
+		std::shared_ptr<CBody> sphere = std::make_shared<CSphere>(CSphere(1, 2));
+		testVector.emplace_back(sphere);
+		testVector.emplace_back(std::make_shared<CCone>(CCone(1, 2, 2)));
+		BOOST_CHECK(sphere == GetEasiestBody(testVector));
 	}
 	BOOST_AUTO_TEST_CASE(find_heaviest_body_in_simple_and_compound_body_vector)
 	{

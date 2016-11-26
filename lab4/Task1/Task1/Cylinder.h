@@ -1,7 +1,7 @@
 #pragma once
 #include "Body.h"
 
-class CCylinder : public CBody
+class CCylinder : public CEqualityComparable<CBody, CCylinder>
 {
 public:
 	CCylinder() = delete;
@@ -10,7 +10,6 @@ public:
 	double GetVolume() const;
 	double GetHeight() const;
 	double GetBaseRadius() const;
-	bool IsEqual(CBody * element) const;
 	bool operator==(const CCylinder & arg) const;
 private:
 	double m_height = NAN;

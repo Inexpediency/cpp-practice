@@ -46,19 +46,6 @@ std::string CCone::ToString() const
 	return result;
 }
 
-bool CCone::IsEqual(CBody * element) const
-{
-	try
-	{
-		CCone & coneElement = dynamic_cast<CCone &>(*element);
-		return coneElement == *this;
-	}
-	catch (std::bad_cast &)
-	{
-		return false;
-	}
-}
-
 bool CCone::operator==(const CCone & arg) const
 {
 	return (arg.GetDensity() == GetDensity()) && 

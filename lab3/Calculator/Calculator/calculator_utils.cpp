@@ -27,7 +27,7 @@ std::vector<double> GetNumbers(const std::string & string)
 	std::smatch matchResult;
 	std::vector<double> result;
 	std::string str(string);
-	while (std::regex_search(str, matchResult, std::regex("(\\s|$)" + doubleNumberPattern)))
+	while (std::regex_search(str, matchResult, std::regex("(\\W|$)" + doubleNumberPattern)))
 	{
 		std::string number = matchResult[0];
 		str.erase(str.find(number), number.size());
@@ -35,6 +35,7 @@ std::vector<double> GetNumbers(const std::string & string)
 		{
 			number.erase(0, 1);
 		}
+		std::cout << number << std::endl;
 		result.insert(result.cend(), stod(number));
 	}
 	return result;
@@ -80,7 +81,6 @@ void ExecuteLet(CCalculator & calculator, const std::string & params)
 	}
 	std::vector<std::string> idents = GetIdents(params);
 	std::vector<double> numbers = GetNumbers(params);
-
 	if (idents.size() == 2)
 	{
 		AddValue(calculator, idents[0], idents[1]);

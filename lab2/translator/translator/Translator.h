@@ -1,5 +1,7 @@
 #pragma once
-#include "stdafx.h"
+#include <string>
+#include <map>
+#include <iostream>
 
 typedef std::map<std::string, std::string> Dictionary;
 

@@ -37,7 +37,7 @@ bool CCompound::HasChild(CBody * child) const
 	return false;
 }
 
-bool CCompound::AddChild(std::shared_ptr<CBody> childBody)
+bool CCompound::AddChild(const std::shared_ptr<CBody> & childBody)
 {
 	if (childBody != nullptr && !childBody->HasChild(this))
 	{
@@ -61,32 +61,18 @@ std::string CCompound::ToString() const
 	return result;
 }
 
-unsigned int CCompound::GetChildCount() const
+size_t CCompound::GetChildCount() const
 {
 	return m_children.size();
 }
 
-bool CCompound::IsEqual(CBody * element) const
-{
-	try
-	{
-		CCompound & compoundElement = dynamic_cast<CCompound &>(*element);
-		return compoundElement == *this;
-	}
-	catch (std::bad_cast &)
-	{
-		return false;
-	}
-}
-
-bool CCompound::HasEquel(CBody * child) const
+bool CCompound::HasEqual(CBody * child) const
 {	
 	for (auto element : m_children)
 	{
-		if (element->IsEqual(child))
-		{
-			return true;
-		}
+		return std::any_of(m_children.cbegin(), m_children.cend(), [&child](const auto & element){
+			return element->IsEqual(*child);
+		});
 	}
 	return false;
 }
@@ -95,14 +81,10 @@ bool CCompound::operator==(const CCompound & arg) const
 {
 	if (m_children.size() == arg.GetChildCount())
 	{
-		for (auto element : m_children)
+		return std::all_of(m_children.cbegin(), m_children.cend(), [&arg](const auto & element)
 		{
-			if (!arg.HasEquel(element.get()))
-			{
-				return false;
-			}
-		}
-		return true;
+			return arg.HasEqual(element.get());
+		});
 	}
 	return false;
 }

@@ -36,19 +36,6 @@ std::string CSphere::ToString() const
 	return result;
 }
 
-bool CSphere::IsEqual(CBody * element) const
-{
-	try
-	{
-		CSphere & sphereElement = dynamic_cast<CSphere &>(*element);
-		return sphereElement == *this;
-	}
-	catch (std::bad_cast &)
-	{
-		return false;
-	}
-}
-
 bool CSphere::operator==(const CSphere & arg) const
 {
 	return (arg.GetDensity() == GetDensity()) &&

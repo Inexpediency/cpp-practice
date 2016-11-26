@@ -123,15 +123,10 @@ std::shared_ptr<CCompound> GetCompound(std::istream & compound, std::ostream & e
 
 std::shared_ptr<CBody> GetHeaviestBody(const std::vector<std::shared_ptr<CBody>> & someBody)
 {
-	std::shared_ptr<CBody> max = nullptr;
-	for (auto i = someBody.begin(); i != someBody.end(); ++i)
-	{
-		if (max == nullptr || max->GetMass() < (*i)->GetMass())
-		{
-			max = *i;
-		}
-	}
-	return max;
+	auto max = std::max_element(someBody.cbegin(), someBody.cend(), [](const auto & arg1, const auto & arg2) {
+		return arg1->GetMass() < arg2->GetMass();
+	});
+	return (max == someBody.cend()) ? nullptr : *max;
 }
 
 double GetWeightInWater(const std::shared_ptr<CBody> & body)
@@ -141,13 +136,8 @@ double GetWeightInWater(const std::shared_ptr<CBody> & body)
 
 std::shared_ptr<CBody> GetEasiestBody(const std::vector<std::shared_ptr<CBody>> & someBody)
 {
-	std::shared_ptr<CBody> easiest = nullptr;
-	for (auto i = someBody.begin(); i != someBody.end(); ++i)
-	{
-		if (easiest == nullptr || GetWeightInWater(easiest) < (*i)->GetMass())
-		{
-			easiest = *i;
-		}
-	}
-	return easiest;
+	auto easiest = std::min_element(someBody.cbegin(), someBody.cend(), [](const auto & arg1, const auto & arg2) {
+		return GetWeightInWater(arg1) < GetWeightInWater(arg2);
+	});
+	return (easiest == someBody.cend()) ? nullptr : *easiest;
 }

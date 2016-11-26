@@ -55,19 +55,6 @@ std::string CParallelepiped::ToString() const
 	return result;
 }
 
-bool CParallelepiped::IsEqual(CBody * element) const
-{
-	try
-	{
-		CParallelepiped & parallelepipedElement = dynamic_cast<CParallelepiped &>(*element);
-		return parallelepipedElement == *this;
-	}
-	catch (std::bad_cast &)
-	{
-		return false;
-	}
-}
-
 bool CParallelepiped::operator==(const CParallelepiped & arg) const
 {
 	return (arg.GetDensity() == GetDensity()) &&

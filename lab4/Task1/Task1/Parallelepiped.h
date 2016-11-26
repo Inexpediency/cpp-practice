@@ -1,7 +1,7 @@
 #pragma once
 #include "Body.h"
 
-class CParallelepiped : public CBody
+class CParallelepiped : public CEqualityComparable<CBody, CParallelepiped>
 {
 public:
 	CParallelepiped() = delete;
@@ -11,7 +11,6 @@ public:
 	double GetHeight() const;
 	double GetWidth() const;
 	double GetDepth() const;
-	bool IsEqual(CBody * element) const;
 	bool operator==(const CParallelepiped & arg) const;
 private:
 	double m_width = NAN;
