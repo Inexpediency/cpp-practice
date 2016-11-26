@@ -35,7 +35,6 @@ std::vector<double> GetNumbers(const std::string & string)
 		{
 			number.erase(0, 1);
 		}
-		std::cout << number << std::endl;
 		result.insert(result.cend(), stod(number));
 	}
 	return result;
