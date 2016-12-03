@@ -35,16 +35,20 @@ CCylinder::CCylinder(double density, double baseRadius, double height)
 	m_density = density;
 }
 
-std::string CCylinder::ToString() const
+
+std::string CCylinder::NameToString() const
 {
-	std::string result = "Cylinder:";
-	result = result + " mass = " + std::to_string(GetMass()) + ",";
-	result = result + " density = " + std::to_string(GetDensity()) + ",";
-	result = result + " volume = " + std::to_string(GetVolume()) + ",";
-	result = result + " base radius = " + std::to_string(GetBaseRadius()) + ",";
+	return "Cylinder:";
+}
+
+std::string CCylinder::FieldsToString() const
+{
+	std::string result;
+	result = result + ", base radius = " + std::to_string(GetBaseRadius()) + ",";
 	result = result + " height = " + std::to_string(GetHeight());
 	return result;
 }
+
 
 bool CCylinder::operator==(const CCylinder & arg) const
 {

@@ -152,6 +152,7 @@
     <ClInclude Include="Cylinder.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Parallelepiped.h" />
+    <ClInclude Include="SolidBody.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />

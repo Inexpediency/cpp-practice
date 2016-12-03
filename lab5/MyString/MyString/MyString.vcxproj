@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{89D51649-AFEE-4A83-9005-FAB1983715DB}</ProjectGuid>
+    <ProjectGuid>{F361E658-2767-42FA-9A81-9661CAFD34D5}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>tests</RootNamespace>
+    <RootNamespace>MyString</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -93,9 +93,6 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <PostBuildEvent>
-      <Command>$(TargetPath) --log_level=test_suite</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -109,9 +106,6 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <PostBuildEvent>
-      <Command>$(TargetPath) --log_level=test_suite</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -129,9 +123,6 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <PostBuildEvent>
-      <Command>$(TargetPath) --log_level=test_suite</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -149,41 +140,24 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <PostBuildEvent>
-      <Command>$(TargetPath) --log_level=test_suite</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Task1\Body.h" />
-    <ClInclude Include="..\Task1\body_utils.h" />
-    <ClInclude Include="..\Task1\Compound.h" />
-    <ClInclude Include="..\Task1\Cone.h" />
-    <ClInclude Include="..\Task1\Cylinder.h" />
-    <ClInclude Include="..\Task1\Parallelepiped.h" />
-    <ClInclude Include="..\Task1\SolidBody.h" />
-    <ClInclude Include="..\Task1\Sphere.h" />
+    <ClInclude Include="MyString.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Task1\Body.cpp" />
-    <ClCompile Include="..\Task1\body_utils.cpp" />
-    <ClCompile Include="..\Task1\Compound.cpp" />
-    <ClCompile Include="..\Task1\Cone.cpp" />
-    <ClCompile Include="..\Task1\Cylinder.cpp" />
-    <ClCompile Include="..\Task1\Parallelepiped.cpp" />
-    <ClCompile Include="..\Task1\Sphere.cpp" />
+    <ClCompile Include="index.cpp" />
+    <ClCompile Include="MyString.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="tests.cpp" />
-    <ClCompile Include="tests_logger.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

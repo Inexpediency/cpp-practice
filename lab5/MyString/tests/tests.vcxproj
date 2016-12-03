@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{89D51649-AFEE-4A83-9005-FAB1983715DB}</ProjectGuid>
+    <ProjectGuid>{198F3BF2-D625-406D-83E5-963A17E07B3D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>tests</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
@@ -157,25 +157,12 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Task1\Body.h" />
-    <ClInclude Include="..\Task1\body_utils.h" />
-    <ClInclude Include="..\Task1\Compound.h" />
-    <ClInclude Include="..\Task1\Cone.h" />
-    <ClInclude Include="..\Task1\Cylinder.h" />
-    <ClInclude Include="..\Task1\Parallelepiped.h" />
-    <ClInclude Include="..\Task1\SolidBody.h" />
-    <ClInclude Include="..\Task1\Sphere.h" />
+    <ClInclude Include="..\MyString\MyString.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Task1\Body.cpp" />
-    <ClCompile Include="..\Task1\body_utils.cpp" />
-    <ClCompile Include="..\Task1\Compound.cpp" />
-    <ClCompile Include="..\Task1\Cone.cpp" />
-    <ClCompile Include="..\Task1\Cylinder.cpp" />
-    <ClCompile Include="..\Task1\Parallelepiped.cpp" />
-    <ClCompile Include="..\Task1\Sphere.cpp" />
+    <ClCompile Include="..\MyString\MyString.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

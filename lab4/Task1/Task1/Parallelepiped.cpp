@@ -43,13 +43,15 @@ CParallelepiped::CParallelepiped(double density, double width, double height, do
 	m_density = density;
 }
 
-std::string CParallelepiped::ToString() const
+std::string CParallelepiped::NameToString() const
 {
-	std::string result = "Parallelepiped:";
-	result = result + " mass = " + std::to_string(GetMass()) + ",";
-	result = result + " density = " + std::to_string(GetDensity()) + ",";
-	result = result + " volume = " + std::to_string(GetVolume()) + ",";
-	result = result + " depth = " + std::to_string(GetDepth()) + ",";
+	return "Parallelepiped:";
+}
+
+std::string CParallelepiped::FieldsToString() const
+{
+	std::string result;
+	result = result + ", depth = " + std::to_string(GetDepth()) + ",";
 	result = result + " width = " + std::to_string(GetWidth()) + ",";
 	result = result + " height = " + std::to_string(GetHeight());
 	return result;

@@ -1,6 +1,3 @@
-// tests.cpp : Defines the entry point for the console application.
-//
-
 #include "stdafx.h"
 #include <boost/test/output_test_stream.hpp> 
 #include "../Task1/Body.h"
@@ -10,11 +7,12 @@
 #include "../Task1/Cylinder.h"
 #include "../Task1/Compound.h"
 #include "../Task1/body_utils.h"
+#include "..//Task1/SolidBody.h"
 #include "tests.h"
 
 typedef boost::test_tools::output_test_stream boost_test_stream;
 
-class CBodyChild : public CEqualityComparable<CBody, CBodyChild>
+class CBodyChild : public CEqualityComparable<CBody, CBodyChild>, virtual public CSolidBody
 {
 public:
 	CBodyChild() = delete;
@@ -31,7 +29,6 @@ public:
 	{
 		return m_volume;
 	}
-
 	bool operator==(const CBodyChild & arg) const
 	{
 		return false;
@@ -45,10 +42,6 @@ struct  BodyFixture
 	CBodyChild body = CBodyChild(1, 10);
 };
 BOOST_FIXTURE_TEST_SUITE(Body_child_on_create, BodyFixture)
-	BOOST_AUTO_TEST_CASE(have_not_child)
-	{
-		BOOST_CHECK(!body.HasChild());
-	}
 	BOOST_AUTO_TEST_CASE(know_its_volume)
 	{
 		BOOST_CHECK_EQUAL(body.GetVolume(), 10);
@@ -282,6 +275,15 @@ BOOST_FIXTURE_TEST_SUITE(Compound_on_create, CompoundFixture)
 		BOOST_CHECK(!compound->AddChild(parent));
 		BOOST_CHECK(compound->IsEmpty());
 	}
+	BOOST_AUTO_TEST_CASE(can_not_add_added_compound)
+	{
+		std::shared_ptr<CCompound> compoundChild = std::make_shared<CCompound>(CCompound());
+		std::shared_ptr<CBody> sphere = std::make_shared<CSphere>(2, 1);
+		BOOST_CHECK(compoundChild->AddChild(sphere));
+		BOOST_CHECK(compound->AddChild(compoundChild));
+		BOOST_CHECK(!compound->AddChild(compoundChild));
+		BOOST_CHECK(!compound->IsEmpty());
+	}
 	BOOST_AUTO_TEST_CASE(can_add_compound_child)
 	{
 		std::shared_ptr<CCompound> compoundChild = std::make_shared<CCompound>(CCompound());
@@ -292,7 +294,7 @@ BOOST_FIXTURE_TEST_SUITE(Compound_on_create, CompoundFixture)
 	}
 	BOOST_AUTO_TEST_CASE(can_be_conveted_to_string)
 	{
-		BOOST_CHECK_EQUAL(compound->ToString(), "Compound:\n");
+		BOOST_CHECK_EQUAL(compound->ToString(), "Compound:\n mass = 0.000000, density = -nan(ind), volume = 0.000000\n");
 	}
 	struct On_add_simple_childs_ : CompoundFixture
 	{

@@ -1,8 +1,9 @@
 #pragma once
 #include <string>
+class CCompound;
 
 template <typename Base, typename T>
-class CEqualityComparable : public Base
+class CEqualityComparable : virtual public Base
 {
 public:
 	bool IsEqual(const Base & body)const override
@@ -20,10 +21,12 @@ public:
 	virtual bool IsEqual(const CBody & body) const = 0;
 	virtual double GetVolume() const = 0;
 	virtual double GetMass() const;
-	virtual double GetDensity() const;
-	virtual bool HasChild(CBody * child = nullptr) const;
+	virtual double GetDensity() const = 0;
+	virtual bool SetParent(CCompound * compound = nullptr);
+	virtual bool IsCanAddedToCompound(CCompound * compound = nullptr) const;
 	virtual std::string ToString() const;
 	virtual ~CBody() {};
 protected:
-	double m_density = NAN;
+	virtual std::string NameToString() const;
+	virtual std::string FieldsToString() const;
 };

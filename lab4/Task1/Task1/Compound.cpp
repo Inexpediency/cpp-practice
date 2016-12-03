@@ -21,25 +21,39 @@ bool CCompound::IsEmpty() const
 	return m_children.empty();
 }
 
-bool CCompound::HasChild(CBody * child) const
+
+bool CCompound::SetParent(CCompound * compound)
 {
-	if (child == this)
+	if (m_parent == nullptr)
 	{
+		m_parent = compound;
 		return true;
-	}
-	for (auto & element : m_children)
-	{
-		if (element->HasChild(child))
-		{
-			return true;
-		}
 	}
 	return false;
 }
 
+CCompound * CCompound::GetParent() const
+{
+	return m_parent;
+}
+
+bool CCompound::IsCanAddedToCompound(CCompound * compound) const
+{
+	auto currentChild = compound;
+	while (currentChild)
+	{
+		if (currentChild == this)
+		{
+			return false;
+		}
+		currentChild = currentChild->GetParent();
+	}
+	return true;
+}
+
 bool CCompound::AddChild(const std::shared_ptr<CBody> & childBody)
 {
-	if (childBody != nullptr && !childBody->HasChild(this))
+	if (childBody != nullptr && childBody->SetParent(this) && childBody->IsCanAddedToCompound(this))
 	{
 		m_children.emplace_back(childBody);
 		m_mass += childBody->GetMass();
@@ -49,9 +63,14 @@ bool CCompound::AddChild(const std::shared_ptr<CBody> & childBody)
 	return false;
 }
 
-std::string CCompound::ToString() const
+std::string CCompound::NameToString() const
 {
-	std::string result = "Compound:\n";	
+	return "Compound:\n";
+}
+
+std::string CCompound::FieldsToString() const
+{
+	std::string result = "\n";
 	for (auto & element : m_children)
 	{
 		std::string elementStr = element->ToString();

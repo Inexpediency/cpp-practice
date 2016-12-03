@@ -35,13 +35,15 @@ CCone::CCone(double density, double baseRadius, double height)
 	m_density = density;
 }
 
-std::string CCone::ToString() const
+std::string CCone::NameToString() const
 {
-	std::string result = "Cone:";
-	result = result + " mass = " + std::to_string(GetMass()) + ",";
-	result = result + " density = " + std::to_string(GetDensity()) + ",";
-	result = result + " volume = " + std::to_string(GetVolume()) + ",";
-	result = result + " base radius = " + std::to_string(GetBaseRadius()) + ",";
+	return "Cone:";
+}
+
+std::string CCone::FieldsToString() const
+{
+	std::string result;
+	result = result + ", base radius = " + std::to_string(GetBaseRadius()) + ",";
 	result = result + " height = " + std::to_string(GetHeight());
 	return result;
 }

@@ -26,14 +26,14 @@ CSphere::CSphere(double density, double radius)
 	m_density = density;
 }
 
-std::string CSphere::ToString() const
+std::string CSphere::NameToString() const
 {
-	std::string result = "Sphere:";
-	result = result + " mass = " + std::to_string(GetMass()) + ",";
-	result = result + " density = " + std::to_string(GetDensity()) + ",";
-	result = result + " volume = " + std::to_string(GetVolume()) + ",";
-	result = result + " radius = " + std::to_string(GetRadius());
-	return result;
+	return "Sphere:";
+}
+
+std::string CSphere::FieldsToString() const
+{
+	return ", radius = " + std::to_string(GetRadius());
 }
 
 bool CSphere::operator==(const CSphere & arg) const
