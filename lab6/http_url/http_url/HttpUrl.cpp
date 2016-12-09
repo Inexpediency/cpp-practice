@@ -150,3 +150,14 @@ std::string CHttpUrl::GetDocument() const
 {
 	return m_document;
 }
+
+std::string CHttpUrl::ToString() const
+{
+	std::string result;
+	result += GetURL() + "\n";
+	result += ProtocolToString(GetProtocol()) + "\n";
+	result += GetDomain() + "\n";
+	result += std::to_string(GetPort()) + "\n";
+	result += GetDocument() + "\n";
+	return result;
+}

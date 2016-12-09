@@ -48,6 +48,9 @@ public:
 
 	// возвращает номер порта
 	unsigned short GetPort()const;
+	
+	//конвертирует данные об url`е в строку
+	std::string ToString()const;
 private:
 	Protocol m_protocol;
 	std::string m_document;
