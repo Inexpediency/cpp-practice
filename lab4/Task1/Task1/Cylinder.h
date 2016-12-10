@@ -3,7 +3,7 @@
 #include "SolidBody.h"
 
 class CCylinder : 
-	public CEqualityComparable<CBody, CCylinder>, public CSolidBody
+	public CEqualityComparable<CSolidBody, CCylinder>
 {
 public:
 	CCylinder() = delete;

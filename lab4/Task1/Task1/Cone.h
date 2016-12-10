@@ -2,7 +2,7 @@
 #include "Body.h"
 #include "SolidBody.h"
 class CCone : 
-	public CEqualityComparable<CBody, CCone>, public CSolidBody
+	public CEqualityComparable<CSolidBody, CCone>
 {
 public:
 	CCone() = delete;

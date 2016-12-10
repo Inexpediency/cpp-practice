@@ -3,7 +3,7 @@
 #include "SolidBody.h"
 
 class CParallelepiped : 
-	public CEqualityComparable<CBody, CParallelepiped>, public CSolidBody
+	public CEqualityComparable<CSolidBody, CParallelepiped>
 {
 public:
 	CParallelepiped() = delete;

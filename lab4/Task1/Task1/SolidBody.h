@@ -1,7 +1,7 @@
 #pragma once
 #include "Body.h"
 
-class CSolidBody : virtual public CBody
+class CSolidBody : public CBody
 {
 public:
 	double GetDensity() const override

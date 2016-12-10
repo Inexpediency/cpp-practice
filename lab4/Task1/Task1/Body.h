@@ -1,12 +1,12 @@
 #pragma once
 #include <string>
 class CCompound;
-
+class CBody;
 template <typename Base, typename T>
 class CEqualityComparable : virtual public Base
 {
 public:
-	bool IsEqual(const Base & body)const override
+	bool IsEqual(const CBody & body)const override
 	{
 		auto bodyAsT = dynamic_cast<const T*>(&body);
 		auto selfAsT = static_cast<const T*>(this);

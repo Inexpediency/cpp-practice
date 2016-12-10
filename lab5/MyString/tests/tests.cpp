@@ -17,6 +17,8 @@ BOOST_AUTO_TEST_SUITE(My_string)
 		char a[] = "This is the string with \0 symbol";
 		CMyString string(a, strlen(a) + 7);
 		BOOST_CHECK(memcmp(string.GetStringData(), a, sizeof(a)));
+		CMyString string1("", 0);
+		BOOST_CHECK_EQUAL(string1.GetStringData(), "");
 	}
 	BOOST_AUTO_TEST_CASE(can_be_init_by_other_object_MyString_class)
 	{
@@ -304,15 +306,15 @@ BOOST_AUTO_TEST_SUITE(My_string)
 			}
 			BOOST_AUTO_TEST_CASE(can_be_incremented)
 			{
-				BOOST_CHECK(*++itBegin == 'o');
-				BOOST_CHECK(*(itBegin++) == 'o');
-				BOOST_CHECK(*itBegin == 'm');
+				BOOST_CHECK_EQUAL(*++itBegin, 'o');
+				BOOST_CHECK_EQUAL(*(itBegin++), 'o');
+				BOOST_CHECK_EQUAL(*itBegin, 'm');
 			}
 			BOOST_AUTO_TEST_CASE(can_be_decremented)
 			{
-				BOOST_CHECK(*--itEnd == 'e');
-				BOOST_CHECK(*(itEnd--) == 'e');
-				BOOST_CHECK(*itEnd, 'n');
+				BOOST_CHECK_EQUAL(*--itEnd, 'e');
+				BOOST_CHECK_EQUAL(*(itEnd--), 'e');
+				BOOST_CHECK_EQUAL(*itEnd, 'n');
 			}
 		BOOST_AUTO_TEST_SUITE_END()
 	BOOST_AUTO_TEST_SUITE_END()

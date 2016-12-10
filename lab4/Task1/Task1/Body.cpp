@@ -16,12 +16,12 @@ std::string CBody::FieldsToString() const
 	return "";
 }
 
-bool CBody::IsCanAddedToCompound(CCompound * compound) const
+bool CBody::IsCanAddedToCompound(CCompound *) const
 {
 	return true;
 }
 
-bool CBody::SetParent(CCompound * compound)
+bool CBody::SetParent(CCompound *)
 {
 	return true;
 }

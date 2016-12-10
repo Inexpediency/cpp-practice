@@ -42,14 +42,11 @@ public:
 	// очистка строки (строка становится снова нулевой длины)
 	void Clear();
 	
-	CMyString operator=(CMyString & argument);
-	CMyString operator=(CMyString && argument);
-	CMyString operator+=(CMyString argument);
+	CMyString & operator=(const CMyString & argument);
+	CMyString & operator=(CMyString && argument);
+	CMyString & operator+=(const CMyString & argument);
 	char & operator[](size_t index);
-	char operator[](size_t index) const;
-
-	//запрещает освобождать память выделенную под хранение строки
-	void SetMoved();
+	char & operator[](size_t index) const;
 
 	//итератор
 	class CIterator
@@ -82,17 +79,16 @@ public:
 	//возращает итератор на конец строки
 	CMyString::CIterator end() const;
 private:
-	bool m_isMoved = false;
 	char * m_bufferPtr = nullptr;
 	size_t m_bufferSize = 0;
 	size_t m_length = 0;
 };
 
 
-CMyString operator+(CMyString argument1, CMyString argument2);
-bool operator==(CMyString argument1, CMyString argument2);
-bool operator!=(CMyString argument1, CMyString argument2);
-bool operator<(CMyString argument1, CMyString argument2);
-bool operator<=(CMyString argument1, CMyString argument2);
-bool operator>(CMyString argument1, CMyString argument2);
-bool operator>=(CMyString argument1, CMyString argument2);
+CMyString && operator+(const CMyString & argument1, const CMyString & argument2);
+bool operator==(const CMyString & argument1, const CMyString & argument2);
+bool operator!=(const CMyString & argument1, const CMyString & argument2);
+bool operator<(const CMyString & argument1, const CMyString & argument2);
+bool operator<=(const CMyString & argument1, const CMyString & argument2);
+bool operator>(const CMyString & argument1, const CMyString & argument2);
+bool operator>=(const CMyString & argument1, const CMyString & argument2);

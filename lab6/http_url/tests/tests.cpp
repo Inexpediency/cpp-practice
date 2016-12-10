@@ -102,4 +102,26 @@ BOOST_AUTO_TEST_SUITE(HttpUrl)
 			BOOST_CHECK_THROW(CHttpUrl("com.", "//", Protocol::HTTP), CUrlParsingError);
 		}
 	BOOST_AUTO_TEST_SUITE_END()
+	struct HttpUrlFixture
+	{
+		CHttpUrl httpUrl = CHttpUrl("http://mysity.com:80/doc/pic.com");
+		CHttpUrl httpsUrl = CHttpUrl("https://mysity.com:100/doc/pic.com");
+	};
+	BOOST_FIXTURE_TEST_SUITE(HttpUrl_on_create, HttpUrlFixture)
+		BOOST_AUTO_TEST_CASE(know_himself_url)
+		{
+			BOOST_CHECK_EQUAL(httpUrl.GetURL(), "http://mysity.com/doc/pic.com");
+			BOOST_CHECK_EQUAL(httpsUrl.GetURL(), "https://mysity.com:100/doc/pic.com");
+		}
+		BOOST_AUTO_TEST_CASE(can_be_conveted_to_string)
+		{
+			BOOST_CHECK_EQUAL(httpUrl.ToString(), 
+R"foo(http://mysity.com/doc/pic.com
+http
+mysity.com
+80
+/doc/pic.com
+)foo");
+		}
+	BOOST_AUTO_TEST_SUITE_END()
 BOOST_AUTO_TEST_SUITE_END()

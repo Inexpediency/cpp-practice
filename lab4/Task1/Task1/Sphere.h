@@ -3,7 +3,7 @@
 #include "SolidBody.h"
 
 class CSphere :
-	public CEqualityComparable<CBody, CSphere>, public CSolidBody
+	public CEqualityComparable<CSolidBody, CSphere>
 {
 public:
 	CSphere() = delete;

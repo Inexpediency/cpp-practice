@@ -3,7 +3,7 @@
 
 char * AllocateEndLine()
 {
-	char * ptr = (char*)malloc(sizeof(char));
+	char * ptr = new char[1];
 	*ptr = '\0';
 	return ptr;
 }
@@ -11,6 +11,7 @@ char * AllocateEndLine()
 CMyString::CMyString()
 {
 	m_bufferPtr = AllocateEndLine();
+	m_bufferSize = sizeof(char);
 }
 
 CMyString::CMyString(const char * pString)
@@ -19,28 +20,30 @@ CMyString::CMyString(const char * pString)
 	{
 		m_length = strlen(pString);
 		m_bufferSize = (m_length + 1) * sizeof(char);
-		m_bufferPtr = (char*)malloc(m_bufferSize);
+		m_bufferPtr = new char[m_length + 1];
 		memcpy(m_bufferPtr, pString, m_bufferSize);
 	}
 	else
 	{
 		m_bufferPtr = AllocateEndLine();
+		m_bufferSize = sizeof(char);
 	}
 }
 
 CMyString::CMyString(const char * pString, size_t length)
 {
-	if (pString)
+	if (pString && length > 0)
 	{
 		m_length = length;
 		m_bufferSize = (m_length + 1) * sizeof(char);
-		m_bufferPtr = (char*)malloc(m_bufferSize);
+		m_bufferPtr = new char[m_length + 1];
 		memcpy(m_bufferPtr, pString, m_bufferSize - sizeof(char));
-		m_bufferPtr[m_length * sizeof(char)] = '\0';
+		m_bufferPtr[m_length] = '\0';
 	}
 	else
 	{
 		m_bufferPtr = AllocateEndLine();
+		m_bufferSize = sizeof(char);
 	}
 }
 
@@ -48,7 +51,7 @@ CMyString::CMyString(const CMyString & other)
 {
 	m_length = other.GetLength();
 	m_bufferSize = (m_length + 1) * sizeof(char);
-	m_bufferPtr = (char*)malloc(m_bufferSize);
+	m_bufferPtr = new char[m_length + 1];
 	memcpy(m_bufferPtr, other.GetStringData(), m_bufferSize);
 }
 
@@ -57,14 +60,14 @@ CMyString::CMyString(CMyString && other)
 	m_length = other.GetLength();
 	m_bufferSize = (m_length + 1) * sizeof(char);
 	m_bufferPtr = const_cast<char*>(other.GetStringData());
-	other.SetMoved();
+	other = "";
 }
 
 CMyString::CMyString(const std::string & stlString)
 {
 	m_length = stlString.length();
 	m_bufferSize = (m_length + 1) * sizeof(char);
-	m_bufferPtr = (char*)malloc(m_bufferSize);
+	m_bufferPtr = new char[m_length + 1];
 	memcpy(m_bufferPtr, stlString.c_str(), m_bufferSize);
 }
 
@@ -97,26 +100,23 @@ void CMyString::Clear()
 
 CMyString::~CMyString()
 {
-	if (!m_isMoved)
-	{
-		Clear();
-	}
+	Clear();
 }
 
-CMyString CMyString::operator=(CMyString & arg)
+CMyString & CMyString::operator=(const CMyString & arg)
 {
 	if (&arg != this)
 	{
 		Clear();
 		m_length = arg.GetLength();
 		m_bufferSize = (m_length + 1) * sizeof(char);
-		m_bufferPtr = (char*)malloc(m_bufferSize);
+		m_bufferPtr = new char[m_length + 1];
 		memcpy(m_bufferPtr, arg.GetStringData(), m_bufferSize);
 	}
 	return *this;
 }
 
-CMyString CMyString::operator=(CMyString && arg)
+CMyString & CMyString::operator=(CMyString && arg)
 {
 	if (&arg != this)
 	{
@@ -124,23 +124,21 @@ CMyString CMyString::operator=(CMyString && arg)
 		m_length = arg.GetLength();
 		m_bufferSize = (m_length + 1) * sizeof(char);
 		m_bufferPtr = const_cast<char*>(arg.GetStringData());
-		arg.SetMoved();
+		arg = "";
 	}
 	return *this;
 }
 
-CMyString operator+(CMyString arg1, CMyString arg2)
+CMyString && operator+(const CMyString & arg1, const CMyString & arg2)
 {
 	size_t newStrLen = arg1.GetLength() + arg2.GetLength();
-	char * temp = (char*)malloc(newStrLen * sizeof(char));
-	memcpy(temp, arg1.GetStringData(), (arg1.GetLength()) * sizeof(char));
-	memcpy(temp + arg1.GetLength() * sizeof(char), arg2.GetStringData(), arg2.GetLength() * sizeof(char));
-	auto tempObj = CMyString(temp, newStrLen);
-	free(temp);
-	return tempObj;
+	std::shared_ptr<char> temp(new char[newStrLen]);
+	memcpy(temp.get(), arg1.GetStringData(), (arg1.GetLength()) * sizeof(char));
+	memcpy(temp.get() + arg1.GetLength() * sizeof(char), arg2.GetStringData(), arg2.GetLength() * sizeof(char));
+	return std::move(CMyString(temp.get(), newStrLen));
 }
 
-CMyString CMyString::operator+=(CMyString arg)
+CMyString & CMyString::operator+=(const CMyString & arg)
 {
 	*this = *this + arg;
 	return *this;
@@ -155,7 +153,7 @@ char & CMyString::operator[](size_t index)
 	return m_bufferPtr[index];
 };
 
-char CMyString::operator[](size_t index) const
+char & CMyString::operator[](size_t index) const
 {
 	if (index >= m_length)
 	{
@@ -164,7 +162,7 @@ char CMyString::operator[](size_t index) const
 	return m_bufferPtr[index];
 }
 
-bool operator==(CMyString arg1, CMyString arg2)
+bool operator==(const CMyString & arg1, const CMyString & arg2)
 {
 	if (arg1.GetLength() == arg2.GetLength())
 	{
@@ -180,7 +178,7 @@ bool operator==(CMyString arg1, CMyString arg2)
 	return false;
 }
 
-bool operator<(CMyString arg1, CMyString arg2)
+bool operator<(const CMyString & arg1, const CMyString & arg2)
 {
 	size_t length = std::min(arg1.GetLength(), arg2.GetLength());
 	for (size_t i = 0; i < length; ++i)
@@ -197,7 +195,7 @@ bool operator<(CMyString arg1, CMyString arg2)
 	return arg1.GetLength() < arg2.GetLength();
 }
 
-bool operator<=(CMyString arg1, CMyString arg2)
+bool operator<=(const CMyString & arg1, const CMyString & arg2)
 {
 	size_t length = std::min(arg1.GetLength(), arg2.GetLength());
 	for (size_t i = 0; i < length; ++i)
@@ -214,24 +212,19 @@ bool operator<=(CMyString arg1, CMyString arg2)
 	return arg1.GetLength() <= arg2.GetLength();
 }
 
-bool operator>(CMyString arg1, CMyString arg2)
+bool operator>(const CMyString & arg1, const CMyString & arg2)
 {
 	return !(arg1 <= arg2);
 }
 
-bool operator>=(CMyString arg1, CMyString arg2)
+bool operator>=(const CMyString & arg1, const CMyString & arg2)
 {
 	return !(arg1 < arg2);
 }
 
-bool operator!=(CMyString arg1, CMyString arg2)
+bool operator!=(const CMyString & arg1, const CMyString & arg2)
 {
 	return !(arg1 == arg2);
-}
-
-void CMyString::SetMoved()
-{
-	m_isMoved = true;
 }
 
 char * CMyString::CIterator::GetBegin() const
@@ -249,7 +242,7 @@ char * CMyString::CIterator::GetElement() const
 
 bool CMyString::CIterator::operator==(CIterator other) const
 {
-	return *m_element == *other.GetElement() && m_begin == other.GetBegin() && m_end == other.GetEnd();
+	return m_element == other.GetElement();
 }
 
 bool CMyString::CIterator::operator!=(CIterator other) const
@@ -271,8 +264,12 @@ CMyString::CIterator CMyString::end() const
 
 CMyString::CIterator & CMyString::CIterator::operator++()
 {
-	m_element++;
-	m_element -= m_element > m_end ? 1 : 0;
+	++m_element;
+	if (m_element > m_end)
+	{
+		--m_element;
+		throw std::out_of_range("Iterator out of range");
+	}
 	return *this;
 }
 
@@ -286,7 +283,11 @@ CMyString::CIterator CMyString::CIterator::operator++(int)
 CMyString::CIterator & CMyString::CIterator::operator--()
 {
 	--m_element;
-	m_element += m_element < m_begin ? 1 : 0;
+	if (m_element < m_begin)
+	{
+		++m_element;
+		throw std::out_of_range("Iterator out of range");
+	}
 	return *this;
 }
 

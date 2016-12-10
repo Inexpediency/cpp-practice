@@ -52,7 +52,7 @@ std::shared_ptr<CCone> GetCone(const std::string & cone)
 		return nullptr;
 	}
 	std::vector<double> arguments = GetNumbers(cone);
-	return std::make_shared<CCone>(CCone(arguments[0], arguments[1], arguments[2]));
+	return std::make_shared<CCone>(arguments[0], arguments[1], arguments[2]);
 }
 
 std::shared_ptr<CCylinder> GetCylinder(const std::string & cylinder)
@@ -65,7 +65,7 @@ std::shared_ptr<CCylinder> GetCylinder(const std::string & cylinder)
 		return nullptr;
 	}
 	std::vector<double> arguments = GetNumbers(cylinder);
-	return std::make_shared<CCylinder>(CCylinder(arguments[0], arguments[1], arguments[2]));
+	return std::make_shared<CCylinder>(arguments[0], arguments[1], arguments[2]);
 }
 
 std::shared_ptr<CSphere> GetSphere(const std::string & sphere)
@@ -77,7 +77,7 @@ std::shared_ptr<CSphere> GetSphere(const std::string & sphere)
 		return nullptr;
 	}
 	std::vector<double> arguments = GetNumbers(sphere);
-	return std::make_shared<CSphere>(CSphere(arguments[0], arguments[1]));
+	return std::make_shared<CSphere>(arguments[0], arguments[1]);
 }
 
 std::shared_ptr<CParallelepiped> GetParallelepiped(const std::string & parallelepiped)
@@ -92,7 +92,7 @@ std::shared_ptr<CParallelepiped> GetParallelepiped(const std::string & parallele
 		return nullptr;
 	}
 	std::vector<double> arguments = GetNumbers(parallelepiped);
-	return std::make_shared<CParallelepiped>(CParallelepiped(arguments[0], arguments[1], arguments[2], arguments[3]));
+	return std::make_shared<CParallelepiped>(arguments[0], arguments[1], arguments[2], arguments[3]);
 }
 
 std::shared_ptr<CCompound> GetCompound(std::istream & compound, std::ostream & errorStream)

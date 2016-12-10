@@ -12,7 +12,7 @@
 
 typedef boost::test_tools::output_test_stream boost_test_stream;
 
-class CBodyChild : public CEqualityComparable<CBody, CBodyChild>, virtual public CSolidBody
+class CBodyChild : public CEqualityComparable<CSolidBody, CBodyChild>
 {
 public:
 	CBodyChild() = delete;
@@ -20,16 +20,12 @@ public:
 	{
 		m_density = density;
 		m_volume = volume;
-	};
-	bool IsEqual(CBody * element) const
-	{
-		return false;
 	}
 	double GetVolume() const
 	{
 		return m_volume;
 	}
-	bool operator==(const CBodyChild & arg) const
+	bool operator==(const CBodyChild &) const
 	{
 		return false;
 	}
@@ -254,7 +250,7 @@ BOOST_FIXTURE_TEST_SUITE(Compound_on_create, CompoundFixture)
 	}
 	BOOST_AUTO_TEST_CASE(can_add_simple_child)
 	{
-		std::shared_ptr<CBody> sphere = std::make_shared<CSphere>(CSphere(2, 1));
+		std::shared_ptr<CBody> sphere = std::make_shared<CSphere>(2, 1);
 		BOOST_CHECK(compound->AddChild(sphere));
 		BOOST_CHECK(!compound->IsEmpty());
 	}
@@ -321,8 +317,8 @@ BOOST_FIXTURE_TEST_SUITE(Compound_on_create, CompoundFixture)
 		{
 			std::shared_ptr<CCompound> compoundForCompear = std::make_shared<CCompound>(CCompound());
 			BOOST_CHECK(!(*compound == *compoundForCompear));
-			compoundForCompear->AddChild(std::make_shared<CParallelepiped>(CParallelepiped(1, 1, 1, 1)));
-			compoundForCompear->AddChild(std::make_shared<CSphere>(CSphere(1, 2)));
+			compoundForCompear->AddChild(std::make_shared<CParallelepiped>(1, 1, 1, 1));
+			compoundForCompear->AddChild(std::make_shared<CSphere>(1, 2));
 			BOOST_CHECK(*compound == *compoundForCompear);
 		}
 		BOOST_AUTO_TEST_CASE(can_convet_to_string)
@@ -417,8 +413,8 @@ BOOST_AUTO_TEST_SUITE(GetCompound_tests)
 	{
 		std::ifstream initData("compound_content_simple_body.txt");
 		std::shared_ptr<CCompound> compoundForCompear = std::make_shared<CCompound>(CCompound());
-		compoundForCompear->AddChild(std::make_shared<CParallelepiped>(CParallelepiped(1, 1, 1, 1)));
-		compoundForCompear->AddChild(std::make_shared<CSphere>(CSphere(1, 2)));
+		compoundForCompear->AddChild(std::make_shared<CParallelepiped>(1, 1, 1, 1));
+		compoundForCompear->AddChild(std::make_shared<CSphere>(1, 2));
 		std::shared_ptr<CCompound> compound = GetCompound(initData, std::cout);
 		BOOST_CHECK((compound != nullptr) && *compound == *compoundForCompear);
 	}
@@ -427,8 +423,8 @@ BOOST_AUTO_TEST_SUITE(GetCompound_tests)
 		std::ifstream initData("compound_content_compound_body.txt");
 		std::shared_ptr<CCompound> compoundForCompear = std::make_shared<CCompound>(CCompound());
 		std::shared_ptr<CCompound> compoundForAdd = std::make_shared<CCompound>(CCompound());
-		compoundForAdd->AddChild(std::make_shared<CParallelepiped>(CParallelepiped(1, 1, 1, 1)));
-		compoundForAdd->AddChild(std::make_shared<CSphere>(CSphere(1, 2)));
+		compoundForAdd->AddChild(std::make_shared<CParallelepiped>(1, 1, 1, 1));
+		compoundForAdd->AddChild(std::make_shared<CSphere>(1, 2));
 		compoundForCompear->AddChild(compoundForAdd);
 		std::shared_ptr<CCompound> compound = GetCompound(initData, std::cout);
 		BOOST_CHECK((compound != nullptr) && *compound == *compoundForCompear);
@@ -444,17 +440,17 @@ BOOST_AUTO_TEST_SUITE(GetHeaviestBody_tests)
 	BOOST_AUTO_TEST_CASE(find_heaviest_body_in_simple_body_vector)
 	{
 		std::vector<std::shared_ptr<CBody>> testVector;
-		std::shared_ptr<CBody> sphere = std::make_shared<CSphere>(CSphere(1, 2));
+		std::shared_ptr<CBody> sphere = std::make_shared<CSphere>(1, 2);
 		testVector.emplace_back(sphere);
-		testVector.emplace_back(std::make_shared<CCone>(CCone(1, 2, 2)));
+		testVector.emplace_back(std::make_shared<CCone>(1, 2, 2));
 		BOOST_CHECK(sphere == GetHeaviestBody(testVector));
 	}
 	BOOST_AUTO_TEST_CASE(find_heaviest_body_in_simple_and_compound_body_vector)
 	{
 		std::vector<std::shared_ptr<CBody>> testVector;
-		std::shared_ptr<CBody> sphere = std::make_shared<CSphere>(CSphere(1, 2));
+		std::shared_ptr<CBody> sphere = std::make_shared<CSphere>(1, 2);
 		testVector.emplace_back(sphere);
-		testVector.emplace_back(std::make_shared<CCone>(CCone(1, 2, 2)));
+		testVector.emplace_back(std::make_shared<CCone>(1, 2, 2));
 		std::shared_ptr<CCompound> compound = std::make_shared<CCompound>(CCompound());
 		compound->AddChild(sphere);
 		compound->AddChild(sphere);
@@ -473,18 +469,18 @@ BOOST_AUTO_TEST_SUITE(GetEasiestBody_tests)
 	BOOST_AUTO_TEST_CASE(find_heaviest_body_in_simple_body_vector)
 	{
 		std::vector<std::shared_ptr<CBody>> testVector;
-		std::shared_ptr<CBody> sphere = std::make_shared<CSphere>(CSphere(1, 2));
+		std::shared_ptr<CBody> sphere = std::make_shared<CSphere>(1, 2);
 		testVector.emplace_back(sphere);
-		testVector.emplace_back(std::make_shared<CCone>(CCone(1, 2, 2)));
+		testVector.emplace_back(std::make_shared<CCone>(1, 2, 2));
 		BOOST_CHECK(sphere == GetEasiestBody(testVector));
 	}
 	BOOST_AUTO_TEST_CASE(find_heaviest_body_in_simple_and_compound_body_vector)
 	{
 		std::vector<std::shared_ptr<CBody>> testVector;
-		std::shared_ptr<CBody> sphere = std::make_shared<CSphere>(CSphere(1, 2));
+		std::shared_ptr<CBody> sphere = std::make_shared<CSphere>(1, 2);
 		testVector.emplace_back(sphere);
-		testVector.emplace_back(std::make_shared<CCone>(CCone(1, 2, 2)));
-		std::shared_ptr<CCompound> compound = std::make_shared<CCompound>(CCompound());
+		testVector.emplace_back(std::make_shared<CCone>(1, 2, 2));
+		std::shared_ptr<CCompound> compound = std::make_shared<CCompound>();
 		compound->AddChild(sphere);
 		compound->AddChild(sphere);
 		testVector.emplace_back(compound);

@@ -7,7 +7,7 @@
 int main()
 {
 	CMyString a("a");
-	a = CMyString("abcd");
+	a = "abcd";
     return 0;
 }
 

@@ -13,16 +13,18 @@ Protocol StringToProtocol(const std::string & protocol)
 		return Protocol::HTTP;
 	else if (protocol == "https")
 		return Protocol::HTTPS;
-	else return Protocol::NO_PROTOCOL;
+	else 
+		return Protocol::NO_PROTOCOL;
 }
 
 std::string ProtocolToString(Protocol protocol)
 {
 	if (protocol == Protocol::HTTP)
-return "http";
+		return "http";
 	else if (protocol == Protocol::HTTPS)
 		return "https";
-	else return "No recognized protocol";
+	else 
+		return "No recognized protocol";
 }
 
 std::string ToLowCase(std::string str)
@@ -123,11 +125,11 @@ std::string CHttpUrl::GetURL() const
 {
 	if (m_port == static_cast<unsigned int>(m_protocol))
 	{
-		return m_protocol + "://" + m_domain + m_document;
+		return	ProtocolToString(m_protocol) + "://" + m_domain + m_document;
 	}
 	else
 	{
-		return m_protocol + "://" + m_domain + ":" + std::to_string(m_port) + m_document;
+		return ProtocolToString(m_protocol) + "://" + m_domain + ":" + std::to_string(m_port) + m_document;
 	}
 }
 
