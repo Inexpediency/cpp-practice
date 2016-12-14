@@ -71,8 +71,12 @@ BOOST_AUTO_TEST_SUITE(My_string)
 			}
 			BOOST_AUTO_TEST_CASE(rLink)
 			{
-				string = std::move(CMyString("Some string"));
-				BOOST_CHECK_EQUAL("Some string", string.GetStringData());
+				CMyString string1("string1");
+				string = std::move(string1);
+				CMyString string2;
+				string2 = std::move(string1);
+				BOOST_CHECK_EQUAL(string.GetStringData(), "string1");
+				BOOST_CHECK_EQUAL(string2.GetStringData(), "");
 			}
 		BOOST_AUTO_TEST_SUITE_END()
 		BOOST_AUTO_TEST_SUITE(can_be_split_into_substring)

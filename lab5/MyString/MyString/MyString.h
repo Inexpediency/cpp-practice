@@ -36,6 +36,8 @@ public:
 	// даже если строка пустая 
 	const char* GetStringData()const;
 
+	std::unique_ptr<char[]> & GetUniquePtrToData();
+
 	// возвращает подстроку с заданной позиции длиной не больше length символов
 	CMyString SubString(size_t start, size_t length = SIZE_MAX)const;
 	
@@ -53,24 +55,38 @@ public:
 	{
 	public:
 		CIterator() = default;
-		CMyString::CIterator::CIterator(char * element, char * begin, char * end)
+		CIterator(char * element, char * begin, char * end)
 			:m_element(element), m_begin(begin), m_end(end) {}
-		CMyString::CIterator::CIterator(CIterator & other)
+		CIterator(CIterator & other)
 			: m_element(other.GetElement()), m_begin(other.GetBegin()), m_end(other.GetEnd()) {}
 		char * GetBegin() const;
 		char * GetEnd() const;
 		char * GetElement() const;
 		bool operator==(CIterator other) const;
 		bool operator!=(CIterator other) const;
+		CMyString::CIterator & operator+(size_t n);
+		CMyString::CIterator & operator-(size_t n);
 		CMyString::CIterator & operator++();
 		CMyString::CIterator operator++(int);
 		CMyString::CIterator & operator--();
 		CMyString::CIterator operator--(int);
 		char & operator*() const;
-	private:
+		~CIterator() = default;
+	protected:
 		char * m_element = nullptr;
 		char * m_end = nullptr;
 		char * m_begin = nullptr;
+	};
+
+	class CConsIterator : public CIterator
+	{
+	public:
+		CConsIterator() = default;
+		CConsIterator(char * element, char * begin, char * end)
+			:CMyString::CIterator(element, begin, end) {};
+		CConsIterator(CIterator & other)
+			:CMyString::CIterator(other) {};
+		char operator*() const;
 	};
 
 	//возращает итератор на начало строки
@@ -78,14 +94,20 @@ public:
 
 	//возращает итератор на конец строки
 	CMyString::CIterator end() const;
+
+	//возращает константный итератор на начало строки
+	CMyString::CConsIterator сbegin() const;
+
+	//возращает константный итератор на конец строки
+	CMyString::CConsIterator сend() const;
 private:
-	char * m_bufferPtr = nullptr;
+	std::unique_ptr<char[]> m_bufferPtr = nullptr;
 	size_t m_bufferSize = 0;
 	size_t m_length = 0;
 };
 
 
-CMyString && operator+(const CMyString & argument1, const CMyString & argument2);
+CMyString operator+(const CMyString & argument1, const CMyString & argument2);
 bool operator==(const CMyString & argument1, const CMyString & argument2);
 bool operator!=(const CMyString & argument1, const CMyString & argument2);
 bool operator<(const CMyString & argument1, const CMyString & argument2);
