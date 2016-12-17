@@ -94,7 +94,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>OpenCppCoverage.exe $(ProjectDir) $(ProjectName).exe 
+      <Command>
 $(TargetPath) --log_level=test_suite</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -111,7 +111,7 @@ $(TargetPath) --log_level=test_suite</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>OpenCppCoverage.exe $(ProjectDir) $(ProjectName).exe 
+      <Command>
 $(TargetPath) --log_level=test_suite</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -132,7 +132,7 @@ $(TargetPath) --log_level=test_suite</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>OpenCppCoverage.exe $(ProjectDir) $(ProjectName).exe 
+      <Command>
 $(TargetPath) --log_level=test_suite</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -153,7 +153,7 @@ $(TargetPath) --log_level=test_suite</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>OpenCppCoverage.exe $(ProjectDir) $(ProjectName).exe 
+      <Command>
 $(TargetPath) --log_level=test_suite</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

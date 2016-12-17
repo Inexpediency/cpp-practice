@@ -6,8 +6,6 @@
 
 int main()
 {
-	CMyString a("abcd");
-	a = a + " a";
 	return 0;
 }
 

@@ -26,7 +26,8 @@ public:
 	CMyString(const std::string & stlString);
 
 	// деструктор класса - освобождает память, занимаемую символами строки
-	~CMyString();
+	// память освобождает деструктор unique_ptr
+	~CMyString() = default;
 
 	// возвращает длину строки (без учета завершающего нулевого символа)
 	size_t GetLength()const;
@@ -48,7 +49,7 @@ public:
 	CMyString & operator=(CMyString && argument);
 	CMyString & operator+=(const CMyString & argument);
 	char & operator[](size_t index);
-	char & operator[](size_t index) const;
+	const char & operator[](size_t index) const;
 
 	//итератор
 	class CIterator
@@ -64,8 +65,10 @@ public:
 		char * GetElement() const;
 		bool operator==(CIterator other) const;
 		bool operator!=(CIterator other) const;
-		CMyString::CIterator & operator+(size_t n);
-		CMyString::CIterator & operator-(size_t n);
+		CMyString::CIterator operator+(size_t n);
+		CMyString::CIterator operator-(size_t n);
+		CMyString::CIterator & operator+=(size_t n);
+		CMyString::CIterator & operator-=(size_t n);
 		CMyString::CIterator & operator++();
 		CMyString::CIterator operator++(int);
 		CMyString::CIterator & operator--();
@@ -86,7 +89,7 @@ public:
 			:CMyString::CIterator(element, begin, end) {};
 		CConsIterator(CIterator & other)
 			:CMyString::CIterator(other) {};
-		char operator*() const;
+		const char & operator*() const;
 	};
 
 	//возращает итератор на начало строки
@@ -96,10 +99,10 @@ public:
 	CMyString::CIterator end() const;
 
 	//возращает константный итератор на начало строки
-	CMyString::CConsIterator сbegin() const;
+	CMyString::CConsIterator cbegin() const;
 
 	//возращает константный итератор на конец строки
-	CMyString::CConsIterator сend() const;
+	CMyString::CConsIterator cend() const;
 private:
 	std::unique_ptr<char[]> m_bufferPtr = nullptr;
 	size_t m_bufferSize = 0;

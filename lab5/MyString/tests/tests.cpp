@@ -47,6 +47,11 @@ BOOST_AUTO_TEST_SUITE(My_string)
 		CMyString string;
 	};
 	BOOST_FIXTURE_TEST_SUITE(MyString_on_create, MyStringFixture)
+		BOOST_AUTO_TEST_CASE(can_be_cleared)
+		{
+			string.Clear();
+			BOOST_CHECK_EQUAL(string.GetStringData(), "\0");
+		}
 		BOOST_AUTO_TEST_SUITE(can_be_assigned_by)
 			BOOST_AUTO_TEST_CASE(constant_char_pointer)
 			{
@@ -173,10 +178,17 @@ BOOST_AUTO_TEST_SUITE(My_string)
 			string[0] = 's';
 			BOOST_CHECK_EQUAL(string[0], 's');
 		}
+		BOOST_AUTO_TEST_CASE(throw_exeption_if_out_of_range_when_get_value_by_index)
+		{
+			const CMyString constString(string);
+			BOOST_CHECK_THROW(constString[string.GetLength()], std::exception);
+			BOOST_CHECK_THROW(string[string.GetLength()], std::exception);
+		}
 		BOOST_AUTO_TEST_SUITE(can_be_compeared_with)
 			BOOST_AUTO_TEST_CASE(constant_char_pointer)
 			{
 				BOOST_CHECK("Some long string" == string);
+				BOOST_CHECK("Some ShortString" != string);
 				BOOST_CHECK("Some other long string" != string);
 			}
 			BOOST_AUTO_TEST_CASE(MyString)
@@ -202,9 +214,12 @@ BOOST_AUTO_TEST_SUITE(My_string)
 			BOOST_AUTO_TEST_CASE(constant_char_pointer)
 			{
 				BOOST_CHECK("Some long string" <= string);
+				BOOST_CHECK("Some long alert" <= string);
 				BOOST_CHECK("Some long" <= string);
 				BOOST_CHECK(!("Some long string e" <= string));
 				BOOST_CHECK("Some long" < string);
+				BOOST_CHECK("Some long alert" < string);
+				BOOST_CHECK(!("Some long zebra " < string));
 				BOOST_CHECK(!("Some long string" < string));
 				BOOST_CHECK(!("Some long string e" < string));
 			}
@@ -248,9 +263,11 @@ BOOST_AUTO_TEST_SUITE(My_string)
 			BOOST_AUTO_TEST_CASE(constant_char_pointer)
 			{
 				BOOST_CHECK("Some long string" >= string);
+				BOOST_CHECK("Some long zebra string" > string);
 				BOOST_CHECK(!("Some long" >= string));
 				BOOST_CHECK("Some long string e" >= string);
 				BOOST_CHECK(!("Some long" > string));
+				BOOST_CHECK("Some long zebra string" > string);
 				BOOST_CHECK(!("Some long string" > string));
 				BOOST_CHECK("Some long string e" > string);
 			}
@@ -296,6 +313,21 @@ BOOST_AUTO_TEST_SUITE(My_string)
 			auto it = string.begin();
 			BOOST_CHECK(*it == 'S');
 		}
+		BOOST_AUTO_TEST_CASE(can_create_constant_iterator_to_begin_of_string)
+		{
+			auto it = string.cbegin();
+			BOOST_CHECK(*it == 'S');
+		}
+		BOOST_AUTO_TEST_CASE(can_create_iterator_to_end_of_string)
+		{
+			auto it = string.end();
+			BOOST_CHECK_THROW(*it, std::exception);
+		}
+		BOOST_AUTO_TEST_CASE(can_create_constant_iterator_to_end_of_string)
+		{
+			auto it = string.cend();
+			BOOST_CHECK_THROW(*it, std::exception);
+		}
 		struct MyStringIteratorFixture
 		{
 			CMyString string = CMyString("Some line");
@@ -314,11 +346,53 @@ BOOST_AUTO_TEST_SUITE(My_string)
 				BOOST_CHECK_EQUAL(*(itBegin++), 'o');
 				BOOST_CHECK_EQUAL(*itBegin, 'm');
 			}
+			BOOST_AUTO_TEST_CASE(throw_exeption_if_out_of_range_by_increment)
+			{
+				BOOST_CHECK_THROW(itEnd++, std::exception);
+			}
 			BOOST_AUTO_TEST_CASE(can_be_decremented)
 			{
 				BOOST_CHECK_EQUAL(*--itEnd, 'e');
 				BOOST_CHECK_EQUAL(*(itEnd--), 'e');
 				BOOST_CHECK_EQUAL(*itEnd, 'n');
+			}
+			BOOST_AUTO_TEST_CASE(throw_exeption_if_out_of_range_by_decrement)
+			{
+				BOOST_CHECK_THROW(itBegin--, std::exception);
+			}
+			BOOST_AUTO_TEST_CASE(can_be_increase_by_index)
+			{
+				BOOST_CHECK_EQUAL(*(itBegin + 1), 'o');
+			}
+			BOOST_AUTO_TEST_CASE(throw_exeption_if_out_of_range_by_increase)
+			{
+				BOOST_CHECK_THROW(itEnd + 1, std::exception);
+			}
+			BOOST_AUTO_TEST_CASE(can_be_decrease_by_index)
+			{
+				BOOST_CHECK_EQUAL(*(itEnd - 1), 'e');
+			}
+			BOOST_AUTO_TEST_CASE(throw_exeption_if_out_of_range_by_decrease)
+			{
+				BOOST_CHECK_THROW(itBegin - 1, std::exception);
+			}
+			BOOST_AUTO_TEST_CASE(can_be_assigned_with_increasing)
+			{
+				itBegin += 1;
+				BOOST_CHECK_EQUAL(*itBegin, 'o');
+			}
+			BOOST_AUTO_TEST_CASE(throw_exeption_if_out_of_range_by_assigned_with_increasing)
+			{
+				BOOST_CHECK_THROW(itEnd += 1, std::exception);
+			}
+			BOOST_AUTO_TEST_CASE(can_be_assigned_with_decreasing)
+			{
+				itEnd -= 1;
+				BOOST_CHECK_EQUAL(*itEnd, 'e');
+			}
+			BOOST_AUTO_TEST_CASE(throw_exeption_if_out_of_range_by_assigned_with_decreasing)
+			{
+				BOOST_CHECK_THROW(itBegin -= 1, std::exception);
 			}
 		BOOST_AUTO_TEST_SUITE_END()
 	BOOST_AUTO_TEST_SUITE_END()

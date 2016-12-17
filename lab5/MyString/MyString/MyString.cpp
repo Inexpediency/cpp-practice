@@ -101,14 +101,9 @@ size_t CMyString::GetLength() const
 
 void CMyString::Clear()
 {
-	m_bufferPtr = nullptr;
-	m_bufferSize = 0;
+	m_bufferPtr = AllocateEndLine();
+	m_bufferSize = sizeof(char);
 	m_length = 0;
-}
-
-CMyString::~CMyString()
-{
-	Clear();
 }
 
 CMyString & CMyString::operator=(const CMyString & arg)
@@ -129,11 +124,11 @@ CMyString & CMyString::operator=(CMyString && arg)
 {
 	if (&arg != this)
 	{
+		CMyString emptyStr("");
 		Clear();
 		m_length = arg.GetLength();
 		m_bufferSize = (m_length + 1) * sizeof(char);
 		m_bufferPtr = move(arg.GetUniquePtrToData());
-		CMyString emptyStr("");
 		arg = emptyStr;
 	}
 	return *this;
@@ -164,7 +159,7 @@ char & CMyString::operator[](size_t index)
 	return m_bufferPtr[index];
 };
 
-char & CMyString::operator[](size_t index) const
+const char & CMyString::operator[](size_t index) const
 {
 	if (index >= m_length)
 	{
@@ -273,13 +268,13 @@ CMyString::CIterator CMyString::end() const
 	return CMyString::CIterator(end, m_bufferPtr.get(), end);
 }
 
-CMyString::CConsIterator CMyString::ñbegin() const
+CMyString::CConsIterator CMyString::cbegin() const
 {
 	char * end = m_bufferPtr.get() + m_bufferSize - sizeof(char);
 	return CMyString::CConsIterator(m_bufferPtr.get(), m_bufferPtr.get(), end);
 }
 
-CMyString::CConsIterator CMyString::ñend() const
+CMyString::CConsIterator CMyString::cend() const
 {
 	char * end = m_bufferPtr.get() + m_bufferSize - sizeof(char);
 	return CMyString::CConsIterator(end, m_bufferPtr.get(), end);
@@ -321,6 +316,36 @@ CMyString::CIterator CMyString::CIterator::operator--(int)
 	return copy;
 }
 
+CMyString::CIterator CMyString::CIterator::operator+(size_t n)
+{
+	if (m_element + n < m_begin || m_element + n > m_end)
+	{
+		throw std::out_of_range("Iterator out of range");
+	}
+	return CMyString::CIterator(m_element + n, m_begin, m_end);
+}
+
+CMyString::CIterator CMyString::CIterator::operator-(size_t n)
+{
+	if (m_element - n < m_begin || m_element - n > m_end)
+	{
+		throw std::out_of_range("Iterator out of range");
+	}
+	return CMyString::CIterator(m_element - n, m_begin, m_end);
+};
+
+CMyString::CIterator & CMyString::CIterator::operator-=(size_t n)
+{
+	*this = CMyString::CIterator::operator-(n);
+	return *this;
+};
+
+CMyString::CIterator & CMyString::CIterator::operator+=(size_t n)
+{
+	*this = CMyString::CIterator::operator+(n);
+	return *this;
+};
+
 char & CMyString::CIterator::operator*() const
 {
 	if (m_element == m_end)
@@ -330,11 +355,7 @@ char & CMyString::CIterator::operator*() const
 	return *m_element;
 }
 
-char CMyString::CConsIterator::operator*() const
+const char & CMyString::CConsIterator::operator*() const
 {
-	if (m_element == m_end)
-	{
-		throw std::logic_error("Can not get end iteratator value");
-	}
-	return *m_element;
+	return CIterator::operator*();
 }
