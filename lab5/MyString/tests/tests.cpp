@@ -331,10 +331,19 @@ BOOST_AUTO_TEST_SUITE(My_string)
 		struct MyStringIteratorFixture
 		{
 			CMyString string = CMyString("Some line");
-			CMyString::CIterator itBegin = string.begin();
-			CMyString::CIterator itEnd = string.end();
+			CMyString::CIterator<char> itBegin = string.begin();
+			CMyString::CIterator<char> itEnd = string.end();
 		};
 		BOOST_FIXTURE_TEST_SUITE(MyString_iterator_on_create, MyStringIteratorFixture)
+			BOOST_AUTO_TEST_CASE(can_use_in_range_based_for)
+			{
+				size_t len = 0;
+				for (auto ch : string)
+				{
+					++len;
+				}
+				BOOST_CHECK_EQUAL(string.GetLength(), len);
+			}
 			BOOST_AUTO_TEST_CASE(can_be_compeared)
 			{
 				BOOST_CHECK(itBegin == string.begin());
@@ -342,7 +351,7 @@ BOOST_AUTO_TEST_SUITE(My_string)
 			}
 			BOOST_AUTO_TEST_CASE(can_be_incremented)
 			{
-				BOOST_CHECK_EQUAL(*++itBegin, 'o');
+				BOOST_CHECK_EQUAL(*(++itBegin), 'o');
 				BOOST_CHECK_EQUAL(*(itBegin++), 'o');
 				BOOST_CHECK_EQUAL(*itBegin, 'm');
 			}
@@ -352,7 +361,7 @@ BOOST_AUTO_TEST_SUITE(My_string)
 			}
 			BOOST_AUTO_TEST_CASE(can_be_decremented)
 			{
-				BOOST_CHECK_EQUAL(*--itEnd, 'e');
+				BOOST_CHECK_EQUAL(*(--itEnd), 'e');
 				BOOST_CHECK_EQUAL(*(itEnd--), 'e');
 				BOOST_CHECK_EQUAL(*itEnd, 'n');
 			}
