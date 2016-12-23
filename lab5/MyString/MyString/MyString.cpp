@@ -1,41 +1,21 @@
 #include "stdafx.h"
 #include "MyString.h"
 
-std::unique_ptr<char[]> AllocateEndLine()
-{
-	char * ptr = new char[1];
-	*ptr = '\0';
-	return std::unique_ptr<char[]>(ptr);
-}
-
-CMyString::CMyString()
-{
-	m_bufferPtr = AllocateEndLine();
-	m_bufferSize = 1;
-}
-
 CMyString::CMyString(std::unique_ptr<char[]> & memoryBlock, size_t len)
 {
 	m_bufferPtr = std::move(memoryBlock);
 	m_bufferPtr[len] = '\0';
 	m_length = len;
-	m_bufferSize = len + 1;
 }
 
 CMyString::CMyString(const char * pString)
 {
 	size_t length;
-	if (pString && (length = strlen(pString)) != 0)
+	if (pString && (length = strlen(pString)) > 0)
 	{
 		m_bufferPtr = std::unique_ptr<char[]>(new char[length + 1]);
 		m_length = length;
-		m_bufferSize = (m_length + 1);
-		memcpy(m_bufferPtr.get(), pString, m_bufferSize);
-	}
-	else
-	{
-		m_bufferPtr = AllocateEndLine();
-		m_bufferSize = 1;
+		memcpy(m_bufferPtr.get(), pString, (m_length + 1));
 	}
 }
 
@@ -45,45 +25,49 @@ CMyString::CMyString(const char * pString, size_t length)
 	{
 		m_bufferPtr = std::unique_ptr<char[]>(new char[length + 1]);
 		m_length = length;
-		m_bufferSize = m_length + 1;
 		memcpy(m_bufferPtr.get(), pString, m_length);
 		m_bufferPtr.get()[m_length] = '\0';
-	}
-	else
-	{
-		m_bufferPtr = AllocateEndLine();
-		m_bufferSize = 1;
 	}
 }
 
 CMyString::CMyString(const CMyString & other)
 {
-	m_bufferPtr = std::unique_ptr<char[]>(new char[other.GetLength() + 1]);
-	m_length = other.GetLength();
-	m_bufferSize = m_length + 1;
-	memcpy(m_bufferPtr.get(), other.GetStringData(), m_bufferSize);
+	if (other.GetLength() > 0)
+	{
+		m_bufferPtr = std::unique_ptr<char[]>(new char[other.GetLength() + 1]);
+		m_length = other.GetLength();
+		memcpy(m_bufferPtr.get(), other.GetStringData(), m_length + 1);
+	}
 }
 
 CMyString::CMyString(CMyString && other)
 {
-	CMyString EmptyStr("");
-	m_length = other.GetLength();
-	m_bufferSize = m_length + 1;
-	m_bufferPtr = move(other.m_bufferPtr);
-	other = EmptyStr;
+	if (other.GetLength() > 0)
+	{
+		CMyString EmptyStr("");
+		m_length = other.GetLength();
+		m_bufferPtr = move(other.m_bufferPtr);
+		other = EmptyStr;
+	}
 }
 
 CMyString::CMyString(const std::string & stlString)
 {
-	m_bufferPtr = std::unique_ptr<char[]>(new char[stlString.length() + 1]);
-	m_length = stlString.length();
-	m_bufferSize = m_length + 1;
-	memcpy(m_bufferPtr.get(), stlString.c_str(), m_bufferSize);
+	if (stlString.length() > 0)
+	{
+		m_bufferPtr = std::unique_ptr<char[]>(new char[stlString.length() + 1]);
+		m_length = stlString.length();
+		memcpy(m_bufferPtr.get(), stlString.c_str(), m_length + 1);
+	}
 }
 
 const char * CMyString::GetStringData() const
 {
-	return m_bufferPtr.get();
+	if (m_bufferPtr.get())
+	{
+		return m_bufferPtr.get();
+	}
+	return &CMyString::m_emptyStr;
 }
 
 CMyString CMyString::SubString(size_t start, size_t length) const
@@ -103,21 +87,26 @@ size_t CMyString::GetLength() const
 
 void CMyString::Clear()
 {
-	m_bufferPtr = AllocateEndLine();
-	m_bufferSize = 1;
+	m_bufferPtr = nullptr;
 	m_length = 0;
 }
 
 CMyString & CMyString::operator=(const CMyString & arg)
 {
-	if (&arg != this)
+	if (&arg != this && arg.GetLength() > 0)
 	{
-		char * bufferTempPtr = new char[arg.GetLength() + 1];
-		Clear();
-		m_length = arg.GetLength();
-		m_bufferSize = m_length + 1;
-		m_bufferPtr = std::unique_ptr<char[]>(bufferTempPtr);
-		memcpy(bufferTempPtr, arg.GetStringData(), m_bufferSize);
+		if (arg.GetLength() > 0)
+		{
+			char * bufferTempPtr = new char[arg.GetLength() + 1];
+			Clear();
+			m_length = arg.GetLength();
+			m_bufferPtr = std::unique_ptr<char[]>(bufferTempPtr);
+			memcpy(bufferTempPtr, arg.GetStringData(), m_length + 1);
+		}
+		else
+		{
+			Clear();
+		}
 	}
 	return *this;
 }
@@ -126,12 +115,14 @@ CMyString & CMyString::operator=(CMyString && arg)
 {
 	if (&arg != this)
 	{
-		CMyString emptyStr("");
 		Clear();
-		m_length = arg.GetLength();
-		m_bufferSize = m_length + 1;
-		m_bufferPtr = move(arg.m_bufferPtr);
-		arg = emptyStr;
+		if (arg.GetLength() > 0)
+		{
+			CMyString emptyStr("");
+			m_length = arg.GetLength();
+			m_bufferPtr = std::move(arg.m_bufferPtr);
+			arg = emptyStr;
+		}
 	}
 	return *this;
 }
@@ -217,24 +208,24 @@ bool operator!=(const CMyString & arg1, const CMyString & arg2)
 
 CMyString::CIterator<char> CMyString::begin() const
 {
-	char * end = m_bufferPtr.get() + m_bufferSize - 1;
+	char * end = m_bufferPtr.get() + m_length;
 	return CMyString::CIterator<char>(m_bufferPtr.get(), m_bufferPtr.get(), end);
 }
 
 CMyString::CIterator<char> CMyString::end() const
 {
-	char * end = m_bufferPtr.get() + m_bufferSize - 1;
+	char * end = m_bufferPtr.get() + m_length;
 	return CMyString::CIterator<char>(end, m_bufferPtr.get(), end);
 }
 
 CMyString::CIterator<const char> CMyString::cbegin() const
 {
-	char * end = m_bufferPtr.get() + m_bufferSize - 1;
+	char * end = m_bufferPtr.get() + m_length;
 	return CMyString::CIterator<const char>(m_bufferPtr.get(), m_bufferPtr.get(), end);
 }
 
 CMyString::CIterator<const char> CMyString::cend() const
 {
-	char * end = m_bufferPtr.get() + m_bufferSize - 1;
+	char * end = m_bufferPtr.get() + m_length;
 	return CMyString::CIterator<const char>(end, m_bufferPtr.get(), end);
 }

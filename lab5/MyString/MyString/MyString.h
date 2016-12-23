@@ -4,7 +4,7 @@ class CMyString
 {
 public:
 	// конструктор по умолчанию
-	CMyString();
+	CMyString() = default;
 
 	// конструктор, инициализирующий строку данными строки
 	// с завершающим нулевым символом
@@ -175,7 +175,7 @@ public:
 private:
 	CMyString(std::unique_ptr<char[]> & memoryBlock, size_t len);
 private:
+	static const char m_emptyStr = '\0';
 	std::unique_ptr<char[]> m_bufferPtr = nullptr;
-	size_t m_bufferSize = 0;
 	size_t m_length = 0;
 };
