@@ -56,6 +56,7 @@ public:
 	class CIterator : public CBaseIterator<T>
 	{
 	public:
+		friend class CStringList;
 		CIterator(const std::shared_ptr<ListElement> & element) : CBaseIterator<T>(element) {};
 		CIterator & operator++()
 		{
@@ -125,14 +126,26 @@ public:
 			return copy;
 		}
 	};
-	CIterator<std::string> begin() const;
-	CIterator<std::string> end() const;
+	CIterator<std::string> begin();
+	CIterator<std::string> end();
+	CIterator<const std::string> begin() const;
+	CIterator<const std::string> end() const;
 	CIterator<const std::string> cbegin() const;
 	CIterator<const std::string> cend() const;
-	CReverseIterator<std::string> rbegin() const;
-	CReverseIterator<std::string> rend() const;
+	CReverseIterator<std::string> rbegin();
+	CReverseIterator<std::string> rend();
+	CReverseIterator<const std::string> rbegin() const;
+	CReverseIterator<const std::string> rend() const;
 	CReverseIterator<const std::string> crbegin() const;
 	CReverseIterator<const std::string> crend() const;
+	template<class T>
+	void Insert(const CIterator<T> & it, const std::string & string)
+	{
+		auto currentEl = std::make_shared<ListElement>(string, it.m_element->prev, it.m_element);
+		it.m_element->prev->next = currentEl;
+		it.m_element->prev = currentEl;
+		++m_length;
+	}
 private:
 	size_t m_length = 0;
 	std::shared_ptr<ListElement> m_begin = std::make_shared<ListElement>("", nullptr, nullptr);

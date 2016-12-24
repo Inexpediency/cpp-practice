@@ -18,18 +18,12 @@ CStringList::CStringList(const CStringList & other)
 CStringList::CStringList(CStringList && other)
 {
 	Clear();
-	auto begin = std::move(other.m_begin);
-	auto end = std::move(other.m_end);
-	size_t length = other.m_length;
-	other.m_begin = std::move(m_begin);
-	other.m_end = std::move(m_end);
-	other.m_length = m_length;
-	m_begin = begin;
-	m_end = end;
-	m_length = length;
+	std::swap(m_begin, other.m_begin);
+	std::swap(m_end, other.m_end);
+	std::swap(m_length, other.m_length);
 }
 
-void BreackLinks(std::shared_ptr<ListElement> & listStart)
+void BreakLinks(const std::shared_ptr<ListElement> & listStart)
 {
 	auto current = listStart;
 	auto next = listStart->next;
@@ -44,11 +38,11 @@ void BreackLinks(std::shared_ptr<ListElement> & listStart)
 
 CStringList::~CStringList()
 {
-	BreackLinks(m_begin);
+	BreakLinks(m_begin);
 }
 void CStringList::Clear()
 {
-	BreackLinks(m_begin);
+	BreakLinks(m_begin);
 	m_begin->next = m_end;
 	m_end->prev = m_begin;
 	m_length = 0;
@@ -89,13 +83,21 @@ std::string CStringList::GetFirstElement() const
 	return m_begin->next->value;
 }
 
-CStringList::CIterator<std::string> CStringList::begin() const
+CStringList::CIterator<std::string> CStringList::begin()
 {
 	return CStringList::CIterator<std::string>(m_begin->next);
 }
-CStringList::CIterator<std::string> CStringList::end()  const
+CStringList::CIterator<std::string> CStringList::end()
 {
 	return CStringList::CIterator<std::string>(m_end);
+}
+CStringList::CIterator<const std::string> CStringList::begin() const
+{
+	return CStringList::CIterator<const std::string>(m_begin->next);
+}
+CStringList::CIterator<const std::string> CStringList::end()  const
+{
+	return CStringList::CIterator<const std::string>(m_end);
 }
 CStringList::CIterator<const std::string> CStringList::cbegin() const
 {
@@ -106,13 +108,22 @@ CStringList::CIterator<const std::string> CStringList::cend() const
 	return CStringList::CIterator<const std::string>(m_end);
 }
 
-CStringList::CReverseIterator<std::string> CStringList::rbegin() const
+
+CStringList::CReverseIterator<std::string> CStringList::rbegin()
 {
 	return CStringList::CReverseIterator<std::string>(m_end->prev);
 }
-CStringList::CReverseIterator<std::string> CStringList::rend() const
+CStringList::CReverseIterator<std::string> CStringList::rend()
 {
 	return CStringList::CReverseIterator<std::string>(m_begin);
+}
+CStringList::CReverseIterator<const std::string> CStringList::rbegin() const
+{
+	return CStringList::CReverseIterator<const std::string>(m_end->prev);
+}
+CStringList::CReverseIterator<const std::string> CStringList::rend() const
+{
+	return CStringList::CReverseIterator<const std::string>(m_begin);
 }
 CStringList::CReverseIterator<const std::string> CStringList::crbegin() const
 {

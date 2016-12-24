@@ -30,14 +30,14 @@ BOOST_FIXTURE_TEST_SUITE(CStringList_on_create, StringListFixture)
 	{
 		_when_list_is_not_empty()
 		{
-			list.PushBack("Some string");
-			list.PushBack("Some string");
+			list.PushBack("Some string 1");
+			list.PushBack("Some string 2");
 		}
 	};
 	BOOST_FIXTURE_TEST_SUITE(when_list_is_not_empty, _when_list_is_not_empty)
 		BOOST_AUTO_TEST_CASE(can_be_cleared)
 		{
-			BOOST_CHECK_EQUAL(list.GetFirstElement(), "Some string");
+			BOOST_CHECK_EQUAL(list.GetFirstElement(), "Some string 1");
 			list.Clear();
 			BOOST_CHECK(list.IsEmpty());
 			BOOST_CHECK_EQUAL(list.GetFirstElement(), "");
@@ -45,36 +45,36 @@ BOOST_FIXTURE_TEST_SUITE(CStringList_on_create, StringListFixture)
 		BOOST_AUTO_TEST_CASE(can_create_new_list_by_copy_old)
 		{
 			CStringList newList = CStringList(list);
-			BOOST_CHECK_EQUAL(newList.GetFirstElement(), "Some string");
-			BOOST_CHECK_EQUAL(newList.GetLastElement(), "Some string");
+			BOOST_CHECK_EQUAL(newList.GetFirstElement(), "Some string 1");
+			BOOST_CHECK_EQUAL(newList.GetLastElement(), "Some string 2");
 			newList.Clear();
 			BOOST_CHECK_EQUAL(newList.GetFirstElement(), ""); 
-			BOOST_CHECK_EQUAL(list.GetFirstElement(), "Some string");
-			BOOST_CHECK_EQUAL(list.GetLastElement(), "Some string");
+			BOOST_CHECK_EQUAL(list.GetFirstElement(), "Some string 1");
+			BOOST_CHECK_EQUAL(list.GetLastElement(), "Some string 2");
 		}
 		BOOST_AUTO_TEST_CASE(can_create_new_list_by_move_old)
 		{
 			CStringList newList = CStringList(std::move(list));
-			BOOST_CHECK_EQUAL(newList.GetFirstElement(), "Some string");
-			BOOST_CHECK_EQUAL(newList.GetLastElement(), "Some string");
+			BOOST_CHECK_EQUAL(newList.GetFirstElement(), "Some string 1");
+			BOOST_CHECK_EQUAL(newList.GetLastElement(), "Some string 2");
 			BOOST_CHECK_EQUAL(list.GetFirstElement(), "");
 			BOOST_CHECK_EQUAL(list.GetLastElement(), "");
 		}
 		BOOST_AUTO_TEST_CASE(can_be_assigned_by_llink)
 		{
 			CStringList newList = list;
-			BOOST_CHECK_EQUAL(newList.GetFirstElement(), "Some string");
-			BOOST_CHECK_EQUAL(newList.GetLastElement(), "Some string");
+			BOOST_CHECK_EQUAL(newList.GetFirstElement(), "Some string 1");
+			BOOST_CHECK_EQUAL(newList.GetLastElement(), "Some string 2");
 			newList.Clear();
 			BOOST_CHECK_EQUAL(newList.GetFirstElement(), "");
-			BOOST_CHECK_EQUAL(list.GetFirstElement(), "Some string");
-			BOOST_CHECK_EQUAL(list.GetLastElement(), "Some string");
+			BOOST_CHECK_EQUAL(list.GetFirstElement(), "Some string 1");
+			BOOST_CHECK_EQUAL(list.GetLastElement(), "Some string 2");
 		}
 		BOOST_AUTO_TEST_CASE(can_be_assigned_by_rlink)
 		{
 			auto newList = std::move(list);
-			BOOST_CHECK_EQUAL(newList.GetFirstElement(), "Some string");
-			BOOST_CHECK_EQUAL(newList.GetLastElement(), "Some string");
+			BOOST_CHECK_EQUAL(newList.GetFirstElement(), "Some string 1");
+			BOOST_CHECK_EQUAL(newList.GetLastElement(), "Some string 2");
 			BOOST_CHECK_EQUAL(list.GetFirstElement(), "");
 			BOOST_CHECK_EQUAL(list.GetLastElement(), "");
 		}
@@ -84,14 +84,19 @@ BOOST_FIXTURE_TEST_SUITE(CStringList_on_create, StringListFixture)
 			for (auto el : list)
 			{
 				++i;
-				BOOST_CHECK_EQUAL(el, "Some string");
+				BOOST_CHECK_EQUAL(el, ("Some string " + std::to_string(i)));
 			}
-			BOOST_CHECK(i = 2);
+			i = 0;
+			for (const auto & el : list)
+			{
+				++i;
+				BOOST_CHECK_EQUAL(el, ("Some string " + std::to_string(i)));
+			}
 		}
 		BOOST_AUTO_TEST_CASE(can_create_iterator_to_begin)
 		{
 			auto it = list.begin();
-			BOOST_CHECK_EQUAL(*it, "Some string");
+			BOOST_CHECK_EQUAL(*it, "Some string 1");
 		}
 		BOOST_AUTO_TEST_CASE(can_create_iterator_to_end)
 		{
@@ -101,7 +106,7 @@ BOOST_FIXTURE_TEST_SUITE(CStringList_on_create, StringListFixture)
 		BOOST_AUTO_TEST_CASE(can_create_reverse_iterator_to_begin)
 		{
 			auto it = list.rbegin();
-			BOOST_CHECK_EQUAL(*it, "Some string");
+			BOOST_CHECK_EQUAL(*it, "Some string 2");
 		}
 		BOOST_AUTO_TEST_CASE(can_create_reverse_iterator_to_end)
 		{
@@ -138,10 +143,10 @@ BOOST_FIXTURE_TEST_SUITE(CStringList_on_create, StringListFixture)
 				cbegin++;
 				rbegin++;
 				crbegin++;
-				BOOST_CHECK_EQUAL(*begin, "Some string");
-				BOOST_CHECK_EQUAL(*cbegin, "Some string");
-				BOOST_CHECK_EQUAL(*rbegin, "Some string");
-				BOOST_CHECK_EQUAL(*crbegin, "Some string");
+				BOOST_CHECK_EQUAL(*begin, "Some string 2");
+				BOOST_CHECK_EQUAL(*cbegin, "Some string 2");
+				BOOST_CHECK_EQUAL(*rbegin, "Some string 1");
+				BOOST_CHECK_EQUAL(*crbegin, "Some string 1");
 			}
 			BOOST_AUTO_TEST_CASE(can_be_decremented)
 			{
@@ -149,10 +154,10 @@ BOOST_FIXTURE_TEST_SUITE(CStringList_on_create, StringListFixture)
 				cend--;
 				rend--;
 				crend--;
-				BOOST_CHECK_EQUAL(*end, "Some string");
-				BOOST_CHECK_EQUAL(*cend, "Some string");
-				BOOST_CHECK_EQUAL(*rend, "Some string");
-				BOOST_CHECK_EQUAL(*crend, "Some string");
+				BOOST_CHECK_EQUAL(*end, "Some string 2");
+				BOOST_CHECK_EQUAL(*cend, "Some string 2");
+				BOOST_CHECK_EQUAL(*rend, "Some string 1");
+				BOOST_CHECK_EQUAL(*crend, "Some string 1");
 			}
 			BOOST_AUTO_TEST_CASE(throw_exeption_when_out_of_range)
 			{
@@ -166,5 +171,12 @@ BOOST_FIXTURE_TEST_SUITE(CStringList_on_create, StringListFixture)
 				BOOST_CHECK_THROW(crend++, std::logic_error);
 			}
 		BOOST_AUTO_TEST_SUITE_END()
+		BOOST_AUTO_TEST_CASE(can_insert_element_in_iterator_pos)
+		{
+			list.Insert(list.end(), "New string");
+			BOOST_CHECK_EQUAL(list.GetLastElement(), "New string");
+			list.Insert(list.begin(), "New string");
+			BOOST_CHECK_EQUAL(list.GetFirstElement(), "New string");
+		}
 	BOOST_AUTO_TEST_SUITE_END()
 BOOST_AUTO_TEST_SUITE_END()
