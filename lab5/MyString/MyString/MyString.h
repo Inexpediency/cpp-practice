@@ -126,7 +126,7 @@ public:
 			return *this;
 		}
 		const CIterator operator++(int)
-			{
+		{
 				auto copy = *this;
 				++*this;
 				return copy;
