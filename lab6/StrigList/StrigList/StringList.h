@@ -25,21 +25,30 @@ public:
 	void PushBack(const std::string & string);
 	void PushFront(const std::string & string);
 	~CStringList();
-	
+
 	template <class T>
-	class CBaseIterator
+	class CIterator
 	{
 	public:
-		CBaseIterator(const std::shared_ptr<ListElement> & element) : m_element(element) {};
-		CBaseIterator & operator=(const CBaseIterator & other)
+		typedef std::bidirectional_iterator_tag iterator_category;
+		typedef T value_type;
+		typedef ptrdiff_t difference_type;
+		typedef T* pointer;
+		typedef T& reference;
+	public:
+		friend class CStringList;
+		CIterator() = default;
+		CIterator(const CIterator & it) : CIterator<T>(it.m_element) {};
+		CIterator(const std::shared_ptr<ListElement> & element) : m_element(element) {};
+		CIterator & operator=(const CIterator & other)
 		{
 			m_element = other.m_element;
 		}
-		bool operator==(const CBaseIterator & other) const
+		bool operator==(const CIterator & other) const
 		{
 			return m_element == other.m_element;
 		}
-		bool operator!=(const CBaseIterator & other) const
+		bool operator!=(const CIterator & other) const
 		{
 			return m_element != other.m_element;
 		}
@@ -51,25 +60,6 @@ public:
 			}
 			return m_element->value;
 		}
-		virtual ~CBaseIterator() = default;
-	protected:
-		std::shared_ptr<ListElement> m_element;
-	};
-
-	template <class T>
-	class CIterator : public CBaseIterator<T>
-	{
-	public:
-		typedef std::bidirectional_iterator_tag iterator_category;
-		typedef T value_type;
-		typedef ptrdiff_t difference_type;
-		typedef T* pointer;
-		typedef T& reference;
-	public:
-		friend class CStringList;
-		CIterator() = default;
-		CIterator(const std::shared_ptr<ListElement> & element) : CBaseIterator<T>(element) {};
-		CIterator(const CIterator & it) : CBaseIterator<T>(it.m_element) {};
 		CIterator & operator++()
 		{
 			if (!m_element->next)
@@ -100,6 +90,8 @@ public:
 			--*this;
 			return copy;
 		}
+	private:
+		std::shared_ptr<ListElement> m_element;
 	};
 	CIterator<std::string> begin();
 	CIterator<std::string> end();
