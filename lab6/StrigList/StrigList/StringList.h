@@ -31,6 +31,10 @@ public:
 	{
 	public:
 		CBaseIterator(const std::shared_ptr<ListElement> & element) : m_element(element) {};
+		CBaseIterator & operator=(const CBaseIterator & other)
+		{
+			m_element = other.m_element;
+		}
 		bool operator==(const CBaseIterator & other) const
 		{
 			return m_element == other.m_element;
@@ -56,8 +60,16 @@ public:
 	class CIterator : public CBaseIterator<T>
 	{
 	public:
+		typedef std::bidirectional_iterator_tag iterator_category;
+		typedef T value_type;
+		typedef ptrdiff_t difference_type;
+		typedef T* pointer;
+		typedef T& reference;
+	public:
 		friend class CStringList;
+		CIterator() = default;
 		CIterator(const std::shared_ptr<ListElement> & element) : CBaseIterator<T>(element) {};
+		CIterator(const CIterator & it) : CBaseIterator<T>(it.m_element) {};
 		CIterator & operator++()
 		{
 			if (!m_element->next)
@@ -89,55 +101,18 @@ public:
 			return copy;
 		}
 	};
-
-	template <class T>
-	class CReverseIterator : public CBaseIterator<T>
-	{
-	public:
-		CReverseIterator(const std::shared_ptr<ListElement> & element) : CBaseIterator<T>(element) {};
-		CReverseIterator & operator++()
-		{
-			if (m_element->prev == nullptr)
-			{
-				throw std::logic_error("iterator out of range");
-			}
-			m_element = m_element->prev;
-			return *this;
-		}
-		const CReverseIterator operator++(int)
-		{
-			auto copy = *this;
-			++*this;
-			return copy;
-		}
-		CReverseIterator & operator--()
-		{
-			if (m_element->next == nullptr || !m_element->next->next)
-			{
-				throw std::logic_error("iterator out of range");
-			}
-			m_element = m_element->next;
-			return *this;
-		}
-		const CReverseIterator operator--(int)
-		{
-			auto copy = *this;
-			--*this;
-			return copy;
-		}
-	};
 	CIterator<std::string> begin();
 	CIterator<std::string> end();
 	CIterator<const std::string> begin() const;
 	CIterator<const std::string> end() const;
 	CIterator<const std::string> cbegin() const;
 	CIterator<const std::string> cend() const;
-	CReverseIterator<std::string> rbegin();
-	CReverseIterator<std::string> rend();
-	CReverseIterator<const std::string> rbegin() const;
-	CReverseIterator<const std::string> rend() const;
-	CReverseIterator<const std::string> crbegin() const;
-	CReverseIterator<const std::string> crend() const;
+	std::reverse_iterator<CIterator<std::string>> rbegin();
+	std::reverse_iterator<CIterator<std::string>> rend();
+	std::reverse_iterator<CIterator<const std::string>> rbegin() const;
+	std::reverse_iterator<CIterator<const std::string>> rend() const;
+	std::reverse_iterator<CIterator<const std::string>> crbegin() const;
+	std::reverse_iterator<CIterator<const std::string>> crend() const;
 	template<class T>
 	void Insert(const CIterator<T> & it, const std::string & string)
 	{

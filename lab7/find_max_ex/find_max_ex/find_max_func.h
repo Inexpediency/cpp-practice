@@ -10,7 +10,7 @@ bool FindMax(const std::vector<T> & arr, T & maxValue, const Less & less = Less(
 	maxValue = *arr.begin();
 	for (const T & el : arr)
 	{
-		if (less(el, maxValue))
+		if (less(maxValue, el))
 		{
 			maxValue = el;
 		}

@@ -108,28 +108,27 @@ CStringList::CIterator<const std::string> CStringList::cend() const
 	return CStringList::CIterator<const std::string>(m_end);
 }
 
-
-CStringList::CReverseIterator<std::string> CStringList::rbegin()
+std::reverse_iterator<CStringList::CIterator<std::string>> CStringList::rbegin()
 {
-	return CStringList::CReverseIterator<std::string>(m_end->prev);
+	return std::reverse_iterator<CStringList::CIterator<std::string>>(end());
 }
-CStringList::CReverseIterator<std::string> CStringList::rend()
+std::reverse_iterator<CStringList::CIterator<std::string>> CStringList::rend()
 {
-	return CStringList::CReverseIterator<std::string>(m_begin);
+	return std::reverse_iterator<CStringList::CIterator<std::string>>(begin());
 }
-CStringList::CReverseIterator<const std::string> CStringList::rbegin() const
+std::reverse_iterator<CStringList::CIterator<const std::string>> CStringList::rbegin() const
 {
-	return CStringList::CReverseIterator<const std::string>(m_end->prev);
+	return std::reverse_iterator<CStringList::CIterator<const std::string>>(cend());
 }
-CStringList::CReverseIterator<const std::string> CStringList::rend() const
+std::reverse_iterator<CStringList::CIterator<const std::string>> CStringList::rend() const
 {
-	return CStringList::CReverseIterator<const std::string>(m_begin);
+	return std::reverse_iterator<CStringList::CIterator<const std::string>>(cbegin());
 }
-CStringList::CReverseIterator<const std::string> CStringList::crbegin() const
+std::reverse_iterator<CStringList::CIterator<const std::string>> CStringList::crbegin() const
 {
-	return CStringList::CReverseIterator<const std::string>(m_end->prev);
+	return std::reverse_iterator<CStringList::CIterator<const std::string>>(cend());
 }
-CStringList::CReverseIterator<const std::string> CStringList::crend() const
+std::reverse_iterator<CStringList::CIterator<const std::string>> CStringList::crend() const
 {
-	return CStringList::CReverseIterator<const std::string>(m_begin);
+	return std::reverse_iterator<CStringList::CIterator<const std::string>>(cbegin());
 }

@@ -124,10 +124,10 @@ BOOST_FIXTURE_TEST_SUITE(CStringList_on_create, StringListFixture)
 			CStringList::CIterator<std::string> end;
 			CStringList::CIterator<const std::string> cbegin;
 			CStringList::CIterator<const std::string> cend;
-			CStringList::CReverseIterator<std::string> rbegin;
-			CStringList::CReverseIterator<std::string> rend;
-			CStringList::CReverseIterator<const std::string> crbegin;
-			CStringList::CReverseIterator<const std::string> crend;
+			std::reverse_iterator<CStringList::CIterator<std::string>> rbegin;
+			std::reverse_iterator<CStringList::CIterator<std::string>> rend;
+			std::reverse_iterator<CStringList::CIterator<const std::string>> crbegin;
+			std::reverse_iterator<CStringList::CIterator<const std::string>> crend;
 		};
 		BOOST_FIXTURE_TEST_SUITE(CString_list_iterator, CStringListIteratorFixture)
 			BOOST_AUTO_TEST_CASE(throw_exeption_if_try_to_get_end_iterator_value)
@@ -168,7 +168,7 @@ BOOST_FIXTURE_TEST_SUITE(CStringList_on_create, StringListFixture)
 				BOOST_CHECK_THROW(end++, std::logic_error);
 				BOOST_CHECK_THROW(cend++, std::logic_error);
 				BOOST_CHECK_THROW(rend++, std::logic_error);
-				BOOST_CHECK_THROW(crend++, std::logic_error);
+				BOOST_CHECK_THROW(crend++, std::logic_error);	
 			}
 		BOOST_AUTO_TEST_SUITE_END()
 		BOOST_AUTO_TEST_CASE(can_insert_element_in_iterator_pos)
