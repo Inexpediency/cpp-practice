@@ -161,6 +161,21 @@ BOOST_FIXTURE_TEST_SUITE(CMyList_on_create, MyListFixture)
 
 			auto intIt = intList.begin();
 			BOOST_CHECK_EQUAL(*intIt, 1);
+
+			auto strCIt = stringList.cbegin();
+			BOOST_CHECK_EQUAL(*strCIt, "Some string 1");
+
+			auto intCIt = intList.cbegin();
+			BOOST_CHECK_EQUAL(*intCIt, 1);
+
+			const CMyList<std::string> constStringList = stringList;
+			const CMyList<int> constIntList = intList;
+
+			auto strConstIt = constStringList.begin();
+			BOOST_CHECK_EQUAL(*strCIt, "Some string 1");
+
+			auto intConstIt = constIntList.begin();
+			BOOST_CHECK_EQUAL(*intCIt, 1);
 		}
 		BOOST_AUTO_TEST_CASE(can_create_iterator_to_end)
 		{
@@ -169,14 +184,44 @@ BOOST_FIXTURE_TEST_SUITE(CMyList_on_create, MyListFixture)
 
 			auto intIt = intList.end();
 			BOOST_CHECK_THROW(*intIt, std::logic_error);
+
+			auto strCIt = stringList.cend();
+			BOOST_CHECK_THROW(*strCIt, std::logic_error);
+
+			auto intCIt = intList.cend();
+			BOOST_CHECK_THROW(*intCIt, std::logic_error);
+
+			const CMyList<std::string> constStringList = stringList;
+			const CMyList<int> constIntList = intList;
+
+			auto strConstIt = constStringList.end();
+			BOOST_CHECK_THROW(*strCIt, std::logic_error);
+
+			auto intConstIt = constIntList.end();
+			BOOST_CHECK_THROW(*intCIt, std::logic_error);
 		}
 		BOOST_AUTO_TEST_CASE(can_create_reverse_iterator_to_begin)
 		{
 			auto strIt = stringList.rbegin();
 			BOOST_CHECK_EQUAL(*strIt, "Some string 2");
 
-			auto intIt = intList.rbegin();
+			auto intIt = intList.crbegin();
 			BOOST_CHECK_EQUAL(*intIt, 2);
+
+			auto strCIt = stringList.crbegin();
+			BOOST_CHECK_EQUAL(*strCIt, "Some string 2");
+
+			auto intCIt = intList.rbegin();
+			BOOST_CHECK_EQUAL(*intCIt, 2);
+
+			const CMyList<std::string> constStringList = stringList;
+			const CMyList<int> constIntList = intList;
+
+			auto strConstIt = constStringList.rbegin();
+			BOOST_CHECK_EQUAL(*strCIt, "Some string 2");
+
+			auto intConstIt = constIntList.rbegin();
+			BOOST_CHECK_EQUAL(*intCIt, 2);
 		}
 		BOOST_AUTO_TEST_CASE(can_create_reverse_iterator_to_end)
 		{
@@ -185,6 +230,21 @@ BOOST_FIXTURE_TEST_SUITE(CMyList_on_create, MyListFixture)
 
 			auto intIt = intList.rend();
 			BOOST_CHECK_THROW(*intIt, std::logic_error);
+
+			auto str—It = stringList.crend();
+			BOOST_CHECK_THROW(*str—It, std::logic_error);
+
+			auto int—It = intList.crend();
+			BOOST_CHECK_THROW(*int—It, std::logic_error);
+
+			const CMyList<std::string> constStringList = stringList;
+			const CMyList<int> constIntList = intList;
+
+			auto str—onstIt = constStringList.rend();
+			BOOST_CHECK_THROW(*str—It, std::logic_error);
+
+			auto int—onstIt = constIntList.rend();
+			BOOST_CHECK_THROW(*int—It, std::logic_error);
 		}
 		struct CMyListIteratorFixture : _when_list_is_not_empty
 		{

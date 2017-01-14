@@ -78,19 +78,12 @@ public:
 
 	void PushBack(const T & el)
 	{
-
-		auto currentEl = std::make_shared<ListElement<T>>(el, m_end->prev, m_end);
-		m_end->prev->next = currentEl;
-		m_end->prev = currentEl;
-		++m_length;
+		Insert(end(), el);
 	}
 
 	void PushFront(const T & el)
 	{
-		auto currentEl = std::make_shared<ListElement<T>>(el, m_begin, m_begin->next);
-		m_begin->next->prev = currentEl;
-		m_begin->next = currentEl;
-		++m_length;
+		Insert(begin(), el);
 	}
 
 	~CMyList()
