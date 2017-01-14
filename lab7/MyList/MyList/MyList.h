@@ -38,19 +38,6 @@ public:
 		std::swap(m_length, other.m_length);
 	}
 
-	void BreakLinks(const std::shared_ptr<ListElement<T>> & listStart)
-	{
-		auto current = listStart;
-		auto next = listStart->next;
-		while (next)
-		{
-			current->next = nullptr;
-			current->prev = nullptr;
-			current = next;
-			next = current->next;
-		}
-	}
-
 	size_t GetSize() const
 	{
 		return m_length;
@@ -68,14 +55,23 @@ public:
 		m_end->prev = m_begin;
 		m_length = 0;
 	}
-	
-	T GetLastElement() const
-	{
 
+	T & GetLastElement()
+	{
 		return m_end->prev->value;
 	}
 
-	T GetFirstElement() const
+	T & GetFirstElement()
+	{
+		return m_begin->next->value;
+	}
+	
+	const T & GetLastElement() const
+	{
+		return m_end->prev->value;
+	}
+
+	const T & GetFirstElement() const
 	{
 		return m_begin->next->value;
 	}
@@ -115,7 +111,11 @@ public:
 		friend class CMyList;
 		CIterator() = default;
 		CIterator(const CIterator & it) : CIterator<IterTy>(it.m_element) {};
-		CIterator(const std::shared_ptr<ListElement<T>> & element) : m_element(element) {};
+		explicit CIterator(const std::shared_ptr<ListElement<T>> & element) : m_element(element) {};
+		operator CIterator<const IterTy>() 
+		{
+			return CIterator<const IterTy>(m_element);
+		};
 		CIterator & operator=(const CIterator & other)
 		{
 			m_element = other.m_element;
@@ -128,7 +128,7 @@ public:
 		{
 			return m_element != other.m_element;
 		}
-		IterTy & operator*()
+		IterTy & operator*() const
 		{
 			if (!m_element->next || !m_element->prev)
 			{
@@ -170,70 +170,80 @@ public:
 		std::shared_ptr<ListElement<T>> m_element;
 	};
 
-	CIterator<T> begin()
+	typedef CIterator<T> IteratorType;
+	typedef CIterator<const T> ContIteratorType;
+	typedef std::reverse_iterator<CIterator<T>> RevIteratorType;
+	typedef std::reverse_iterator<CIterator<const T>> ContRevIteratorType;
+
+	IteratorType begin()
 	{
-		return CIterator<T>(m_begin->next);
+		return IteratorType(m_begin->next);
 	}
-	CIterator<T> end()
+	IteratorType end()
 	{
-		return CIterator<T>(m_end);
+		return IteratorType(m_end);
 	}
-	CIterator<const T> begin() const
+	ContIteratorType begin() const
 	{
-		return CIterator<const T>(m_begin->next);
+		return ContIteratorType(m_begin->next);
 	}
-	CIterator<const T> end() const
+	ContIteratorType end() const
 	{
-		return CIterator<const T>(m_end);
+		return ContIteratorType(m_end);
 	}
-	CIterator<const T> cbegin() const
+	ContIteratorType cbegin() const
 	{
-		return CIterator<const T>(m_begin->next);
+		return ContIteratorType(m_begin->next);
 	}
-	CIterator<const T> cend() const
+	ContIteratorType cend() const
 	{
 		return CIterator<const T>(m_end);
 	}
 
-	std::reverse_iterator<CIterator<T>> rbegin()
+	RevIteratorType rbegin()
 	{
-		return std::reverse_iterator<CIterator<T>>(end());
+		return RevIteratorType(end());
 	}
-	std::reverse_iterator<CIterator<T>> rend()
+	RevIteratorType rend()
 	{
-		return std::reverse_iterator<CIterator<T>>(begin());
+		return RevIteratorType(begin());
 	}
-	std::reverse_iterator<CIterator<const T>> rbegin() const
+	ContRevIteratorType rbegin() const
 	{
-		return std::reverse_iterator<CIterator<const T>>(cend());
+		return ContRevIteratorType(cend());
 	}
-	std::reverse_iterator<CIterator<const T>> rend() const
+	ContRevIteratorType rend() const
 	{
-		return std::reverse_iterator<CIterator<const T>>(cbegin());
+		return ContRevIteratorType(cbegin());
 	}
-	std::reverse_iterator<CIterator<const T>> crbegin() const
+	ContRevIteratorType crbegin() const
 	{
-		return std::reverse_iterator<CIterator<const T>>(cend());
+		return ContRevIteratorType(cend());
 	}
-	std::reverse_iterator<CIterator<const T>> crend() const
+	ContRevIteratorType crend() const
 	{
-		return std::reverse_iterator<CIterator<const T>>(cbegin());
+		return ContRevIteratorType(cbegin());
 	}
 
-	void Insert(const CIterator<T> & it, const T & el)
+	void Insert(const ContIteratorType & it, const T & el)
 	{
 		auto currentEl = std::make_shared<ListElement<T>>(el, it.m_element->prev, it.m_element);
 		it.m_element->prev->next = currentEl;
 		it.m_element->prev = currentEl;
 		++m_length;
 	}
-
-	void Insert(const CIterator<const T> & it, const T & el)
+private:
+	void BreakLinks(const std::shared_ptr<ListElement<T>> & listStart)
 	{
-		auto currentEl = std::make_shared<ListElement<T>>(el, it.m_element->prev, it.m_element);
-		it.m_element->prev->next = currentEl;
-		it.m_element->prev = currentEl;
-		++m_length;
+		auto current = listStart;
+		auto next = listStart->next;
+		while (next)
+		{
+			current->next = nullptr;
+			current->prev = nullptr;
+			current = next;
+			next = current->next;
+		}
 	}
 private:
 	size_t m_length = 0;
