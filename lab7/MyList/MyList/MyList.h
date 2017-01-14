@@ -16,7 +16,6 @@ template <typename T>
 class CMyList
 {
 public:
-	
 	CMyList()
 	{
 		Clear();
