@@ -5,9 +5,10 @@
 template <typename T>
 struct ListElement
 {
-	ListElement(const T & el, const std::shared_ptr<ListElement> & prev, const std::shared_ptr<ListElement> & next)
+	ListElement() {};
+	ListElement(const std::shared_ptr<T> & el, const std::shared_ptr<ListElement> & prev, const std::shared_ptr<ListElement> & next)
 		: value(el), prev(prev), next(next) {}
-	T value;
+	std::shared_ptr<T> value;
 	std::shared_ptr<ListElement> next;
 	std::shared_ptr<ListElement> prev;
 };
@@ -26,7 +27,7 @@ public:
 		Clear();
 		for (auto i = other.m_begin->next; i != other.m_end; i = i->next)
 		{
-			PushBack(i->value);
+			PushBack(*i->value);
 		}
 	}
 
@@ -58,22 +59,38 @@ public:
 
 	T & GetLastElement()
 	{
-		return m_end->prev->value;
+		if (IsEmpty())
+		{
+			throw std::logic_error("List empty");
+		}
+		return *m_end->prev->value;
 	}
 
 	T & GetFirstElement()
 	{
-		return m_begin->next->value;
+		if (IsEmpty())
+		{
+			throw std::logic_error("List empty");
+		}
+		return *m_begin->next->value;
 	}
 	
 	const T & GetLastElement() const
 	{
-		return m_end->prev->value;
+		if (IsEmpty())
+		{
+			throw std::logic_error("List empty");
+		}
+		return *m_end->prev->value;
 	}
 
 	const T & GetFirstElement() const
 	{
-		return m_begin->next->value;
+		if (IsEmpty())
+		{
+			throw std::logic_error("List empty");
+		}
+		return *m_begin->next->value;
 	}
 
 	void PushBack(const T & el)
@@ -127,7 +144,15 @@ public:
 			{
 				throw std::logic_error("can not end or rend iterator value");
 			}
-			return m_element->value;
+			return *m_element->value;
+		}
+		IterTy * operator->() const
+		{
+			if (!m_element->next || !m_element->prev)
+			{
+				throw std::logic_error("can not end or rend iterator value");
+			}
+			return m_element->value.get();
 		}
 		CIterator & operator++()
 		{
@@ -220,7 +245,7 @@ public:
 
 	void Insert(const ContIteratorType & it, const T & el)
 	{
-		auto currentEl = std::make_shared<ListElement<T>>(el, it.m_element->prev, it.m_element);
+		auto currentEl = std::make_shared<ListElement<T>>(std::make_shared<T>(el), it.m_element->prev, it.m_element);
 		it.m_element->prev->next = currentEl;
 		it.m_element->prev = currentEl;
 		++m_length;
@@ -240,6 +265,6 @@ private:
 	}
 private:
 	size_t m_length = 0;
-	std::shared_ptr<ListElement<T>> m_begin = std::make_shared<ListElement<T>>(T(), nullptr, nullptr);
-	std::shared_ptr<ListElement<T>> m_end = std::make_shared<ListElement<T>>(T(), nullptr, nullptr);
+	std::shared_ptr<ListElement<T>> m_begin = std::make_shared<ListElement<T>>();
+	std::shared_ptr<ListElement<T>> m_end = std::make_shared<ListElement<T>>();
 };
