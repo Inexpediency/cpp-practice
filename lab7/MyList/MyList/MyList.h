@@ -6,9 +6,9 @@ template <typename T>
 struct ListElement
 {
 	ListElement() {};
-	ListElement(const std::shared_ptr<T> & el, const std::shared_ptr<ListElement> & prev, const std::shared_ptr<ListElement> & next)
-		: value(el), prev(prev), next(next) {}
-	std::shared_ptr<T> value;
+	ListElement(const T & el, const std::shared_ptr<ListElement> & prev, const std::shared_ptr<ListElement> & next)
+		: value(std::make_unique<T>(el)), prev(prev), next(next) {}
+	std::unique_ptr<T> value;
 	std::shared_ptr<ListElement> next;
 	std::shared_ptr<ListElement> prev;
 };
@@ -245,7 +245,7 @@ public:
 
 	void Insert(const ContIteratorType & it, const T & el)
 	{
-		auto currentEl = std::make_shared<ListElement<T>>(std::make_shared<T>(el), it.m_element->prev, it.m_element);
+		auto currentEl = std::make_shared<ListElement<T>>(el, it.m_element->prev, it.m_element);
 		it.m_element->prev->next = currentEl;
 		it.m_element->prev = currentEl;
 		++m_length;
