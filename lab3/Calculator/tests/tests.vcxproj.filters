@@ -56,7 +56,7 @@
     <ClCompile Include="tests_logger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Calculator\IValueHolder.cpp">
+    <ClCompile Include="..\Calculator\CValueHolder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

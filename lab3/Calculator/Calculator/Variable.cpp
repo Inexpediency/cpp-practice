@@ -11,14 +11,7 @@ void CVariable::SetValue(double value)
 	}
 }
 
-void CVariable::AppendDependentFunctions(std::shared_ptr<CFunction> & function)
+void CVariable::AppendDependentFunctions(const std::shared_ptr<CFunction> & function)
 {
-	if (function != nullptr)
-	{
-		m_dependentFunctions.insert(m_dependentFunctions.cend(), function);
-	}
-	else
-	{
-		throw std::logic_error("Can not append nullptr to CFunctions list in CVariable");
-	}
+	m_dependentFunctions.push_back(function);
 }

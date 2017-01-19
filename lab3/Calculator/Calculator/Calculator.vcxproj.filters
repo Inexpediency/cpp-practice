@@ -42,7 +42,7 @@
     <ClInclude Include="calculator_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IValueHolder.h">
+    <ClInclude Include="CValueHolder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -65,7 +65,7 @@
     <ClCompile Include="calculator_utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IValueHolder.cpp">
+    <ClCompile Include="CValueHolder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

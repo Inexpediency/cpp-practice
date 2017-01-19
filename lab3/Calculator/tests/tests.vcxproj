@@ -167,7 +167,7 @@
   <ItemGroup>
     <ClCompile Include="..\Calculator\Calculator.cpp" />
     <ClCompile Include="..\Calculator\Function.cpp" />
-    <ClCompile Include="..\Calculator\IValueHolder.cpp" />
+    <ClCompile Include="..\Calculator\CValueHolder.cpp" />
     <ClCompile Include="..\Calculator\Variable.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

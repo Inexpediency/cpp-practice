@@ -148,7 +148,7 @@
     <ClInclude Include="Calculator.h" />
     <ClInclude Include="calculator_utils.h" />
     <ClInclude Include="Menu.h" />
-    <ClInclude Include="IValueHolder.h" />
+    <ClInclude Include="CValueHolder.h" />
     <ClInclude Include="constants.h" />
     <ClInclude Include="Function.h" />
     <ClInclude Include="stdafx.h" />
@@ -159,7 +159,7 @@
     <ClCompile Include="calculate_prog.cpp" />
     <ClCompile Include="Calculator.cpp" />
     <ClCompile Include="calculator_utils.cpp" />
-    <ClCompile Include="IValueHolder.cpp" />
+    <ClCompile Include="CValueHolder.cpp" />
     <ClCompile Include="Function.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

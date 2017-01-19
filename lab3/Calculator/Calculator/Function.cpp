@@ -2,7 +2,7 @@
 #include "Function.h"
 #include "Variable.h"
 
-CFunction::CFunction(const std::vector<std::shared_ptr<CVariable>> & dependentVariables, std::shared_ptr<IValueHolder> & argument1, std::shared_ptr<IValueHolder> & argument2, const std::string & operation)
+CFunction::CFunction(const std::vector<std::shared_ptr<CVariable>> & dependentVariables, const std::shared_ptr<CValueHolder> & argument1, const std::shared_ptr<CValueHolder> & argument2, const std::string & operation)
 	: m_dependentVariables(dependentVariables),
 	m_operation(operation)
 {
@@ -13,14 +13,6 @@ CFunction::CFunction(const std::vector<std::shared_ptr<CVariable>> & dependentVa
 
 void CFunction::Calc()
 {
-	if (m_arguments.first == nullptr)
-	{
-		throw std::invalid_argument("First element in m_arguments pair can not be nullptr");
-	}
-	if (OPERATIONS.find(m_operation) == OPERATIONS.cend())
-	{
-		throw std::invalid_argument("There are no such operation " + m_operation);
-	}
 	if (m_arguments.second == nullptr)
 	{
 		m_value = m_arguments.first->GetValue();
@@ -29,6 +21,13 @@ void CFunction::Calc()
 	{
 		m_value = OPERATIONS.at(m_operation)(m_arguments.first->GetValue(), m_arguments.second->GetValue());
 	}
+}
+
+void CFunction::Clear()
+{
+	m_dependentVariables.clear();
+	m_arguments.first = nullptr;
+	m_arguments.second = nullptr;
 }
 
 std::vector<std::shared_ptr<CVariable>> CFunction::GetDependentVariables()
