@@ -3,6 +3,7 @@
 
 #include "../Calculator/Calculator.h"
 #include "../Calculator/CValueHolder.h"
+#include "../Calculator/print_utils.h"
 #include <functional>
 
 typedef boost::test_tools::output_test_stream boost_test_stream;
@@ -128,8 +129,12 @@ BOOST_FIXTURE_TEST_SUITE(Calculator, CalculatorFixture)
 		{
 			calc.AddVariable("var1", 1);
 			calc.AddVariable("var2", 2);
+			calc.AddVariable("varNan");
 			calc.AddFunction("fn1", "var1");
 			calc.AddFunction("fn2", "var2", "var1", "-");
+			calc.AddFunction("fn3", "var2", "var1", "*");
+			calc.AddFunction("fn4", "var2", "var1", "/");
+			calc.AddFunction("fnNan", "varNan");
 		}
 	};
 	BOOST_FIXTURE_TEST_SUITE(when_function_created, _when_function_created)
@@ -141,32 +146,54 @@ BOOST_FIXTURE_TEST_SUITE(Calculator, CalculatorFixture)
 			BOOST_CHECK_EQUAL(calc.GetElement("fn1")->GetValue(), 2);
 			BOOST_CHECK_EQUAL(calc.GetElement("fn2")->GetValue(), 0);
 			calc.SetVariableValue("var2", 4);
-			BOOST_CHECK_EQUAL(calc.GetElement("fn2")->GetValue(), 2);
+			BOOST_CHECK_EQUAL(calc.GetElement("fn3")->GetValue(), 8);
+			BOOST_CHECK_EQUAL(calc.GetElement("fn4")->GetValue(), 2);
 		}
 	BOOST_AUTO_TEST_SUITE_END()
-	BOOST_FIXTURE_TEST_SUITE(can_print, _when_function_created)
-		BOOST_AUTO_TEST_CASE(element)
-		{
-			boost_test_stream output("VarOut.txt", true);
-			calc.PrintElement(output, "var1");
-			BOOST_CHECK(output.match_pattern());
-			boost_test_stream output1("FnOut.txt", true);
-			calc.PrintElement(output1, "fn1");
-			BOOST_CHECK(output1.match_pattern());
-		}
-		BOOST_AUTO_TEST_CASE(variables)
-		{
-			boost_test_stream output("VarsOut.txt", true);
-			calc.PrintVariables(output);
-			BOOST_CHECK(output.match_pattern());
-		}
-		BOOST_AUTO_TEST_CASE(functions)
-		{
-			boost_test_stream output("FnsOut.txt", true);
-			calc.PrintFunctions(output);
-			BOOST_CHECK(output.match_pattern());
-		}
-	BOOST_AUTO_TEST_SUITE_END()
+BOOST_AUTO_TEST_SUITE_END()
+
+struct CalculatorFixtureForPrint : CalculatorFixture
+{
+	CalculatorFixtureForPrint()
+	{
+		calc.AddVariable("var1", 1);
+		calc.AddVariable("var2", 2);
+		calc.AddVariable("varNan");
+		calc.AddFunction("fn1", "var1");
+		calc.AddFunction("fn2", "var2", "var1", "-");
+		calc.AddFunction("fn3", "var2", "var1", "*");
+		calc.AddFunction("fn4", "var2", "var1", "/");
+		calc.AddFunction("fnNan", "varNan");
+	}
+};
+
+BOOST_FIXTURE_TEST_SUITE(Calculator_can_be_printed, CalculatorFixtureForPrint)
+	BOOST_AUTO_TEST_CASE(element)
+	{
+		boost_test_stream output("VarOut.txt", true);
+		PrintElement(output, calc, "var1");
+		BOOST_CHECK(output.match_pattern());
+		boost_test_stream output1("FnOut.txt", true);
+		PrintElement(output1, calc, "fn1");
+		BOOST_CHECK(output1.match_pattern());
+		boost_test_stream output3("NanOut.txt", true);
+		PrintElement(output3, calc, "varNan");
+		PrintElement(output3, calc, "fnNan");
+		BOOST_CHECK(output3.match_pattern());
+		BOOST_CHECK_THROW(PrintElement(output3, calc, "not_created_element"), std::logic_error);
+	}
+	BOOST_AUTO_TEST_CASE(variables)
+	{
+		boost_test_stream output("VarsOut.txt", true);
+		PrintVariables(output, calc);
+		BOOST_CHECK(output.match_pattern());
+	}
+	BOOST_AUTO_TEST_CASE(functions)
+	{
+		boost_test_stream output("FnsOut.txt", true);
+		PrintFunctions(output, calc);
+		BOOST_CHECK(output.match_pattern());
+	}
 BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE(StressTestCalculator)
@@ -178,7 +205,7 @@ BOOST_AUTO_TEST_SUITE(StressTestCalculator)
 		double temp;
 		double fibNumb1 = 1;
 		double fibNumb2 = 1;
-		for (auto i = 2; i <= 500; ++i)
+		for (auto i = 2; i <= 1000; ++i)
 		{
 			temp = fibNumb2;
 			fibNumb2 = fibNumb2 + fibNumb1;

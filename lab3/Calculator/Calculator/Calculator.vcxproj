@@ -151,6 +151,7 @@
     <ClInclude Include="CValueHolder.h" />
     <ClInclude Include="constants.h" />
     <ClInclude Include="Function.h" />
+    <ClInclude Include="print_utils.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Variable.h" />
@@ -161,6 +162,7 @@
     <ClCompile Include="calculator_utils.cpp" />
     <ClCompile Include="CValueHolder.cpp" />
     <ClCompile Include="Function.cpp" />
+    <ClCompile Include="print_utils.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

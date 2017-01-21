@@ -3,9 +3,9 @@
 #include "Variable.h"
 #include "Function.h"
 
-void ÑheckIdentifireForError(const std::string & ident)
+void CheckIdentifireForError(const std::string & ident)
 {
-	if (!std::regex_match(ident, std::regex("^[a-zA-Z_][a-zA-Z0-9_]*$")))
+	if (!std::regex_match(ident, std::regex("^[a-zA-Z_]\\w*$")))
 	{
 		throw std::invalid_argument(ident + " is not identifire");
 	}
@@ -13,7 +13,7 @@ void ÑheckIdentifireForError(const std::string & ident)
 
 void CCalculator::CheckIdentifire(const std::string & ident)
 {
-	ÑheckIdentifireForError(ident);
+	CheckIdentifireForError(ident);
 	if (GetElement(ident) != nullptr)
 	{
 		throw std::invalid_argument(ident + " already exist");
@@ -31,7 +31,7 @@ void CCalculator::AddVariable(const std::string & name, const double & value)
 void CCalculator::AddVariable(const std::string & name, const std::string & ident)
 {
 	CheckIdentifire(name);
-	ÑheckIdentifireForError(ident);
+	CheckIdentifireForError(ident);
 	std::shared_ptr<CValueHolder> initElement = GetElement(ident);
 	std::shared_ptr<CVariable> newVariable = std::make_shared<CVariable>();
 	newVariable->SetValue(initElement->GetValue());
@@ -86,7 +86,7 @@ std::vector<std::shared_ptr<CVariable>> MergePtrVectors(const std::vector<std::s
 void CCalculator::AddFunction(const std::string & name, const std::string & firstArgumentIdent, const std::string & secondArgumentIdent, const std::string & operation)
 {
 	CheckIdentifire(name);
-	ÑheckIdentifireForError(firstArgumentIdent);
+	CheckIdentifireForError(firstArgumentIdent);
 	if (OPERATIONS.find(operation) == OPERATIONS.cend())
 	{
 		throw std::logic_error("thera are not such operators");
@@ -96,7 +96,7 @@ void CCalculator::AddFunction(const std::string & name, const std::string & firs
 	std::shared_ptr<CValueHolder> argument2 = nullptr;
 	if (secondArgumentIdent != "")
 	{
-		ÑheckIdentifireForError(secondArgumentIdent);
+		CheckIdentifireForError(secondArgumentIdent);
 		auto secondArgumentDependentVariables = GetDependentVariablesList(secondArgumentIdent);
 		argument2 = GetElement(secondArgumentIdent);
 		dependentVariables = MergePtrVectors(dependentVariables, secondArgumentDependentVariables);
@@ -151,71 +151,8 @@ std::map<std::string, std::shared_ptr<CFunction>> CCalculator::GetFuncs() const
 	return m_functions;
 }
 
-void CCalculator::PrintElement(std::ostream & output, const std::string & name) const
-{
-	auto element = GetElement(name);
-	if (element != nullptr)
-	{
-		output << std::fixed;
-		output << std::setprecision(2);
-		double value = element->GetValue();
-		if (isnan(value))
-		{
-			output << name << ":nan" << std::endl;
-		}
-		else
-		{
-			output << name << ":" << value << std::endl;
-		}
-	}
-	else
-	{
-		throw std::invalid_argument("There are no variable or function with name " + name);
-	}
-}
-
-void CCalculator::PrintFunctions(std::ostream & output) const
-{
-	output << std::fixed; 
-	output << std::setprecision(2);
-	for (auto element : m_functions)
-	{
-		double value = element.second->GetValue();
-		if (isnan(value))
-		{
-			output << element.first << ":nan" << std::endl;
-		}
-		else
-		{
-			output << element.first << ":" << value << std::endl;
-		}
-	}
-}
-
-void CCalculator::PrintVariables(std::ostream & output) const
-{
-	output << std::fixed;
-	output << std::setprecision(2);
-	for (auto element : m_variables)
-	{
-		double value = element.second->GetValue();
-		if (isnan(value))
-		{
-			output << element.first << ":nan" << std::endl;
-		}
-		else
-		{
-			output << element.first << ":" << value << std::endl;
-		}
-	}
-}
-
 CCalculator::~CCalculator()
 {
-	for (auto & el : m_functions)
-	{
-		el.second->Clear();
-	}
 	for (auto & el : m_functions)
 	{
 		el.second->Clear();

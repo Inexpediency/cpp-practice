@@ -45,6 +45,9 @@
     <ClInclude Include="CValueHolder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="print_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -66,6 +69,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CValueHolder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="print_utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

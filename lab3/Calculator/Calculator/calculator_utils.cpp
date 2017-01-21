@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "calculator_utils.h"
+#include "print_utils.h"
 
 const std::string identPattern = "[A-Za-z](\\w)*";
 const std::string doubleNumberPattern = "(\\d+(\\.\\d+)?)";
@@ -40,7 +41,7 @@ std::vector<double> GetNumbers(const std::string & string)
 	return result;
 }
 
-void ExecuteVar(CCalculator & calculator, const std::string & params)
+void ExecuteVar(CCalculator & calc, const std::string & params)
 {
 	if (!std::regex_match(params, std::regex(spacesPattern + identPattern + spacesPattern)))
 	{
@@ -50,7 +51,7 @@ void ExecuteVar(CCalculator & calculator, const std::string & params)
 	std::string ident = GetIdents(params)[0];
 	try
 	{
-		calculator.AddVariable(ident);
+		calc.AddVariable(ident);
 	}
 	catch (std::logic_error & exeption)
 	{
@@ -59,19 +60,19 @@ void ExecuteVar(CCalculator & calculator, const std::string & params)
 }
 
 template <class T>
-void AddValue(CCalculator & calculator, const std::string & name, const T & value)
+void AddValue(CCalculator & calc, const std::string & name, const T & value)
 {
-	if (calculator.GetElement(name) == nullptr)
+	if (calc.GetElement(name) == nullptr)
 	{
-		calculator.AddVariable(name, value);
+		calc.AddVariable(name, value);
 	}
 	else
 	{
-		calculator.SetVariableValue(name, value);
+		calc.SetVariableValue(name, value);
 	}
 }
 
-void ExecuteLet(CCalculator & calculator, const std::string & params)
+void ExecuteLet(CCalculator & calc, const std::string & params)
 {
 	if (!std::regex_match(params, std::regex(letPattern)))
 	{
@@ -82,11 +83,11 @@ void ExecuteLet(CCalculator & calculator, const std::string & params)
 	std::vector<double> numbers = GetNumbers(params);
 	if (idents.size() == 2)
 	{
-		AddValue(calculator, idents[0], idents[1]);
+		AddValue(calc, idents[0], idents[1]);
 	}
 	else
 	{
-		AddValue(calculator, idents[0], numbers[0]);
+		AddValue(calc, idents[0], numbers[0]);
 	}
 }
 
@@ -97,7 +98,7 @@ std::string GetSign(const std::string & str)
 	return *result.cbegin();
 }
 
-void ExecuteFn(CCalculator & calculator, const std::string & params)
+void ExecuteFn(CCalculator & calc, const std::string & params)
 {
 	if (!std::regex_match(params, std::regex(fnPattern)))
 	{
@@ -109,11 +110,11 @@ void ExecuteFn(CCalculator & calculator, const std::string & params)
 	{
 		if (idents.size() == 2)
 		{
-			calculator.AddFunction(idents[0], idents[1]);
+			calc.AddFunction(idents[0], idents[1]);
 		}
 		else
 		{
-			calculator.AddFunction(idents[0], idents[1], idents[2], GetSign(params));
+			calc.AddFunction(idents[0], idents[1], idents[2], GetSign(params));
 		}
 	}
 	catch (std::logic_error & exeption)
@@ -122,7 +123,7 @@ void ExecuteFn(CCalculator & calculator, const std::string & params)
 	}
 }
 
-void ExecutePrint(const CCalculator & calculator, const std::string & params)
+void ExecutePrint(const CCalculator & calc, const std::string & params)
 {
 	if (!std::regex_match(params, std::regex(spacesPattern + identPattern + spacesPattern)))
 	{
@@ -131,7 +132,7 @@ void ExecutePrint(const CCalculator & calculator, const std::string & params)
 	}
 	try
 	{
-		calculator.PrintElement(std::cout, GetIdents(params)[0]);
+		PrintElement(std::cout, calc, GetIdents(params)[0]);
 	}
 	catch (std::logic_error & exeption)
 	{
@@ -139,12 +140,12 @@ void ExecutePrint(const CCalculator & calculator, const std::string & params)
 	}
 }
 
-void ExecutePrintFns(const CCalculator & calculator, const std::string & params)
+void ExecutePrintFns(const CCalculator & calc, const std::string & params)
 {
-	calculator.PrintFunctions(std::cout);
+	PrintFunctions(std::cout, calc);
 }
 
-void ExecutePrintVars(const CCalculator & calculator, const std::string & params)
+void ExecutePrintVars(const CCalculator & calc, const std::string & params)
 {
-	calculator.PrintVariables(std::cout);
+	PrintVariables(std::cout, calc);
 }

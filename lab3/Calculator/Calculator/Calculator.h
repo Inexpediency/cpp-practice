@@ -20,9 +20,6 @@ public:
 	void SetVariableValue(const std::string & name, const std::string & ident);
 	std::map<std::string, std::shared_ptr<CVariable>> GetVars() const;
 	std::map<std::string, std::shared_ptr<CFunction>> GetFuncs() const;
-	void PrintElement(std::ostream & output, const std::string & name) const;
-	void PrintFunctions(std::ostream & output) const;
-	void PrintVariables(std::ostream & output) const;
 	~CCalculator();
 private:
 	std::vector<std::shared_ptr<CVariable>> CCalculator::GetDependentVariablesList(const std::string & ident) const;
