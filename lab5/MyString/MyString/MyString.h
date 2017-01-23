@@ -89,6 +89,14 @@ public:
 				throw std::out_of_range("Iterator out of range");
 			}
 			return CIterator<T>(m_element - n, m_begin, m_end);
+		}
+		friend ptrdiff_t operator-(const CIterator & other1, const CIterator & other2)
+		{
+			if (other1.m_element < other2.m_element)
+			{
+				throw std::out_of_range("Iterator out of range");
+			}
+			return other1.m_element - other2.m_element;
 		};
 		friend CIterator operator+(ptrdiff_t n, const CIterator & other)
 		{
@@ -173,7 +181,7 @@ public:
 	//возращает константный итератор на конец строки
 	CMyString::CIterator<const char> cend() const;
 private:
-	CMyString(std::unique_ptr<char[]> & memoryBlock, size_t len);
+	CMyString(std::unique_ptr<char[]> && memoryBlock, size_t len);
 private:
 	static const char m_emptyStr = '\0';
 	std::unique_ptr<char[]> m_bufferPtr = nullptr;

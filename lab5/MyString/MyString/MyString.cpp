@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "MyString.h"
 
-CMyString::CMyString(std::unique_ptr<char[]> & memoryBlock, size_t len)
+CMyString::CMyString(std::unique_ptr<char[]> && memoryBlock, size_t len)
 {
 	m_bufferPtr = std::move(memoryBlock);
 	m_bufferPtr[len] = '\0';
@@ -14,8 +14,8 @@ CMyString::CMyString(const char * pString)
 	if (pString && (length = strlen(pString)) > 0)
 	{
 		m_bufferPtr = std::unique_ptr<char[]>(new char[length + 1]);
+		memcpy(m_bufferPtr.get(), pString, (length + 1));
 		m_length = length;
-		memcpy(m_bufferPtr.get(), pString, (m_length + 1));
 	}
 }
 
@@ -24,8 +24,8 @@ CMyString::CMyString(const char * pString, size_t length)
 	if (pString && length > 0)
 	{
 		m_bufferPtr = std::unique_ptr<char[]>(new char[length + 1]);
+		memcpy(m_bufferPtr.get(), pString, length);
 		m_length = length;
-		memcpy(m_bufferPtr.get(), pString, m_length);
 		m_bufferPtr.get()[m_length] = '\0';
 	}
 }
@@ -35,8 +35,8 @@ CMyString::CMyString(const CMyString & other)
 	if (other.GetLength() > 0)
 	{
 		m_bufferPtr = std::unique_ptr<char[]>(new char[other.GetLength() + 1]);
+		memcpy(m_bufferPtr.get(), other.GetStringData(), other.GetLength());
 		m_length = other.GetLength();
-		memcpy(m_bufferPtr.get(), other.GetStringData(), m_length + 1);
 	}
 }
 
@@ -56,8 +56,8 @@ CMyString::CMyString(const std::string & stlString)
 	if (stlString.length() > 0)
 	{
 		m_bufferPtr = std::unique_ptr<char[]>(new char[stlString.length() + 1]);
+		memcpy(m_bufferPtr.get(), stlString.c_str(), stlString.length() + 1);
 		m_length = stlString.length();
-		memcpy(m_bufferPtr.get(), stlString.c_str(), m_length + 1);
 	}
 }
 
@@ -93,15 +93,14 @@ void CMyString::Clear()
 
 CMyString & CMyString::operator=(const CMyString & arg)
 {
-	if (&arg != this && arg.GetLength() > 0)
+	if (&arg != this)
 	{
 		if (arg.GetLength() > 0)
 		{
-			char * bufferTempPtr = new char[arg.GetLength() + 1];
-			Clear();
+			std::unique_ptr<char[]> bufferTempPtr(new char[arg.GetLength() + 1]);
 			m_length = arg.GetLength();
-			m_bufferPtr = std::unique_ptr<char[]>(bufferTempPtr);
-			memcpy(bufferTempPtr, arg.GetStringData(), m_length + 1);
+			m_bufferPtr = std::move(bufferTempPtr);
+			memcpy(m_bufferPtr.get(), arg.GetStringData(), m_length + 1);
 		}
 		else
 		{
@@ -133,7 +132,7 @@ CMyString operator+(const CMyString & arg1, const CMyString & arg2)
 	std::unique_ptr<char[]> temp(new char[newStrLen + 1]);
 	memcpy(temp.get(), arg1.GetStringData(), arg1.GetLength());
 	memcpy(temp.get() + arg1.GetLength(), arg2.GetStringData(), arg2.GetLength());
-	CMyString tempString(temp, newStrLen);
+	CMyString tempString(std::move(temp), newStrLen);
 	return tempString;
 }
 
@@ -181,14 +180,14 @@ bool operator<(const CMyString & arg1, const CMyString & arg2)
 {
 	size_t length = std::min(arg1.GetLength(), arg2.GetLength());
 	auto memCompareResult = memcmp(arg1.GetStringData(), arg2.GetStringData(), length);
-	return memCompareResult <= 0 && (memCompareResult < 0 || arg1.GetLength() < arg2.GetLength());
+	return memCompareResult < 0 || memCompareResult == 0 && arg1.GetLength() < arg2.GetLength();
 }
 
 bool operator<=(const CMyString & arg1, const CMyString & arg2)
 {
 	size_t length = std::min(arg1.GetLength(), arg2.GetLength());
 	auto memCompareResult = memcmp(arg1.GetStringData(), arg2.GetStringData(), length);
-	return memCompareResult <= 0 && (memCompareResult < 0 || arg1.GetLength() <= arg2.GetLength());
+	return memCompareResult < 0 || memCompareResult == 0 && arg1.GetLength() <= arg2.GetLength();
 }
 
 bool operator>(const CMyString & arg1, const CMyString & arg2)

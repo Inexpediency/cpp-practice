@@ -60,7 +60,8 @@ BOOST_AUTO_TEST_SUITE(My_string)
 			}
 			BOOST_AUTO_TEST_CASE(empty_string)
 			{
-				string = CMyString();
+				CMyString emptyString = CMyString();
+				string = emptyString;
 				BOOST_CHECK_EQUAL(CMyString().GetStringData(), string.GetStringData());
 			}
 			BOOST_AUTO_TEST_CASE(MyString)
@@ -328,6 +329,15 @@ BOOST_AUTO_TEST_SUITE(My_string)
 			auto it = string.cend();
 			BOOST_CHECK_THROW(*it, std::exception);
 		}
+		BOOST_AUTO_TEST_CASE(can_use_in_range_based_for)
+		{
+			size_t len = 0;
+			for (auto ch : string)
+			{
+				++len;
+			}
+			BOOST_CHECK_EQUAL(string.GetLength(), len);
+		}
 		struct MyStringIteratorFixture
 		{
 			CMyString string = CMyString("Some line");
@@ -335,15 +345,6 @@ BOOST_AUTO_TEST_SUITE(My_string)
 			CMyString::CIterator<char> itEnd = string.end();
 		};
 		BOOST_FIXTURE_TEST_SUITE(MyString_iterator_on_create, MyStringIteratorFixture)
-			BOOST_AUTO_TEST_CASE(can_use_in_range_based_for)
-			{
-				size_t len = 0;
-				for (auto ch : string)
-				{
-					++len;
-				}
-				BOOST_CHECK_EQUAL(string.GetLength(), len);
-			}
 			BOOST_AUTO_TEST_CASE(can_be_compeared)
 			{
 				BOOST_CHECK(itBegin == string.begin());
@@ -358,6 +359,11 @@ BOOST_AUTO_TEST_SUITE(My_string)
 			BOOST_AUTO_TEST_CASE(throw_exeption_if_out_of_range_by_increment)
 			{
 				BOOST_CHECK_THROW(itEnd++, std::exception);
+			}
+			BOOST_AUTO_TEST_CASE(can_be_decrease_by_another_iterator)
+			{
+				BOOST_CHECK_EQUAL(itEnd - itBegin, string.GetLength());
+				BOOST_CHECK_THROW(itBegin - itEnd, std::logic_error);
 			}
 			BOOST_AUTO_TEST_CASE(can_be_decremented)
 			{

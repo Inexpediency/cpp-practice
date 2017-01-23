@@ -9,7 +9,10 @@ const std::string signPattern = "(\\+|\\*|/|-)";
 const std::string letPattern = spacesPattern + identPattern + spacesPattern + "=" + spacesPattern + "((" + identPattern + ")|(" + doubleNumberPattern + "))" + spacesPattern;
 const std::string fnPattern = spacesPattern + identPattern + spacesPattern + "=" + spacesPattern + identPattern + spacesPattern + "(" + signPattern + spacesPattern + identPattern + spacesPattern + ")?";
 
-std::vector<std::string> GetIdents(const std::string & string)
+std::vector<std::string> GetIdents(const std::string & string
+
+
+
 {
 	std::smatch matchResult;
 	std::vector<std::string> result;
