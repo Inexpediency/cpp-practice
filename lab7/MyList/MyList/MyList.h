@@ -272,6 +272,13 @@ public:
 		it.m_element->prev = currentEl;
 		++m_length;
 	}
+
+	void Erase(const ContIteratorType & it)
+	{
+		it.m_element->prev->next = it.m_element->next;
+		it.m_element->next->prev = it.m_element->prev;
+		--m_length;
+	}
 private:
 	void BreakLinks(const std::shared_ptr<ListElement<T>> & listStart)
 	{

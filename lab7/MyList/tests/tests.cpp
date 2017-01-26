@@ -385,5 +385,13 @@ BOOST_FIXTURE_TEST_SUITE(CMyList_on_create, MyListFixture)
 			intList.Insert(intList.begin(), 0);
 			BOOST_CHECK_EQUAL(intList.GetFirstElement(), 0);
 		}
+		BOOST_AUTO_TEST_CASE(can_erase_element_by_iterator)
+		{
+			stringList.Erase(stringList.begin());
+			BOOST_CHECK_EQUAL(stringList.GetFirstElement(), "Some string 2");
+
+			intList.Erase(intList.begin());
+			BOOST_CHECK_EQUAL(intList.GetFirstElement(), 2);
+		}
 	BOOST_AUTO_TEST_SUITE_END()
 BOOST_AUTO_TEST_SUITE_END()
