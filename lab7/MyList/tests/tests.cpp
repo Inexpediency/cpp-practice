@@ -97,6 +97,9 @@ BOOST_FIXTURE_TEST_SUITE(CMyList_on_create, MyListFixture)
 		}
 		BOOST_AUTO_TEST_CASE(can_be_assigned_by_llink)
 		{
+			stringList = stringList;
+			BOOST_CHECK_EQUAL(stringList.GetFirstElement(), "Some string 1");
+			BOOST_CHECK_EQUAL(stringList.GetLastElement(), "Some string 2");
 			CMyList<std::string> newStringList = stringList;
 			BOOST_CHECK_EQUAL(newStringList.GetFirstElement(), "Some string 1");
 			BOOST_CHECK_EQUAL(newStringList.GetLastElement(), "Some string 2");

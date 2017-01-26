@@ -24,10 +24,13 @@ public:
 	
 	CMyList(const CMyList & other)
 	{
-		Clear();
-		for (auto i = other.m_begin->next; i != other.m_end; i = i->next)
+		if (&other != this)
 		{
-			PushBack(*i->value);
+			Clear();
+			for (auto i = other.m_begin->next; i != other.m_end; i = i->next)
+			{
+				PushBack(*i->value);
+			}
 		}
 	}
 
@@ -37,6 +40,26 @@ public:
 		std::swap(m_begin, other.m_begin);
 		std::swap(m_end, other.m_end);
 		std::swap(m_length, other.m_length);
+	}
+
+	CMyList & operator=(const CMyList & other)
+	{
+		if (this != &other)
+		{
+			CMyList otherCopy(other);
+			std::swap(*this, otherCopy);
+		}
+		return *this;
+	}
+
+	CMyList & operator=(CMyList && other)
+	{
+		if (this != &other)
+		{
+			Clear();
+			std::swap(*this, other);
+		}
+		return *this;
 	}
 
 	size_t GetSize() const
