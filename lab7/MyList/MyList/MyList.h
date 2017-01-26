@@ -24,13 +24,10 @@ public:
 	
 	CMyList(const CMyList & other)
 	{
-		if (&other != this)
+		Clear();
+		for (auto i = other.m_begin->next; i != other.m_end; i = i->next)
 		{
-			Clear();
-			for (auto i = other.m_begin->next; i != other.m_end; i = i->next)
-			{
-				PushBack(*i->value);
-			}
+			PushBack(*i->value);
 		}
 	}
 
@@ -44,7 +41,7 @@ public:
 
 	CMyList & operator=(const CMyList & other)
 	{
-		if (this != &other)
+		if (end() != other.end())
 		{
 			CMyList otherCopy(other);
 			std::swap(*this, otherCopy);
@@ -54,10 +51,12 @@ public:
 
 	CMyList & operator=(CMyList && other)
 	{
-		if (this != &other)
+		if (end() != other.end())
 		{
 			Clear();
-			std::swap(*this, other);
+			std::swap(this->m_begin, other.m_begin);
+			std::swap(this->m_end, other.m_end);
+			std::swap(this->m_length, other.m_length);
 		}
 		return *this;
 	}
@@ -153,13 +152,13 @@ public:
 		{
 			m_element = other.m_element;
 		}
-		bool operator==(const CIterator & other) const
+		friend bool operator==(const CIterator & it1, const CIterator & it2)
 		{
-			return m_element == other.m_element;
+			return it1.m_element == it2.other.m_element;
 		}
-		bool operator!=(const CIterator & other) const
+		friend bool operator!=(const CIterator & it1, const CIterator & it2)
 		{
-			return m_element != other.m_element;
+			return it1.m_element != it2.m_element;
 		}
 		IterTy & operator*() const
 		{

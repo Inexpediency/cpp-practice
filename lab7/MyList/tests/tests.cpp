@@ -100,7 +100,9 @@ BOOST_FIXTURE_TEST_SUITE(CMyList_on_create, MyListFixture)
 			stringList = stringList;
 			BOOST_CHECK_EQUAL(stringList.GetFirstElement(), "Some string 1");
 			BOOST_CHECK_EQUAL(stringList.GetLastElement(), "Some string 2");
-			CMyList<std::string> newStringList = stringList;
+
+			CMyList<std::string> newStringList;
+			newStringList = stringList;
 			BOOST_CHECK_EQUAL(newStringList.GetFirstElement(), "Some string 1");
 			BOOST_CHECK_EQUAL(newStringList.GetLastElement(), "Some string 2");
 			newStringList.Clear();
@@ -108,7 +110,8 @@ BOOST_FIXTURE_TEST_SUITE(CMyList_on_create, MyListFixture)
 			BOOST_CHECK_EQUAL(stringList.GetFirstElement(), "Some string 1");
 			BOOST_CHECK_EQUAL(stringList.GetLastElement(), "Some string 2");
 		
-			CMyList<int> newIntList = intList;
+			CMyList<int> newIntList;
+			newIntList = intList;
 			BOOST_CHECK_EQUAL(newIntList.GetFirstElement(), 1);
 			BOOST_CHECK_EQUAL(newIntList.GetLastElement(), 2);
 			newIntList.Clear();
@@ -119,13 +122,20 @@ BOOST_FIXTURE_TEST_SUITE(CMyList_on_create, MyListFixture)
 		}
 		BOOST_AUTO_TEST_CASE(can_be_assigned_by_rlink)
 		{
-			auto newStringList = std::move(stringList);
+
+			stringList = std::move(stringList);
+			BOOST_CHECK_EQUAL(stringList.GetFirstElement(), "Some string 1");
+			BOOST_CHECK_EQUAL(stringList.GetLastElement(), "Some string 2");
+
+			CMyList<std::string> newStringList;
+			newStringList = std::move(stringList);
 			BOOST_CHECK_EQUAL(newStringList.GetFirstElement(), "Some string 1");
 			BOOST_CHECK_EQUAL(newStringList.GetLastElement(), "Some string 2");
 			BOOST_CHECK_THROW(stringList.GetFirstElement(), std::logic_error);
 			BOOST_CHECK_THROW(stringList.GetLastElement(), std::logic_error);
 
-			auto newIntList = std::move(intList);
+			CMyList<int> newIntList;
+			newIntList = std::move(intList);
 			BOOST_CHECK_EQUAL(newIntList.GetFirstElement(), 1);
 			BOOST_CHECK_EQUAL(newIntList.GetLastElement(), 2);
 			BOOST_CHECK_THROW(intList.GetFirstElement(), std::logic_error);
